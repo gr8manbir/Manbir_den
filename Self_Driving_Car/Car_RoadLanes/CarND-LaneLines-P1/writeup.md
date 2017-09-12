@@ -5,6 +5,7 @@
 **Finding Lane Lines on the Road**
 The goals / steps of this project were the following:
 * Make a pipeline that finds lane lines on the road
+* Use that pipeline to mark lanes on a video of a car being driven
 
 
 [//]: # (Image References)
@@ -31,16 +32,37 @@ This is the first project of the udacity self driving car nano-degree. Hence the
 
 2) Delivering the project including the challenge video. 
 
+
+---
+
+
 The below section describes how I went about detecting lanes in a car driving video. I divided it into two sections:
 
 1. First step is to build a pipeline that takes an image of a vehicle being driven on the road and detect lanes from that image.
-Following were two of the five images. The first one is very simple
+Following are two examples out of the five images. The first one is very simple
 ![Simple car on road][image1]
 
 The second one is a bit more complex
 ![Bit more complex][image2]
 
-My pipeline consisted of 5 steps. First, I converted the images to grayscale, then I .... 
+My pipeline consisted of following steps.
+
+	1. Taking an image file and converting it from RGB to grayscale and HSV. 
+	   The grayscale helped in discovering white lanes and HSV is better( not necessary ) for yellow lanes
+	   Following is the output of HSV image
+ 	   ![HSV image][HSVLane]
+
+	2. Merging the grayscale image and HSV image so that we have one combined image with both white and yellow lanes.
+	   After this I applied Gaussian blur. This helps in removing noise( ultimately less wobbly lanes )
+
+	3. Taking an image file and converting it from RGB to grayscale and HSV. 
+	   The grayscale helped in discovering white lanes and HSV is better( not necessary ) for yellow lanes
+	   Following is the output of HSV image
+ 	   ![HSV image][HSVLane]
+
+	4. Merging the grayscale image and HSV image so that we have one combined image with both white and yellow lanes.
+	   After this I applied Gaussian blur. This helps in removing noise( ultimately less wobbly lanes ) 
+
 
 In order to draw a single line on the left and right lanes, I modified the draw_lines() function by ...
 
