@@ -1,6 +1,9 @@
 # **Finding Lane Lines on the Road** 
 <img src="/test_images/solidWhiteCurve.jpg" width="480" alt="Basic Image" />
 
+![Simple car on road][./test_images/solidWhiteCurve.jpg]
+
+
 Overview
 ---
 
