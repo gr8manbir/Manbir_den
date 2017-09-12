@@ -13,4 +13,5 @@ Following is the extremely satisfying output of this project:
 
 Also, the below is the result of the above exercise being applied to detect lanes in a video
 
-![Curved Lanes][./test_videos_output/challenge.mp4]
+![Curved Lanes](./test_videos_output/challenge.mp4)
+
