@@ -5,7 +5,7 @@ The goals / steps of this project were the following:
 
 [//]: # (Image References)
 
-[image1]: ./test_images/solidWhiteCurve.jpg" "First Image to process"
+[image1]: ./test_images/solidWhiteCurve.jpg "First Image to process"
 [image2]: ./test_images/whiteCarLaneSwitch.jpg "yellow and white lanes"
 [image3]: ./test_images_output/HSVLane "HSV Image"
 [image4]: ./test_images_output/Masked "Masked(Region of Interest)"
