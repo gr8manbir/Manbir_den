@@ -1,27 +1,33 @@
-# **Finding Lane Lines on the Road** 
-
-## Writeup Template
-
-### You can use this file as a template for your writeup if you want to submit it as a markdown file. But feel free to use some other method and submit a pdf if you prefer.
-
----
-
 **Finding Lane Lines on the Road**
-
-The goals / steps of this project are the following:
+The goals / steps of this project were the following:
 * Make a pipeline that finds lane lines on the road
-* Reflect on your work in a written report
 
 
 [//]: # (Image References)
 
-[image1]: ./examples/grayscale.jpg "Grayscale"
-
+[image1]: ./test_images/solidWhiteCurve.jpg "First Image to process"
+[image2]: ./test_images/whiteCarLaneSwitch.jpg "yellow and white lanes"
+[image3]: ./test_images_output/HSVLane "HSV Image"
+[image4]: ./test_images_output/Masked "Masked(Region of Interest)"
+[image5]: ./test_images_output/img_houghLines "Hough Lines"
+[image6]: ./test_images_output/solidWhiteCurve_WithLanes "Lane Detected"
+[image7]: ./test_images_output/whiteCarLaneSwitch_WithLanes "Mixed lane detected"
 ---
 
-### Reflection
+This is the first project of the udacity self driving car nano-degree. Hence there were two challenges involved in this project:
 
-### 1. Describe your pipeline. As part of the description, explain how you modified the draw_lines() function.
+1) Setting up the environment for development: Thankfully with past experience in anaconda and jupyter notebooks, this was OK for me.
+
+2) Delivering the project including the challenge video. 
+
+The below section describes how I went about detecting lanes in a car driving video. I divided it into two sections:
+
+1. First step is to build a pipeline that takes an image of a vehicle being driven on the road and detect lanes from that image.
+Following were two of the five images. The first one is very simple
+![Simple car on road][image1]
+
+The second one is a bit more complex
+![Bit more complex][image2]
 
 My pipeline consisted of 5 steps. First, I converted the images to grayscale, then I .... 
 
