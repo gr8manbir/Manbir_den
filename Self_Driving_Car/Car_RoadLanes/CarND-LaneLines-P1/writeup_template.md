@@ -1,8 +1,6 @@
 # **Finding Lane Lines on the Road** 
 
-## Writeup Template
-
-### You can use this file as a template for your writeup if you want to submit it as a markdown file. But feel free to use some other method and submit a pdf if you prefer.
+## Writeup on the technical challenges and approach
 
 **Finding Lane Lines on the Road**
 The goals / steps of this project were the following:
@@ -11,13 +9,20 @@ The goals / steps of this project were the following:
 
 [//]: # (Image References)
 
-[image1]: ./examples/grayscale.jpg "Grayscale"
+[image1]: ./test_images/solidWhiteCurve.jpg "First Image"
+
 [image2]: ./test_images/whiteCarLaneSwitch.jpg "yellow and white lanes"
+
 [image3]: ./test_images_output/HSVLane "HSV Image"
+
 [image4]: ./test_images_output/Masked "Masked(Region of Interest)"
+
 [image5]: ./test_images_output/img_houghLines "Hough Lines"
+
 [image6]: ./test_images_output/solidWhiteCurve_WithLanes "Lane Detected"
+
 [image7]: ./test_images_output/whiteCarLaneSwitch_WithLanes "Mixed lane detected"
+
 ---
 
 This is the first project of the udacity self driving car nano-degree. Hence there were two challenges involved in this project:
