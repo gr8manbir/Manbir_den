@@ -64,18 +64,18 @@ My pipeline consists of the following steps using CV2.
 ![Masked][image4]
 
 	e. Next step is to take the masked image and find hough lines from it. This step requires a lot of parameter tuning.
-	Final result( example ) is shown below:
+	Final result( not the same example as point d. ) is shown below:
 
 ![Hough Lines][image5]
 
-	f. The next step is to draw the lines over the original image. This required a lot of fine tuning to draw smooth lines over
-	the real image. Some of the steps are described below:
+	f. The next step is to draw the lines over the original image. This required a lot of fine tuning to
+	draw smooth lines over the real image. Some of the steps are described below:
 	Parse through the list of detected hough lines and do the below for each line
 		i. Check if the slope is -ve(left lane) or +ve(right lane).
 		ii. If the slope meets a certain minimum threshold, add it to a list
 		i.e. either left lane list or right lane list
-		iii. If at the end of parsing through hough lines list, either left or right lane list is empty, return error 
-		i.e.no detectable lanes exist
+		iii. If at the end of parsing through hough lines list, either left or right lane list is empty,
+		return error i.e.no detectable lanes exist
 		iv. Subject the detected left lane list and right lane list to a normal distribution
 		i.e. value of slope < abs( mean slope - 2 * std. deviation )
 		Any slope not a part of the normal distribution is rejected.
