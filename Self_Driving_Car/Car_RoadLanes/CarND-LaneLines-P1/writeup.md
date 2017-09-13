@@ -63,8 +63,8 @@ My pipeline consists of the following steps using CV2.
 
 ![Masked][image4]
 
-	e. Next step is to take the masked image and find hough lines from it. This step requires a lot of parameter tuning.
-	Final result( not the same example as point d. ) is shown below:
+	e. Next step is to take the masked image and find hough lines from it. This step requires a lot of
+	parameter tuning. Final result( not the same example as point d. ) is shown below:
 
 ![Hough Lines][image5]
 
@@ -85,7 +85,8 @@ My pipeline consists of the following steps using CV2.
 		viii. Find end points of left and right lane from the slope, intercepts.
 		ix. Using the detected co-ordinates, plot lines over the detected road lanes 
 	
-	g. After repetitive improvement of parameters, following were some of the processed images ( highly satisfying :) )
+	g. After repetitive improvement of parameters, following were some of the
+	processed images ( highly satisfying :) )
 
 ![Final Result][image6]
 
