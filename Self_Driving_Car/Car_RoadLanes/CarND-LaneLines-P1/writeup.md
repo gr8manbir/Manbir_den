@@ -45,23 +45,23 @@ Following are two examples out of the five images. The first one is very simple
 The second one is a bit more complex
 ![Bit more complex][image2]
 
-![HSV image][image3]
-
 My pipeline consists of the following steps using CV2.
 
-	1. Taking an image file and converting it from RGB to grayscale and HSV. 
-	   The grayscale helped in discovering white lanes and HSV is better( not necessary ) for yellow lanes
-	   Following is the output of HSV image
- 	   ![HSV image][image3]
+	a. Taking an image file and converting it from RGB to grayscale and HSV. 
+	The grayscale helped in discovering white lanes and HSV is better( not necessary ) for yellow lanes
+	Following is the output of HSV image
 
-	2. Merging the grayscale image and HSV image so that we have one combined image with both white and yellow lanes.
-	   After this I applied Gaussian blur. This helps in removing noise( ultimately less wobbly lanes )
+![HSV image][image3]
 
-	3. The output image of gaussian blur is subjected to canny edge detection to identify edges.
+	b. Merging the grayscale image and HSV image so that we have one combined image with both white and yellow lanes.
+	After this I applied Gaussian blur. This helps in removing noise( ultimately less wobbly lanes )
 
-	4. Since we are only interested in the region of the image which describes lanes, the output of canny edge detection is
+	c. The output image of gaussian blur is subjected to canny edge detection to identify edges.
+
+	d. Since we are only interested in the region of the image which describes lanes, the output of canny edge detection is
 	   masked over a rectangular polygon. The resultant image is shown below:
-	   ![Masked][image4]
+
+![Masked][image4]
 
 
 
