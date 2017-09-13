@@ -63,18 +63,52 @@ My pipeline consists of the following steps using CV2.
 
 ![Masked][image4]
 
+	e. Next step is to take the masked image and find hough lines from it. This step requires a lot of parameter tuning. The
+	final result( example ) is shown below:
+
+![Hough Lines][image5]
+
+	f. The next step is to draw the lines over the original image. This required a lot of fine tuning to draw smooth lines over
+	the real image. Some of the steps are described below:
+	Parse through the list of detected hough lines and do the below for each line
+		i. Check if the slope is -ve(left lane) or +ve(right lane).
+		ii. If the slope meets a certain minimum threshold, add it to a list( either left lane list or right lane list )
+		iii. If at the end of parsing through hough lines list, either left or right lane list is empty, return error ( no detectable lanes exist )
+		iv. Subject the detected left lane list and right lane list to a normal distribution ( i.e. value of slope < abs( mean slope - 2 * std. deviation )
+		Any slope not a part of the normal distribution is rejected.
+		v. Calculate left and right mean slopes again after rejecting outliers
+		vi. Find mean (x,y)left and (x,y)right from respective lanes
+		vii. From the mean slope and corresponding (x,y), find the mean left and right intercepts
+		viii. Find end points of left and right lane from the slope, intercepts.
+		ix. Using the detected co-ordinates, plot lines over the detected road lanes 
+	
+	g. After repetitive improvement of parameters, following were some of the processed images ( highly satisfying :) )
+
+![Final Result][image6]
+
+![Another one][image7]
+
+2. Next step was to apply the above pipeline to a video stream. A video stream is nothing but a stream of images. In the above pipeline, the following 
+modification was needed
+
+	a. After the first image has been displayed with the lanes detected, save it globally.
+	b. In subsequent images, do a smoothening by taking 80% of the old image and 20% of the new image
+	c. Repeat the above till the entire stream has been processed.
+
+Below is the result of the above exercise being applied to detect lanes in a video. Clicking on below will open a new window. Click on "View Raw" after that
+to download and play video.
+
+![Straight Lanes](./test_videos_output/solidYellowLeft.mp4)
+
+![Curved Lanes](./test_videos_output/challenge.mp4)
 
 
-### 2. Identify potential shortcomings with your current pipeline
+The project successfully detects lanes in a video stream even with the challenge video where the road curves a bit. 
 
 
-One potential shortcoming would be what would happen when ... 
+One potential shortcoming possibly is that the above algorithm might not be able to detect a lane merge from an on-ramp. Also this hasn't 
+been tested on adverse weather/night conditions.
 
-Another shortcoming could be ...
 
-
-### 3. Suggest possible improvements to your pipeline
-
-A possible improvement would be to ...
-
-Another potential improvement could be to ...
+A possible improvement would be to fit the lane detection better over less detectable lanes/break in lanes. Also testing on night time driving
+or under rain/snow would be interesting.
