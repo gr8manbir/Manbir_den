@@ -45,6 +45,8 @@ Following are two examples out of the five images. The first one is very simple
 The second one is a bit more complex
 ![Bit more complex][image2]
 
+![HSV image][image3]
+
 My pipeline consists of the following steps using CV2.
 
 	1. Taking an image file and converting it from RGB to grayscale and HSV. 
