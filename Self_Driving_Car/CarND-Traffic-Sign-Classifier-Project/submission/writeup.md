@@ -1,40 +1,42 @@
-# **Finding Lane Lines on the Road** 
+# **Classifying Images in a German Traffic Sign Data Set** 
 
 ## Writeup on the technical challenges and approach
 
-**Finding Lane Lines on the Road**
+**Develop a CNN to classify roadsigns**
 The goals / steps of this project were the following:
-* Make a pipeline that finds lane lines on the road
-* Use that pipeline to mark road lanes in a video stream
+* Develop a CNN that can classify images with an accuracy of atleast 0.93 with the test set
+* Run the CNN on randomly downloaded images from the internet and calculate accuracy
 
 
 [//]: # (Image References)
 
-[image1]: ./test_images/solidWhiteCurve.jpg "First Image"
+[image1]: ./traffic-signs-data/RightOfWay.png "Right of Way"
 
-[image2]: ./test_images/whiteCarLaneSwitch.jpg "yellow and white lanes"
+[image2]: ./traffic-signs-data/Speed30.png "Speed 30"
 
-[image3]: ./test_images_output/HSVLane "HSV Image"
+[image3]: ./traffic-signs-data/Speed60.png "Speed 60"
 
-[image4]: ./test_images_output/Masked "Masked(Region of Interest)"
+[image4]: ./traffic-signs-data/Speed70.png "Speed 70"
 
-[image5]: ./test_images_output/img_houghLines "Hough Lines"
-
-[image6]: ./test_images_output/solidWhiteCurve_WithLanes "Lane Detected"
-
-[image7]: ./test_images_output/whiteCarLaneSwitch_WithLanes "Mixed lane detected"
-
----
-
-This is the first project of the udacity self driving car nano-degree. Hence there were two challenges involved in this project:
-
-1) Setting up the environment for development: Thankfully with past experience in anaconda and jupyter notebooks, this was OK for me.
-
-2) Delivering the project including the challenge video. 
+[image5]: ./traffic-signs-data/WorkAhead.png "Work Ahead"
 
 
 ---
 
+This is the second project of the udacity self driving car nano-degree. It is the first neural network that I have successfully trained
+and used to classify objects.
+
+---
+Contents:
+
+- Dataset summary
+- Exploration of dataset
+- Preprocessing techniques used
+- Data Augmentation
+- Model Architecture
+- Model Training
+- Performance on new Images
+- Model probabilities ( softmax predictions )
 
 The below section describes how I went about detecting lanes in a car driving video. I divided it into two sections:
 
