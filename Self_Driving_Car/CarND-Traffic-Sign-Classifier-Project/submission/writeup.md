@@ -10,7 +10,7 @@ The goals / steps of this project were the following:
 
 [//]: # (Image References)
 
-[image1]: ./traffic-signs-data/RightOfWay.png "Right of Way"
+[image1]: ./traffic-signs-data/SampleImages.png "Right of Way"
 
 [image2]: ./traffic-signs-data/Speed30.png "Speed 30"
 
