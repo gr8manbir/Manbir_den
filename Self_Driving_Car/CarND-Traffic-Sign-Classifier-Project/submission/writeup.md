@@ -33,8 +33,7 @@ This is the second project of the udacity self driving car nano-degree. It is th
 and used to classify objects.
 
 ---
-#H1 
-Contents:
+# H1 Contents:
 
 - Dataset summary & Exploration of dataset
 - Preprocessing techniques used
@@ -46,7 +45,8 @@ Contents:
 
 
 ---
-#H2 Data Set Summary & Exploration of dataset
+## H2 
+Data Set Summary & Exploration of dataset
 
 1. The data set contains about 50000 images of various road signs in about 43 different categories. A description of the data set can be found at the following location:
 
