@@ -40,6 +40,7 @@ and used to classify objects.
 - Data Augmentation
 - Model Architecture
 - Model Training
+- Model Performance
 - Performance on new Images
 - Model probabilities ( softmax predictions )
 
@@ -122,63 +123,69 @@ The following is the architecture of the adapted LeNet architecture implemented 
 
 |                   | First Conv Layer | Second Conv Layer  | First fully connected layer | Second fully connected layer  | Third fully connected layer |
 | ------------------|------------------|:------------------:|----------------------------:|------------------------------:|----------------------------:|
-| Filter:           |  5x5             | $1600              |                             |                               |                             |
-| Features:         |                  |   $12              |                             |                               |                             |
-| Strides           | are neat         |    $1              |                             |                               |                             |
+| Filter:           |  5x5             |   5x5              |     NA                      |     NA                        |    NA                       |
+| Features:         |  12              |   24               |     NA                      |     NA                        |    NA                       |
+| Strides           |  1,1,1,1         |   1,1,1,1          |     NA                      |     NA                        |    NA                       |
+| ksize :           |  1,2,2,1         |   1,2,2,1          |     NA                      |     NA                        |    NA                       |
+| Max pool stride   |  1,2,2,1         |   1,2,2,1          |     NA                      |     NA                        |    NA                       |
+| weights           |  NA              |   NA               |     600x350                 |     350x184                   |    184x43                   |
+| bias              |  NA              |   NA               |     350                     |     184                       |    43                       |
+| Activation        |  RELU            |   RELU             |     RELU                    |     RELU                      |    None                     |
+| Droput            |  NA              |   NA               |     50%                     |     50%                       |    None                     |
+
+As can be seen, the above architecture is a slight modification of the original LeNet architecture developed by Yann LeCunn
+http://yann.lecun.com/exdb/publis/pdf/lecun-98.pdf
+
+The primary change is an increase in the number of feature layers depth. This helps in classifying the images better  ( gave a 2% increase in accuracy )
+
+## Model Training
+
+As mentioned above the model used was an adaptation of LeNet Architecture. The logits obtained from the neural network were fed to a softmax function.
+The probabilities from the softmax o/p was compared against the one-hot encoded labels to obtain cross entropy. Loss in the model is defined as the mean
+of cross entropy. The loss was then optimized by using adam optimizer. Following are the hyper parameters used:
+learning rate: 0.001. Rationale being that with augmentation the model was fitting good enough with such a rate. So it was not reduced to improve accuracy.
+EPOCHS: 20
+BATCH_SIZE: 150. Gave good mix of speed and accuracy.
+
+## Model Performance
+
+Accuracy on validation set: 0.963 ( after 20 EPOCHS )
+Accuracy on test set:       0.952
+
+##Performance on new Images
+
+As required by project rubric, 5 images of german traffic signs, were taken from the internet and cropped to 32x32 size. These are the following:
+
+![Right of way][image4]
+
+![Speed 30][image5]
+
+![Speed 60][image6]
+
+![Speed 70][image7]
+
+![Work Ahead][image8]
+
+These are simple images and do not seem visually difficult to classify. After preprocessing and running them through the trained network was confirmed true. 
+The accuracy was 1.0 i.e. all images were correctly classified.
+
+## Model probabilities ( softmax predictions )
+
+From the below data, it is clear that the images were rightly classified:
+
+Neural network Predictions:  [25 11  1  3  4]
+Actual classes            :  [25 11  1  3  4]
+
+Top 5 softmax predictions:( each row represents one image, indices=image category) :
+[[25 24 29 28 22]
+ [11 27 30 21 25]
+ [ 1  5  0  6 31]
+ [ 3  2  4  8  5]
+ [ 4  1 18 24  0]]
+
+The project successfully detects images with an accuracy of around 96%. 
 
 
-![Masked][image4]
-
-	e. Next step is to take the masked image and find hough lines from it. This step requires a lot of
-	parameter tuning. Final result( not the same example as point d. ) is shown below:
-
-![Hough Lines][image5]
-
-	f. The next step is to draw the lines over the original image. This required a lot of fine tuning to
-	draw smooth lines over the real image. Some of the steps are described below:
-	Parse through the list of detected hough lines and do the below for each line
-		i. Check if the slope is -ve(left lane) or +ve(right lane).
-		ii. If the slope meets a certain minimum threshold, add it to a list
-		i.e. either left lane list or right lane list
-		iii. If at the end of parsing through hough lines list, either left or right lane list is empty,
-		return error i.e.no detectable lanes exist
-		iv. Subject the detected left lane list and right lane list to a normal distribution
-		i.e. value of slope < abs( mean slope - 2 * std. deviation )
-		Any slope not a part of the normal distribution is rejected.
-		v. Calculate left and right mean slopes again after rejecting outliers
-		vi. Find mean (x,y)left and (x,y)right from respective lanes
-		vii. From the mean slope and corresponding (x,y), find the mean left and right intercepts
-		viii. Find end points of left and right lane from the slope, intercepts.
-		ix. Using the detected co-ordinates, plot lines over the detected road lanes 
-	
-	g. After repetitive improvement of parameters, following were some of the
-	processed images ( highly satisfying :) )
-
-![Final Result][image6]
-
-![Another one][image7]
-
-2. Next step was to apply the above pipeline to a video stream. A video stream is nothing but a stream of images.
-In the above pipeline, the following modification was needed
-
-	a. After the first image has been displayed with the lanes detected, save it globally.
-	b. In subsequent images, do a smoothening by taking 80% of the old image and 20% of the new image
-	c. Repeat the above till the entire stream has been processed.
-
-Below is the result of the above exercise being applied to detect lanes in a video. Clicking on below will open a new window.
-Click on "View Raw" after thatto download and play video.
-
-![Straight Lanes](./test_videos_output/solidYellowLeft.mp4)
-
-![Curved Lanes](./test_videos_output/challenge.mp4)
-
-
-The project successfully detects lanes in a video stream even with the challenge video where the road curves a bit. 
-
-
-One potential shortcoming possibly is that the above algorithm might not be able to detect a lane merge from an on-ramp. Also this hasn't 
-been tested on adverse weather/night conditions.
-
-
-A possible improvement would be to fit the lane detection better over less detectable lanes/break in lanes. Also testing on night time driving
-or under rain/snow would be interesting.
+One potential shortcoming possibly is that the above model might not be good enough for a real world application wherein the images have to be detected correctly
+100% of the times. Also this might be due to sample size being small of only 50000 images. Whereas the thumb of rule in machine learning says there should be 50000
+samples of each category to properly classify data. 
