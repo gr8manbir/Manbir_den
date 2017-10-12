@@ -10,17 +10,21 @@ The goals / steps of this project were the following:
 
 [//]: # (Image References)
 
-[image1]: ./traffic-signs-data/SampleImages.png "Right of Way"
+[image1]: ./traffic-signs-data/SampleImages.png "Sample 43 Images"
 
-[image2]: ./traffic-signs-data/Speed30.png "Speed 30"
+[image2]: ./traffic-signs-data/Category_plot.png "Category plot"
 
-[image3]: ./traffic-signs-data/Speed60.png "Speed 60"
+[image3]: ./traffic-signs-data/preprocessedImage.png "Pre-processed Image set"
 
-[image4]: ./traffic-signs-data/Speed70.png "Speed 70"
+[image4]: ./traffic-signs-data/RightOfWay.png "Right of way"
 
-[image5]: ./traffic-signs-data/WorkAhead.png "Work Ahead"
+[image5]: ./traffic-signs-data/Speed30.png "Speed 30"
 
-[image6]: ./traffic-signs-data/SampleImages.png "Sample Images"
+[image6]: ./traffic-signs-data/Speed60.png "Speed 60"
+
+[image7]: ./traffic-signs-data/Speed70.png "Speed 70"
+
+[image8]: ./traffic-signs-data/WorkAhead.png "Work Ahead"
 
 
 ---
@@ -31,8 +35,7 @@ and used to classify objects.
 ---
 Contents:
 
-- Dataset summary
-- Exploration of dataset
+- Dataset summary & Exploration of dataset
 - Preprocessing techniques used
 - Data Augmentation
 - Model Architecture
@@ -40,20 +43,44 @@ Contents:
 - Performance on new Images
 - Model probabilities ( softmax predictions )
 
-The below section describes how I went about detecting lanes in a car driving video. I divided it into two sections:
 
-1. First step is to build a pipeline that takes an image of a vehicle being driven on the road and detect lanes from that image.
-Following are two examples out of the five images. The first one is very simple
-![Simple car on road][image1]
+---Data Set Summary & Exploration of dataset
 
-The second one is a bit more complex
-![Bit more complex][image2]
+1. The data set contains about 50000 images of various road signs in about 43 different categories. A description of the data set can be found at the following location:
 
-My pipeline consists of the following steps using CV2.
+http://benchmark.ini.rub.de/?section=gtsrb&subsection=dataset
 
-	a. Taking an image file and converting it from RGB to grayscale and HSV. 
-	The grayscale helped in discovering white lanes and HSV is better( not necessary ) for discovering yellow lanes
-	Following is the output of HSV image
+2. The images for this project were taken from 
+
+https://d17h27t6h515a5.cloudfront.net/topher/2017/February/5898cd6f_traffic-signs-data/traffic-signs-data.zip
+
+3. THe following image shows one image of the 43 different categories
+
+![Sample Images][image1]
+
+4. The image set is split as follows:
+
+- Training set: 34799 images
+- Validation set: 4410 images
+- Test set: 12630 images
+
+5. Since the training set is used for training the neural network, the set was further explored to find number of images in each category. The following plot shows
+the number of images in each category:
+
+![Category plot][image2]
+
+As can be seen from above images, there are two problems:
+1. The images aren't the best for recognition ( some seem very dark and devoid of any visible features ) - This requires preprocessing.
+2. In some categories the number of images is less - This requires data set augmentation.
+
+---- Preprocessing techniques used
+
+1. First the images were converted to YUV color space. As mentioned in the lessons, RGB color provides no real value during classification.
+
+Formula taken from: https://en.wikipedia.org/wiki/Grayscale#Converting_color_to_grayscale
+
+Idea taken from: https://stackoverflow.com/questions/12201577/how-can-i-convert-an-rgb-image-into-grayscale-in-python
+
 
 ![HSV image][image3]
 
