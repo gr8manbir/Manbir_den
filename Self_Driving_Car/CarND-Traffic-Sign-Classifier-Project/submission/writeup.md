@@ -174,9 +174,11 @@ The accuracy was 1.0 i.e. all images were correctly classified.
 From the below data, it is clear that the images were rightly classified:
 
 Neural network Predictions:  [25 11  1  3  4]
+
 Actual classes            :  [25 11  1  3  4]
 
 Top 5 softmax predictions:( each row represents one image, indices=image category) :
+
 [[25 24 29 28 22]
 
  [11 27 30 21 25]
@@ -188,6 +190,7 @@ Top 5 softmax predictions:( each row represents one image, indices=image categor
  [ 4  1 18 24  0]]
 
 Top 5 softmax probabilties: 
+
 [[  9.99235272e-01   7.58760259e-04   3.25825886e-06   2.75790330e-06
     6.37137454e-09]
 
