@@ -56,7 +56,7 @@ http://benchmark.ini.rub.de/?section=gtsrb&subsection=dataset
 
 https://d17h27t6h515a5.cloudfront.net/topher/2017/February/5898cd6f_traffic-signs-data/traffic-signs-data.zip
 
-3. The following image shows one image of the 43 different categories
+3. The following image shows one image each of the 43 different categories
 
 ![Sample Images][image1]
 
@@ -152,7 +152,7 @@ BATCH_SIZE: 150. Gave good mix of speed and accuracy.
 Accuracy on validation set: 0.963 ( after 20 EPOCHS )
 Accuracy on test set:       0.952
 
-##Performance on new Images
+## Performance on new Images
 
 As required by project rubric, 5 images of german traffic signs, were taken from the internet and cropped to 32x32 size. These are the following:
 
@@ -178,10 +178,31 @@ Actual classes            :  [25 11  1  3  4]
 
 Top 5 softmax predictions:( each row represents one image, indices=image category) :
 [[25 24 29 28 22]
+
  [11 27 30 21 25]
+
  [ 1  5  0  6 31]
+
  [ 3  2  4  8  5]
+
  [ 4  1 18 24  0]]
+
+Top 5 softmax probabilties: 
+[[  9.99235272e-01   7.58760259e-04   3.25825886e-06   2.75790330e-06
+    6.37137454e-09]
+
+ [  9.99848366e-01   6.93130278e-05   5.20531612e-05   2.95314512e-05
+    5.80517167e-07]
+
+ [  9.99997973e-01   5.92441779e-07   4.39204342e-07   4.14959601e-07
+    1.52277053e-07]
+
+ [  9.86739397e-01   8.09092540e-03   2.65885820e-03   1.28167518e-03
+    1.16214855e-03]
+
+ [  9.99728620e-01   2.28598452e-04   3.29473078e-05   7.16680324e-06
+    1.73314629e-06]]
+
 
 The project successfully detects images with an accuracy of around 96%. 
 
