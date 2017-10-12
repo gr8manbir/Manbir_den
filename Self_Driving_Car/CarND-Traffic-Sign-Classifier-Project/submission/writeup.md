@@ -33,7 +33,7 @@ This is the second project of the udacity self driving car nano-degree. It is th
 and used to classify objects.
 
 ---
-Contents:
+#H1 Contents:
 
 - Dataset summary & Exploration of dataset
 - Preprocessing techniques used
@@ -44,7 +44,8 @@ Contents:
 - Model probabilities ( softmax predictions )
 
 
----Data Set Summary & Exploration of dataset
+---
+#H2 Data Set Summary & Exploration of dataset
 
 1. The data set contains about 50000 images of various road signs in about 43 different categories. A description of the data set can be found at the following location:
 
@@ -73,7 +74,8 @@ As can be seen from above images, there are two problems:
 1. The images aren't the best for recognition ( some seem very dark and devoid of any visible features ) - This requires preprocessing.
 2. In some categories the number of images is less - This requires data set augmentation.
 
----- Preprocessing techniques used
+---
+Preprocessing techniques used
 
 1. First the images were converted to YUV color space. As mentioned in the lessons, RGB color provides no real value during classification.
 
