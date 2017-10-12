@@ -83,16 +83,49 @@ Formula taken from: https://en.wikipedia.org/wiki/Grayscale#Converting_color_to_
 
 Idea taken from: https://stackoverflow.com/questions/12201577/how-can-i-convert-an-rgb-image-into-grayscale-in-python
 
+2. Next the images are normalized using the formula learnt in class i.e. 
+ImageData = (ImageData-grayMin)*(1-0)/(255-0)
+i.e. ImageData = ImageData/255.0
 
-![HSV image][image3]
+3. After this the histogram of the images is adjusted for exposure to equalize the brightness across the image. This is taken from:
 
-	b. Merging the grayscale image and HSV image so that we have one combined image with both white and yellow lanes.
-	After this I applied Gaussian blur. This helps in removing noise( ultimately less wobbly lanes )
+http://scikit-image.org/docs/dev/api/skimage.exposure.html#skimage.exposure.equalize_adapthist
 
-	c. The output image of gaussian blur is subjected to canny edge detection to identify edges.
 
-	d. Since we are only interested in the region of the image which describes lanes, the output of canny edge 
-	detection is masked over a rectangular polygon. The resultant image is shown below:
+The following images show the pre-processed equivalent of the images shown earlier. As can be seen even visually, the images are more distinguishable.
+
+![Pre-processed images][image3]
+
+---
+## Data Augmentation
+
+As the image set was small and had few images in certain categories, the image set was augmented by a factor of two. Another set was created by the ImageDataGenerator
+API of keras library. This was used to apply random zoom, rotation, shear, horizontal, vertical shift. The following was the API call:
+
+ImageDataGenerator(
+        rotation_range=17,
+        width_shift_range=0.1,
+        height_shift_range=0.1,
+        shear_range=0.3,
+        zoom_range=0.15,
+        horizontal_flip=False,
+        dim_ordering='tf',
+        fill_mode='nearest')
+
+More details of the API can be found at: https://keras.io/preprocessing/image/
+
+
+## Model Architecture
+
+The following is the architecture of the adapted LeNet architecture implemented in this classifier:
+
+
+|                   | First Conv Layer | Second Conv Layer  | First fully connected layer | Second fully connected layer  | Third fully connected layer |
+| ------------------|------------------|:------------------:|----------------------------:|------------------------------:|----------------------------:|
+| Filter:           |  5x5             | $1600              |                             |                               |                             |
+| Features:         |                  |   $12              |                             |                               |                             |
+| Strides           | are neat         |    $1              |                             |                               |                             |
+
 
 ![Masked][image4]
 
