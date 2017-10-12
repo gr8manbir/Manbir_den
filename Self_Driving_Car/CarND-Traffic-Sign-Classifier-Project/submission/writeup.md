@@ -33,7 +33,8 @@ This is the second project of the udacity self driving car nano-degree. It is th
 and used to classify objects.
 
 ---
-#H1 Contents:
+#H1 
+Contents:
 
 - Dataset summary & Exploration of dataset
 - Preprocessing techniques used
