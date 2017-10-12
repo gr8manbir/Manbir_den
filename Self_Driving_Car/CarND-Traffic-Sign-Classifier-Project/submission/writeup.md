@@ -21,6 +21,8 @@ The goals / steps of this project were the following:
 [image5]: ./traffic-signs-data/WorkAhead.png "Work Ahead"
 
 [image6]: ./traffic-signs-data/SampleImages.png "Sample Images"
+
+
 ---
 
 This is the second project of the udacity self driving car nano-degree. It is the first neural network that I have successfully trained
