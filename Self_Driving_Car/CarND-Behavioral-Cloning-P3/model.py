@@ -2,7 +2,8 @@
 import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
-from keras.model import Sequential
+from sklearn.utils import shuffle
+from keras.models import Sequential
 from keras.layers import Flatten, Dense, Dropout, Activation, Lambda, Cropping2D, Convolution2D 
 
 path_data='./Data'
@@ -11,6 +12,7 @@ images=[]
 steeringangles=[]
 correction=0.25
 
+#define the model
 def NVidiaModel():
     model = Sequential()
     #Normalize the image
@@ -35,6 +37,31 @@ def NVidiaModel():
     model.add(Dense(1)) # We want only one steering angle based on input images
     return model
 
+#define the generator
+def DataGenerator(samples, batch_size=32):
+    
+    num_samples = len(samples)
+    while 1:
+        #First randomize the data
+        samples = shuffle(samples)
+        gen_imgs=[]
+        gen_angles=[]
+        for offset in range(0,num_samples,batch_size):
+            batch_samples = samples[offset:offset+batch_size]
+            
+            for img,angle in batch_samples:
+                image = imread(img)
+                gen_imgs.append(image)
+                gen_angles.append(angle)
+                #Existing image samples may not be enough. We will double it here by flipping
+                image_flipped = np.fliplr(image)
+                angle_flipped = -1.0*angle
+                gen_imgs.append(image_flipped)
+                gen_angles.append(angle_flipped)
+            
+            yield(np.array(gen_imgs), np.array(gen_angles))
+                
+    
 ## Read the features( cols 0,1,2 ) and label ( col 3 )
 data = pd.read_csv( path_data + '//' + csv_fileName,
                         usecols=[0,1,2,3],
@@ -68,4 +95,25 @@ Samples = list(zip(img_features, angles_labels))
 X_train, X_test= train_test_split(Samples, test_size=0.2, random_state=0)
 
 #Build model
-model = N
+model = NVidiaModel()
+
+#print model summary
+model.summary()
+model.compile(optimizer='adam', loss='mse')
+
+training_data_gen = DataGenerator(X_train, 32)
+#might not be required to flip images in validation set but nonetheless
+validation_data_gen = DataGenerator(X_test,32)
+
+history_object = model.fit_generator( training_data_gen, 
+                                      samples_per_epoch= len(X_train), 
+                                      validation_data=validation_data_gen, 
+                                      nb_val_samples=len(X_test),
+                                      nb_epoch=3,
+                                      verbose=1 )
+#Saving model
+model.save('model.h5')
+
+#Save model to json file - courtesy internet
+with open('model.json', w ) as filewrite:
+    filewrite.write(model.to_json())
