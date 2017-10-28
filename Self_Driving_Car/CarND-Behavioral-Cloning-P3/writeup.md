@@ -32,7 +32,7 @@ and used to autonomously drive a car around a track.
 
 
 ---
-## Acrhitecture and training strategy
+## Architecture and training strategy
 
 1. The training set consists of a collection of triad images ( left camera, center camera and right camera). This is the feature set for regressor.
 
