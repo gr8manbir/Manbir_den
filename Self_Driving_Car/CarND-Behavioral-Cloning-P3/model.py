@@ -35,10 +35,10 @@ def NVidiaModel():
     #Add fully connected layers
     model.add(Flatten())
     model.add(Dense(100))
-    model.add(Dropout(0.5))
+    #model.add(Dropout(0.5))
     model.add(ELU())
     model.add(Dense(50))
-    model.add(Dropout(0.5))
+    #model.add(Dropout(0.5))
     model.add(ELU())
     model.add(Dense(10))
     model.add(ELU())
@@ -119,7 +119,7 @@ history_object = model.fit_generator( training_data_gen,
                                       samples_per_epoch= len(X_train)*2, 
                                       validation_data=validation_data_gen, 
                                       nb_val_samples=len(X_test)*2,
-                                      nb_epoch=3,
+                                      nb_epoch=5,
                                       verbose=1 )
 #Saving model
 model.save('model.h5')
