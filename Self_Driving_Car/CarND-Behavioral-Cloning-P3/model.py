@@ -26,15 +26,15 @@ def NVidiaModel():
     model.add(ELU())
     model.add(Convolution2D(36, 5, 5, subsample = (2, 2), border_mode="same"))
     model.add(ELU())
-    model.add(Convolution2D(48, 5, 5, subsample=(2, 2), border_mode="same")
+    model.add(Convolution2D(48, 5, 5, subsample=(2, 2), border_mode="same"))
     model.add(ELU())
-    model.add(Convolution2D(64, 3, 3 , border_mode='same')
+    model.add(Convolution2D(64, 3, 3 , border_mode='same'))
     model.add(ELU())
     model.add(Convolution2D(64, 3, 3 , border_mode='same')) # Manbir - check if activation makes a difference here
     model.add(ELU())
     #Add fully connected layers
     model.add(Flatten())
-    model.add(Dense(100)
+    model.add(Dense(100))
     model.add(Dropout(0.5))
     model.add(ELU())
     model.add(Dense(50))
