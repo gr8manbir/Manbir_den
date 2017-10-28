@@ -5,6 +5,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.utils import shuffle
 from keras.models import Sequential
 from keras.layers import Flatten, Dense, Dropout, Activation, Lambda, Cropping2D, Convolution2D 
+from scipy.misc import imread
 
 path_data='./Data'
 csv_fileName='driving_log.csv'
