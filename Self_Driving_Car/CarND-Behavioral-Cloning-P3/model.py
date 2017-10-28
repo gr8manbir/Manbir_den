@@ -35,10 +35,10 @@ def NVidiaModel():
     #Add fully connected layers
     model.add(Flatten())
     model.add(Dense(100))
-    #model.add(Dropout(0.5))
+    model.add(Dropout(0.25))
     model.add(ELU())
     model.add(Dense(50))
-    #model.add(Dropout(0.5))
+    model.add(Dropout(0.40))
     model.add(ELU())
     model.add(Dense(10))
     model.add(ELU())
