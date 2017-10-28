@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.utils import shuffle
-from keras.models import Sequential
+from keras.models import Sequential, model_from_json
 from keras.layers import Flatten, Dense, Dropout, Activation, Lambda, Cropping2D, Convolution2D 
 from scipy.misc import imread
 
@@ -118,5 +118,5 @@ history_object = model.fit_generator( training_data_gen,
 model.save('model.h5')
 
 #Save model to json file - courtesy internet
-with open('model.json', w ) as filewrite:
+with open('model.json', "w" ) as filewrite:
     filewrite.write(model.to_json())
