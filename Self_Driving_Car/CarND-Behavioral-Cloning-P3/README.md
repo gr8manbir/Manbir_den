@@ -1,25 +1,16 @@
-# Behaviorial Cloning Project
-
-[![Udacity - Self-Driving Car NanoDegree](https://s3.amazonaws.com/udacity-sdc/github/shield-carnd.svg)](http://www.udacity.com/drive)
+# ** Behaviorial Cloning Project** 
 
 Overview
 ---
-This repository contains starting files for the Behavioral Cloning Project.
 
-In this project, you will use what you've learned about deep neural networks and convolutional neural networks to clone driving behavior. You will train, validate and test a model using Keras. The model will output a steering angle to an autonomous vehicle.
+This repository contains files for the Behavioral Cloning Project.
 
-We have provided a simulator where you can steer a car around a track for data collection. You'll use image data and steering angles to train a neural network and then use this model to drive the car autonomously around the track.
+In this project, we use deep neural networks and convolutional neural networks to clone driving behavior. Using Keras a model is trained, validated and tested. The model will output a steering angle to an autonomous vehicle.
 
-To meet specifications, the project will require submitting five files: 
-* model.py (script used to create and train the model)
-* drive.py (script to drive the car - feel free to modify this file)
-* model.h5 (a trained Keras model)
-* a report writeup file (either markdown or pdf)
-* video.mp4 (a video recording of your vehicle driving autonomously around the track for at least one full lap)
+A simulator provided can be used to steer a car around a track for data collection. We use image data and steering angles to train a neural network and then use this model to drive the car autonomously around the track.
 
-This README file describes how to output the video in the "Details About Files In This Directory" section.
 
-## Data
+The data set can be recorded using the simulator or a pre-collected data set can be had from:
 
 wget https://d17h27t6h515a5.cloudfront.net/topher/2016/December/584f6edd_data/data.zip
 
@@ -111,9 +102,5 @@ python video.py run1 --fps 48
 
 Will run the video at 48 FPS. The default FPS is 60.
 
-#### Why create a video
-
-1. It's been noted the simulator might perform differently based on the hardware. So if your model drives succesfully on your machine it might not on another machine (your reviewer). Saving a video is a solid backup in case this happens.
-2. You could slightly alter the code in `drive.py` and/or `video.py` to create a video of what your model sees after the image is processed (may be helpful for debugging).
 
 
