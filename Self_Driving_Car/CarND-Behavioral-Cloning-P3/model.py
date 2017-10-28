@@ -17,7 +17,7 @@ correction=0.25
 def NVidiaModel():
     model = Sequential()
     #Normalize the image
-    model.add(Lambda(lambda x: (x/255.0)-0.5, input_shape=(160,320,3)))
+    model.add(Lambda(lambda x: (x/127.5)-1.0, input_shape=(160,320,3)))
     #Crop the images
     model.add(Cropping2D(cropping=((50,20), (0,0)), input_shape=(3,160,320)))
     
@@ -119,7 +119,7 @@ history_object = model.fit_generator( training_data_gen,
                                       samples_per_epoch= len(X_train)*2, 
                                       validation_data=validation_data_gen, 
                                       nb_val_samples=len(X_test)*2,
-                                      nb_epoch=5,
+                                      nb_epoch=3,
                                       verbose=1 )
 #Saving model
 model.save('model.h5')
