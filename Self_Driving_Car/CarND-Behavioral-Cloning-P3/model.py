@@ -29,9 +29,9 @@ def NVidiaModel():
     
     #Add fully connected layers
     model.add(Flatten())
-    model.add(Dense(100), activation='relu')
+    model.add(Dense(100, activation='relu'))
     model.add(Dropout(0.5))
-    model.add(Dense(50), activation='relu')
+    model.add(Dense(50, activation='relu'))
     model.add(Dropout(0.5))
     model.add(Dense(10))
     model.add(Dense(1)) # We want only one steering angle based on input images
