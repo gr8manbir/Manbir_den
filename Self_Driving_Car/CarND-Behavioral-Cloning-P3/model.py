@@ -76,13 +76,13 @@ data = pd.read_csv( path_data + '//' + csv_fileName,
 #Create image data
 for row in data.values:
     #First append center camera images
-    images.append(path_data + '//' + row[0])
+    images.append(path_data + '/' + row[0].strip())
     steeringangles.append(row[3])
     #Next append left camera images
-    images.append(path_data + '//' + row[1])
+    images.append(path_data + '/' + row[1].strip())
     steeringangles.append(row[3]+correction)
     #Next append right camera images
-    images.append(path_data + '//' + row[2])
+    images.append(path_data + '/' + row[2].strip())
     steeringangles.append(row[3] - correction)
 
 #Convert to numpy arrays
