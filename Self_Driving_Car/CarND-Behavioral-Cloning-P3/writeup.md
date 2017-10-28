@@ -106,4 +106,4 @@ validation loss was stuck. Most likely this was an overfitting. So I introduced 
 
 Final result was a very pleasing car driving along the track:
 
-./run1.mp4
+![Behavioral Cloning](./run1.mp4)
