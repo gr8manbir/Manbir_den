@@ -30,7 +30,7 @@ def NVidiaModel():
     model.add(ELU())
     model.add(Convolution2D(64, 3, 3 , border_mode='valid'))
     model.add(ELU())
-    model.add(Convolution2D(64, 3, 3 , border_mode='valid')) # Manbir - check if activation makes a difference here
+    model.add(Convolution2D(64, 3, 3 , border_mode='valid'))
     model.add(ELU())
     #Add fully connected layers
     model.add(Flatten())
