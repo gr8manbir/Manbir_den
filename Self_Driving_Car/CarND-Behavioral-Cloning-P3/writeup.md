@@ -15,14 +15,14 @@ The goals / steps of this project are the following:
 
 ---
 
-This is the second project of the udacity self driving car nano-degree. It is the first neural network that I have successfully trained
-and used to classify objects.
+This is the third project of the udacity self driving car nano-degree. It is the first neural network regression networkthat I have successfully trained
+and used to autonomously drive a car around a track.
 
 ---
 # Contents:
 
-- Dataset summary & Exploration of dataset
-- Preprocessing techniques used
+- Architecture and training strategy
+- Model details
 - Data Augmentation
 - Model Architecture
 - Model Training
@@ -32,170 +32,75 @@ and used to classify objects.
 
 
 ---
-## Data Set Summary & Exploration of dataset
+## Acrhitecture and training strategy
 
-1. The data set contains about 50000 images of various road signs in about 43 different categories. A description of the data set can be found at the following location:
+1. The training set consists of a collection of triad images ( left camera, center camera and right camera). This is the feature set for regressor.
 
-http://benchmark.ini.rub.de/?section=gtsrb&subsection=dataset
+2. Alongwith the trio of images is a label called steering angle.
 
-2. The images for this project were taken from 
+3. The goal is to create a model that will take images as input feature set and predict the steering angle.
 
-https://d17h27t6h515a5.cloudfront.net/topher/2017/February/5898cd6f_traffic-signs-data/traffic-signs-data.zip
+4. The NVIDIA model chosen is taken from the below paper has been used to build a model with slight customizations explained later on:
 
-3. The following image shows one image each of the 43 different categories
+http://images.nvidia.com/content/tegra/automotive/images/2016/solutions/pdf/end-to-end-dl-using-px.pdf
 
-![Sample Images][image1]
+5. The data set could be created by running the simulator in training mode or by using a pre-recorded set provided by udacity. 
 
-4. The image set is split as follows:
+6. For my project, I have chosen to use the dataset provided by udacity.
 
-- Training set: 34799 images
-- Validation set: 4410 images
-- Test set: 12630 images
+7. The model has been trained on Amazon EC2 instance and then copied to my laptop.
 
-5. Since the training set is used for training the neural network, the set was further explored to find number of images in each category. The following plot shows
-the number of images in each category:
+8. Using the model, I have recorded a video in autonomous driving mode.
 
-![Category plot][image2]
+9. I made use of Amazon EC2 and generators in python as data set was very large to deal with.
 
-As can be seen from above images, there are two problems:
-1. The images aren't the best for recognition ( some seem very dark and devoid of any visible features ) - This requires preprocessing.
-2. In some categories the number of images is less - This requires data set augmentation.
+10. There is no learning rate as adam optimizer has been used.
 
 ---
-## Preprocessing techniques used
+## Model Details
 
-1. First the images were converted to YUV color space. As mentioned in the lessons, RGB color provides no real value during classification.
+Below is the model detail
 
-Formula taken from: https://en.wikipedia.org/wiki/Grayscale#Converting_color_to_grayscale
+|                   | Type             | Purpose           | Input                       | Output/filter size                 | Remarks                                     |
+|:-----------------:|:----------------:|:-----------------:|----------------------------:|-----------------------------------:|--------------------------------------------:|
+| First Layer       |  Lambda          |   Normalization   |     Image(160,320,3)        |     Normalized Image               |    (x/127.5)-1.0                            |
+| Second Layer      |  Cropping        |   Remove pixels   |     Image(160,320,3)        |     Image -50,20px from top,bottom |    NA                                       |
+| Third Layer       |  Conv2D          |   convolution     |     Image from second layer |     filter(5x5, 24 depth)          |    2x2 stride,valid padding, ELU activation |
+| Fourth Layer      |  Conv2D          |   convolution     |     From third  layer       |     filter(5x5, 36 depth)          |    2x2 stride,valid padding, ELU activation |
+| Fifth Layer       |  Conv2D          |   convolution     |     From fourth layer       |     filter(5x5, 48 depth)          |    2x2 stride,valid padding, ELU activation |
+| Sixth Layer       |  Conv2D          |   convolution     |     From fifth layer        |     filter(3x3, 64 depth)          |    valid padding, ELU activation            |
+| Seventh Layer     |  Conv2D          |   convolution     |     From sixth layer        |     filter(3x3, 64 depth)          |    valid padding, ELU activation            |
+| Eight Layer       |  FLATTEN         |   flatten         |     From seventh layer      |     fully connected layer          |                                             |
+| Ninth Layer       |  DENSE           |   hidden layer    |     From flattened layer    |     100 output                     |    0.25 keep probability, ELU activation    |
+| Tenth Layer       |  DENSE           |   hidden layer    |     From ninth layer        |     50 output                      |    0.40 keep probability, ELU activation    |
+| Eleventh Layer    |  DENSE           |   hidden layer    |     From tenth layer        |     10  output                     |    ELU activation                           |
+| Twelth Layer      |  DENSE           |   output layer    |     From eleventh layer     |     1 steering angle prediction    |    NA                                       |
 
-Idea taken from: https://stackoverflow.com/questions/12201577/how-can-i-convert-an-rgb-image-into-grayscale-in-python
-
-2. Next the images are normalized using the formula learnt in class i.e. 
-ImageData = (ImageData-grayMin)*(1-0)/(255-0)
-i.e. ImageData = ImageData/255.0
-
-3. After this the histogram of the images is adjusted for exposure to equalize the brightness across the image. This is taken from:
-
-http://scikit-image.org/docs/dev/api/skimage.exposure.html#skimage.exposure.equalize_adapthist
-
-
-The following images show the pre-processed equivalent of the images shown earlier. As can be seen even visually, the images are more distinguishable.
-
-![Pre-processed images][image3]
+Though dropout is not mentioned in NVIDIA paper, it was added to avoid overfitting. It also led to a better autonomous driving.
 
 ---
-## Data Augmentation
+## Data Augmentation and overfitting
 
-As the image set was small and had few images in certain categories, the image set was augmented by a factor of two. Another set was created by the ImageDataGenerator
-API of keras library. This was used to apply random zoom, rotation, shear, horizontal, vertical shift. The following was the API call:
+As the data provided was generic to a single video, the model might overfit. So two things were done to better train and avoid overfitting:
 
-ImageDataGenerator(
-        rotation_range=17,
-        width_shift_range=0.1,
-        height_shift_range=0.1,
-        shear_range=0.3,
-        zoom_range=0.15,
-        horizontal_flip=False,
-        dim_ordering='tf',
-        fill_mode='nearest')
+1. For every image in a single batch, an extra image was added which is a flipped copy of the original image. Also the steering angle was compensated by multiplying by 1.0.
 
-More details of the API can be found at: https://keras.io/preprocessing/image/
+2. Two dropouts were added in ninth and tenth layer. An improvement was seen in the autonomous driving.
 
+---
+## Overcoming failures
 
-## Model Architecture
+Several failures were seen while working on this project. Some of them are:
 
-The following is the architecture of the adapted LeNet architecture implemented in this classifier:
+1. The car would drive off the road randomly. This was improved by changing padding from "Same" to "Valid". As an afterthought, this makes sense as we do not want to pad
+the image with zeros at the edges.
 
+2. At the part where there is no edge marking, the car drove off road. The earlier normalization was used /255. This is incorrect as images are colour and not black and white.
+This was corrected to /127.
 
-|                   | First Conv Layer | Second Conv Layer  | First fully connected layer | Second fully connected layer  | Third fully connected layer |
-| ------------------|------------------|:------------------:|----------------------------:|------------------------------:|----------------------------:|
-| Filter:           |  5x5             |   5x5              |     NA                      |     NA                        |    NA                       |
-| Features:         |  12              |   24               |     NA                      |     NA                        |    NA                       |
-| Strides           |  1,1,1,1         |   1,1,1,1          |     NA                      |     NA                        |    NA                       |
-| ksize :           |  1,2,2,1         |   1,2,2,1          |     NA                      |     NA                        |    NA                       |
-| Max pool stride   |  1,2,2,1         |   1,2,2,1          |     NA                      |     NA                        |    NA                       |
-| weights           |  NA              |   NA               |     600x350                 |     350x184                   |    184x43                   |
-| bias              |  NA              |   NA               |     350                     |     184                       |    43                       |
-| Activation        |  RELU            |   RELU             |     RELU                    |     RELU                      |    None                     |
-| Droput            |  NA              |   NA               |     50%                     |     50%                       |    None                     |
+3. In the last phase, the car would zigzag a lot though remaining on track. As seen in the training process, it was noticed that the loss was reducing drastically but 
+validation loss was stuck. Most likely this was an overfitting. So I introduced two dropout layers and this improved a lot. 
 
-As can be seen, the above architecture is a slight modification of the original LeNet architecture developed by Yann LeCunn
-http://yann.lecun.com/exdb/publis/pdf/lecun-98.pdf
+---
+## Final result
 
-The primary change is an increase in the number of feature layers depth. This helps in classifying the images better  ( gave a 2% increase in accuracy )
-
-## Model Training
-
-As mentioned above the model used was an adaptation of LeNet Architecture. The logits obtained from the neural network were fed to a softmax function.
-The probabilities from the softmax o/p was compared against the one-hot encoded labels to obtain cross entropy. Loss in the model is defined as the mean
-of cross entropy. The loss was then optimized by using adam optimizer. Following are the hyper parameters used:
-learning rate: 0.001. Rationale being that with augmentation the model was fitting good enough with such a rate. So it was not reduced to improve accuracy.
-EPOCHS: 20
-BATCH_SIZE: 150. Gave good mix of speed and accuracy.
-
-## Model Performance
-
-Accuracy on validation set: 0.963 ( after 20 EPOCHS )
-Accuracy on test set:       0.952
-
-## Performance on new Images
-
-As required by project rubric, 5 images of german traffic signs, were taken from the internet and cropped to 32x32 size. These are the following:
-
-![Right of way][image4]
-
-![Speed 30][image5]
-
-![Speed 60][image6]
-
-![Speed 70][image7]
-
-![Work Ahead][image8]
-
-These are simple images and do not seem visually difficult to classify. After preprocessing and running them through the trained network was confirmed true. 
-The accuracy was 1.0 i.e. all images were correctly classified.
-
-## Model probabilities ( softmax predictions )
-
-From the below data, it is clear that the images were rightly classified:
-
-Neural network Predictions:  [25 11  1  3  4]
-
-Actual classes            :  [25 11  1  3  4]
-
-Top 5 softmax predictions:( each row represents one image, indices=image category) :
-
-[[25 24 29 28 22]
-
- [11 27 30 21 25]
-
- [ 1  5  0  6 31]
-
- [ 3  2  4  8  5]
-
- [ 4  1 18 24  0]]
-
-Top 5 softmax probabilties: 
-
-[[  9.99235272e-01   7.58760259e-04   3.25825886e-06   2.75790330e-06
-    6.37137454e-09]
-
- [  9.99848366e-01   6.93130278e-05   5.20531612e-05   2.95314512e-05
-    5.80517167e-07]
-
- [  9.99997973e-01   5.92441779e-07   4.39204342e-07   4.14959601e-07
-    1.52277053e-07]
-
- [  9.86739397e-01   8.09092540e-03   2.65885820e-03   1.28167518e-03
-    1.16214855e-03]
-
- [  9.99728620e-01   2.28598452e-04   3.29473078e-05   7.16680324e-06
-    1.73314629e-06]]
-
-
-The project successfully detects images with an accuracy of around 96%. 
-
-
-One potential shortcoming possibly is that the above model might not be good enough for a real world application wherein the images have to be detected correctly
-100% of the times. Also this might be due to sample size being small of only 50000 images. Whereas the thumb of rule in machine learning says there should be 50000
-samples of each category to properly classify data. 
