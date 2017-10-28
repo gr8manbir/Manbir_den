@@ -107,10 +107,11 @@ training_data_gen = DataGenerator(X_train, 32)
 #might not be required to flip images in validation set but nonetheless
 validation_data_gen = DataGenerator(X_test,32)
 
+#Manbir - Below samples_per_epoch needs *2 as flipped images also included
 history_object = model.fit_generator( training_data_gen, 
-                                      samples_per_epoch= len(X_train), 
+                                      samples_per_epoch= len(X_train)*2, 
                                       validation_data=validation_data_gen, 
-                                      nb_val_samples=len(X_test),
+                                      nb_val_samples=len(X_test)*2,
                                       nb_epoch=3,
                                       verbose=1 )
 #Saving model
