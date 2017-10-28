@@ -45,9 +45,10 @@ def DataGenerator(samples, batch_size=32):
     while 1:
         #First randomize the data
         samples = shuffle(samples)
-        gen_imgs=[]
-        gen_angles=[]
+
         for offset in range(0,num_samples,batch_size):
+            gen_imgs=[]
+            gen_angles=[]
             batch_samples = samples[offset:offset+batch_size]
             
             for img,angle in batch_samples:
