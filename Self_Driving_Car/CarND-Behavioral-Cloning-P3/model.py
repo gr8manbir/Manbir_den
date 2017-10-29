@@ -6,6 +6,7 @@ from sklearn.utils import shuffle
 from keras.models import Sequential, model_from_json
 from keras.layers import Flatten, Dense, Dropout, Activation, Lambda, Cropping2D, Convolution2D,ELU
 from scipy.misc import imread
+from keras.callbacks import TensorBoard
 
 path_data='./Data'
 csv_fileName='driving_log.csv'
@@ -43,6 +44,7 @@ def NVidiaModel():
     model.add(Dense(10))
     model.add(ELU())
     model.add(Dense(1)) # We want only one steering angle based on input images
+    plot(model, to_file='model.png', show_shaps='true')
     return model
 
 #define the generator
@@ -106,6 +108,10 @@ X_train, X_test= train_test_split(Samples, test_size=0.2, random_state=0)
 #Build model
 model = NVidiaModel()
 
+#Create a tensorboard object
+tensorboard = TensorBoard(log_dir='./logs', histogram_freq=0,
+                          write_graph=True, write_images=False)
+
 #print model summary
 model.summary()
 model.compile(optimizer='adam', loss='mse')
@@ -120,7 +126,8 @@ history_object = model.fit_generator( training_data_gen,
                                       validation_data=validation_data_gen, 
                                       nb_val_samples=len(X_test)*2,
                                       nb_epoch=9,
-                                      verbose=1 )
+                                      verbose=1,
+                                      callbacks=[tensorboard])
 #Saving model
 model.save('model.h5')
 
