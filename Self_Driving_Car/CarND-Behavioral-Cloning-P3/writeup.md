@@ -13,6 +13,25 @@ The goals / steps of this project are the following:
 * Test that the model successfully drives around track one without leaving the road
 * Summarize the results with a written report
 
+
+[//]: # (Image References)
+
+[image1]: ./examples/left_2016_12_01_13_30_48_287.jpg "Left camera image"
+
+[image2]: ./examples/center_2016_12_01_13_30_48_287.jpg "Center camera image"
+
+[image3]: ./examples/right_2016_12_01_13_30_48_287.jpg "Right camera image"
+
+[image4]: ./examples/Model1.PNG "Model (part 1)"
+
+[image5]: ./examples/Model2.PNG "Model (part 2)"
+
+[image6]: ./examples/Model3.PNG "Model (part 3)"
+
+[image7]: ./examples/Training_loss.bmp "Training loss"
+
+[image8]: ./examples/validation_loss.bmp "Validation loss"
+
 ---
 
 This is the third project of the udacity self driving car nano-degree. It is the first neural network regression networkthat I have successfully trained
@@ -34,7 +53,22 @@ and used to autonomously drive a car around a track.
 ---
 ## Architecture and training strategy
 
-1. The training set consists of a collection of triad images ( left camera, center camera and right camera). This is the feature set for regressor.
+1. The training set consists of a collection of triad images ( left camera, center camera and right camera). This is the feature set for regressor. An example of the training set images is seen below:
+
+Left camera image
+![Left camera image][image1]
+
+
+Center camera image
+![Center camera image][image2]
+
+
+Right camera image
+![Right camera image][image3]
+
+
+All the images are treated as a part of the data set irrespective of the camera it came from. A correction factor of -0.25 is applied to the right camera image as position of camera is mounted way on the car's right side. Similarly a correction factor of +0.25 is applied to the left camera. This is to treat as to correct distortions caused by angle of camera placement.
+
 
 2. Alongwith the trio of images is a label called steering angle.
 
@@ -76,14 +110,21 @@ Below is the model detail
 | Eleventh Layer    |  DENSE           |   hidden layer    |     From tenth layer        |     10  output                     |    ELU activation                           |
 | Twelth Layer      |  DENSE           |   output layer    |     From eleventh layer     |     1 steering angle prediction    |    NA                                       |
 
-Though dropout is not mentioned in NVIDIA paper, it was added to avoid overfitting. It also led to a better autonomous driving.
+Though dropout is not mentioned in NVIDIA paper, it was added to avoid overfitting. It also led to a better autonomous driving. The model can also be pictorially seen below. 
+These images were taken from a graph shown by tensorboard
+![Part 1][image4]
+
+![Part 2][image5]
+
+![Part 3][image6]
+
 
 ---
 ## Data Augmentation and overfitting
 
 As the data provided was generic to a single video, the model might overfit. So two things were done to better train and avoid overfitting:
 
-1. For every image in a single batch, an extra image was added which is a flipped copy of the original image. Also the steering angle was compensated by multiplying by 1.0.
+1. For every image in a single batch, an extra image was added which is a flipped copy of the original image. Also the steering angle was compensated by multiplying by -1.0.
 
 2. Two dropouts were added in ninth and tenth layer. An improvement was seen in the autonomous driving.
 
@@ -103,6 +144,15 @@ validation loss was stuck. Most likely this was an overfitting. So I introduced 
 
 ---
 ## Final result
+
+The training and validation loss of the model can be seen below as progressing between different EPOCH's. 
+
+Training loss
+![Training loss][image7]
+
+Validation loss
+![Validation loss][image8]
+
 
 Final result was a very pleasing car driving along the track:
 
