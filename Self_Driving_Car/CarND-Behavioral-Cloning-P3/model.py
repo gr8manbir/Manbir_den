@@ -44,7 +44,6 @@ def NVidiaModel():
     model.add(Dense(10))
     model.add(ELU())
     model.add(Dense(1)) # We want only one steering angle based on input images
-    plot(model, to_file='model.png', show_shaps='true')
     return model
 
 #define the generator
