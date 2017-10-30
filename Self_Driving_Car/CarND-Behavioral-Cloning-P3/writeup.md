@@ -111,11 +111,17 @@ Below is the model detail
 | Twelth Layer      |  DENSE           |   output layer    |     From eleventh layer     |     1 steering angle prediction    |    NA                                       |
 
 Though dropout is not mentioned in NVIDIA paper, it was added to avoid overfitting. It also led to a better autonomous driving. The model can also be pictorially seen below. 
-These images were taken from a graph shown by tensorboard
+These images were taken from a graph shown by tensorboard. The image is split into three for better alignment as tensorboard graph is very large.
+
+Part 1:
 ![Part 1][image4]
 
+
+Part 2:
 ![Part 2][image5]
 
+
+Part 3:
 ![Part 3][image6]
 
 
