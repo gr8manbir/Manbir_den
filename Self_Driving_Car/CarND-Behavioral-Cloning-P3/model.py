@@ -108,7 +108,7 @@ X_train, X_test= train_test_split(Samples, test_size=0.2, random_state=0)
 model = NVidiaModel()
 
 #Create a tensorboard object
-tensorboard = TensorBoard(log_dir='./logs', histogram_freq=0,
+tensorboard = TensorBoard(log_dir='./logs', histogram_freq=1,
                           write_graph=True, write_images=True)
 
 #print model summary
