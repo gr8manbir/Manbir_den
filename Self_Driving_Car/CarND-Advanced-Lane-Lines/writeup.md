@@ -38,6 +38,11 @@ The goals / steps of this project were the following:
 
 [image11]: ./output_images/Image_LaneMapped_curved_yellow2.png "Final Lane mapped yellow on dark road"
 
+[image12]: ./test_images/test1.jpg "Yellow lane on a bright road"
+
+[image13]: ./test_images/test2.jpg "Yellow lane on a dark road"
+
+
 ---
 
 This is the fourth project of the first tem of Udacity's self driving car nano-degree. In this I used computer vision to do the following:
@@ -147,10 +152,10 @@ Sobel thresholds is used to detect edges in an image. This basically works by sp
 The goal of this threshold identification step was to:
 
 1) Identify which of the following sobel thresholds is relevant for lane detection:
-	a. Gradient threshold in X axis: Detect lane lines( or portions thereof ) by measuring the rate of change of gradients for pixels along x axis
-	b. Gradient threshold in Y axis: Detect lane lines( or portions thereof ) by measuring the rate of change of gradients for pixeks along Y axis
-	c. Magnitude of gradient: Detect lane lines( or portions thereof ) by measuring the magnitude of gradient of pixels
-	d. Direction of gradient: Detect lane lines( or portions thereof ) by measuring the angle of gradient of pixels
+		a. Gradient threshold in X axis: Detect lane lines( or portions thereof ) by measuring the rate of change of gradients for pixels along x axis
+		b. Gradient threshold in Y axis: Detect lane lines( or portions thereof ) by measuring the rate of change of gradients for pixeks along Y axis
+		c. Magnitude of gradient: Detect lane lines( or portions thereof ) by measuring the magnitude of gradient of pixels
+		d. Direction of gradient: Detect lane lines( or portions thereof ) by measuring the angle of gradient of pixels
 
 2) Identify best possible threshold values for each of the above 4 sobel parameters.
 
@@ -158,7 +163,7 @@ The goal of this threshold identification step was to:
 
  
 All the above are done by:
-1) Taking a wapred image
+1) Taking a warped image
 2) Using opencv function cv2.sobel to identify x and y pixel gradients.
 3) Performing the mathematical operation necessary. For ex: for magnitude of gradient np.sqrt(sobelx**2 + sobely**2).
 4) Identifying pixels within threshold limits and discarding the rest.
@@ -176,18 +181,103 @@ Result:
 
 ![Sobel thresholds][image4]
 
+---
 
-The plane from which the road lane is viewed is known as it's perspective. In this section my goal was to view the image from a "Bird-eye" perspective i.e. from top-down so that the road lanes appear parallel. Since I do not have the image from bird-eye perspective, the only possible approach is to perspective-transform or warp the image to the desired perspective. TO do this I did the following:
+## Color Thresholds
 
-1) Identify four points on the road so that they form a polygon on the original image. These are marked as '+' in the left handside image.
+A normal image is usually in RGB space. This though sufficient for the human eye is not sufficient for mathematically detecting lanes. The biggest drawbacks of using RGB
+image space are:
 
-2) Map the four points as four corners of a desired shape on the desired image ( bird-eye view ). These are '+'in the right handside image.
+1) It doesn't work very well for lanes in a shaded area
 
-3) Use open CV function cv2.getPerspectiveTransform to get a perspective transformation matrix from the points described above.
+2) It detects yellow lines differently depending on road brightness. This was the biggest hurdle I faced in the project. As an example, refer the below images
+for example of yellow lanes on bright and dark road. This is almost impossible to reliably detect in RGB space.
 
-4) Use open CV function cv2.warpPerspective to warp the image from front view to bird's eye view using the transformation matrix.
+![Yellow Light][image12]
 
-![UnWarped image][image3]
+![Yellow Dark][image13]
+
+
+Color threshold step was used to detect edges in an image. This basically works as follows:
+
+1) Breaking an RGB image down into its R, G and B components
+2) Converting the image to HLS color space.
+3) Breaking the HLS image down into its H, L and S components
+4) Identifying which component works best to detect lanes across "all" sample images
+5) Identifying what threshold values and combination of images work best
+
+Result:
+
+1) All colors in RGB space are useless for project goals. They work for some images but not all.
+2) S, L color space work best for all images.
+3) The best combination is: (S>120 & L>40) | (L>205)
+
+The above result can be easily understood as seen from below sample image:
+
+![Color thresholds][image5]
+
+
+## Combined Thresholds
+
+This is a relatively simple step as we have already separately identified sobel thresholds and color thresholds. So in this step we only combined the both and
+verified it against images to see if combined thresholds can decently identify all components of a road lane.
+
+
+Not much modification was necessary from that already done in sobel and color threshold sections. The below image shows the lane detection combined. The green pixels 
+on the road lane have been detected by sobel thresholds and the blue pixels by L,S colors from HLS color space.
+
+Result:
+
+1) Straight lines are best detected by L,S colors
+2) Curved and short lanes are best detected by Sobel thresholds
+
+
+![Combined thresholds][image6]
+
+
+## Lane detection and curve fitting
+
+This step consists of following mathematical steps:
+
+1) Separating the image into left and right halfs on x axis. This is done to detect left lane in left half and right lane in right half of the image.
+2) Fitting a histogram to identify peaks on bottom left and bottom right portions of an image. These peaks serve as the base for left and right lanes.
+3) Create an empty list of left lane pixels and right lane pixels.
+4) Starting with the base for each lane create a set of windows ( image is split into 9 windows totally ) for each lane. 
+5) Taking left lane as an example: If a non-zero image pixel falls within the left lane window and is within a margin( 100 pixels )from the current left base: add it to the left lane pixel list.
+6) Update left base as the mean of the left lane pixel list.
+7) Repeat the steps 5 and 6 for all 9 vertical windows in the image, dynamically re-centering the window based on pixel mean. ( Do the same for right lane also ). 
+
+
+After the pixels have been found for left and right lanes, the next steps are as follows:
+
+1) Fit a polynomial on the left and right image pixel list. This is done via the following function call:
+
+left_fit = np.polyfit(lefty, leftx, 2)
+
+lefty, leftx are the non-zero pixels on the left lane from the left lane pixel list.
+
+Similarly do the same for right lane.
+
+
+2) From the fitted function, obtain a list of values that lie on the lane curve. For this, we will use the curve co-effecients detected from the np.polyfit call.
+This can be seen as below:
+
+    left_fitx = left_fit[0]*ploty**2 + left_fit[1]*ploty + left_fit[2]
+    right_fitx = right_fit[0]*ploty**2 + right_fit[1]*ploty + right_fit[2]
+
+
+The above is hard to understand textually. The following image shows the above in a pictorial form. In the top right hand side image:
+
+1) The red pixels identify the left lane pixels ( left lane pixel list ).
+
+2) The blue pixels identify the right lane pixels.
+
+3) The green rectangles represent the 9 windows the image was divided into.
+
+4) The yellow lines represent the result of np.polyfit drawn using left_fitx and right_fitx.
+
+![Sliding window][image8]
+
 My pipeline consists of the following steps using CV2.
 
 	a. Taking an image file and converting it from RGB to grayscale and HSV. 
