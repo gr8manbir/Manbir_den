@@ -278,74 +278,76 @@ The above is hard to understand textually. The following image shows the above i
 
 ![Sliding window][image8]
 
-My pipeline consists of the following steps using CV2.
 
-	a. Taking an image file and converting it from RGB to grayscale and HSV. 
-	The grayscale helped in discovering white lanes and HSV is better( not necessary ) for discovering yellow lanes
-	Following is the output of HSV image
+##calculating radius curvature and distance of car from center
 
-![HSV image][image3]
+This step in volved calculating the radius of the lane(s) if any. As a car turns left or right, the car lanes form a cicular curve. The goal of this step was to identify how
+much was the radius of the curve. 
 
-	b. Merging the grayscale image and HSV image so that we have one combined image with both white and yellow lanes.
-	After this I applied Gaussian blur. This helps in removing noise( ultimately less wobbly lanes )
+An  article describing this mathematically can be found at:
 
-	c. The output image of gaussian blur is subjected to canny edge detection to identify edges.
+http://mathworld.wolfram.com/RadiusofCurvature.html
 
-	d. Since we are only interested in the region of the image which describes lanes, the output of canny edge 
-	detection is masked over a rectangular polygon. The resultant image is shown below:
+The mathematical equation relevant for us is 
+R​curve = ​((1+(2Ay+B)^2)^​3/2)/ |2A|
 
-![Masked][image4]
+Here A and B are the co-effecients of curve fit. Previously we had fit a curve in Lane detection step and the pixel values were stored in
+left_fitx and right_fitx. In this step, we do the same fitting but not on pixel values but real distance values.
 
-	e. Next step is to take the masked image and find hough lines from it. This step requires a lot of
-	parameter tuning. Final result( not the same example as point d. ) is shown below:
+The mapping of pixel values is as follows:
 
-![Hough Lines][image5]
+ym_per_pix = 30/720 # meters per pixel in y dimension
 
-	f. The next step is to draw the lines over the original image. This required a lot of fine tuning to
-	draw smooth lines over the real image. Some of the steps are described below:
-	Parse through the list of detected hough lines and do the below for each line
-		i. Check if the slope is -ve(left lane) or +ve(right lane).
-		ii. If the slope meets a certain minimum threshold, add it to a list
-		i.e. either left lane list or right lane list
-		iii. If at the end of parsing through hough lines list, either left or right lane list is empty,
-		return error i.e.no detectable lanes exist
-		iv. Subject the detected left lane list and right lane list to a normal distribution
-		i.e. value of slope < abs( mean slope - 2 * std. deviation )
-		Any slope not a part of the normal distribution is rejected.
-		v. Calculate left and right mean slopes again after rejecting outliers
-		vi. Find mean (x,y)left and (x,y)right from respective lanes
-		vii. From the mean slope and corresponding (x,y), find the mean left and right intercepts
-		viii. Find end points of left and right lane from the slope, intercepts.
-		ix. Using the detected co-ordinates, plot lines over the detected road lanes 
-	
-	g. After repetitive improvement of parameters, following were some of the
-	processed images ( highly satisfying :) )
+xm_per_pix = 3.7/700 # meters per pixel in x dimension
 
-![Final Result][image6]
+Now we can simply multiply left_fitx and right_fitx with xm_per_pix to get actual x co-ordinate values in meters. 
+The y-value(s) are obtained by multiplying random y values with ym_per_pix.
 
-![Another one][image7]
+Then these newly calculated values are fit onto a curve by using np.polyfit() function as follows
 
-2. Next step was to apply the above pipeline to a video stream. A video stream is nothing but a stream of images.
-In the above pipeline, the following modification was needed
+left_fit_cr = np.polyfit(ploty*ym_per_pix, left_fitx*xm_per_pix, 2)
+right_fit_cr = np.polyfit(ploty*ym_per_pix, right_fitx*xm_per_pix, 2)
 
-	a. After the first image has been displayed with the lanes detected, save it globally.
-	b. In subsequent images, do a smoothening by taking 80% of the old image and 20% of the new image
-	c. Repeat the above till the entire stream has been processed.
+These left_fit_cr and right_fit_cr can now be used to calculate RCurve. This is "Radius of Curvature".
+
+Now calculating distance of car from center is easy. We know left_fitx and right_fitx contain pixel values for left and right lane. We simply subtract the last value(s) in this array
+and divide by two to get width of road. Since the camera is in center of car, we can divide image size in x direction by 2 to get position pixel of car in X axis.
+
+Sutracting lane width from car position gives how far is the car from center of the lane.
+​​
+
+## Pipeline creation
+
+The image pipeline simply consists of calling the above steps in sequential order i.e.:
+
+1) Calibrate the camera( done only once )
+2) Undistort the image
+3) Process the image for thresholds( sobel and color ) to identify lane pixels
+4) Transform image perspective to bird-eye
+5) From the bird's eye perspective identify lane curvature using sliding window approach.
+6) Use open CV functions to colour the detected lanes
+7) Calculate radius of curvature and distance from center
+
+The result of this pipeline can be seen in below processed sample images:
+
+![Straight line][image9]
+
+![Yellow lane bright road][image10]
+
+![Yellow lane dark road][image11]
+
+
+Next step was to apply the above pipeline to a video stream. A video stream is nothing but a stream of images.
 
 Below is the result of the above exercise being applied to detect lanes in a video. Clicking on below will open a new window.
-Click on "View Raw" after thatto download and play video.
+Click on "View Raw" after that to download and play video.
 
-![Straight Lanes](./test_videos_output/solidYellowLeft.mp4)
+![Video](./test_videos_output/project_video.mp4)
 
-![Curved Lanes](./test_videos_output/challenge.mp4)
+Due to shortage of time, I was unable to work on the challenge videos unfortunately. Some of the problems, I wish to further work on:
 
+1) Challenge videos
+2) I had a hard time detecting lanes from HSV and RGB images. Probably need to check with more threshold combinations
+3) What if the parallel lanes are intersected by another set of lanes( let's say a 4 way crossing/ stop line ) etc.
 
-The project successfully detects lanes in a video stream even with the challenge video where the road curves a bit. 
-
-
-One potential shortcoming possibly is that the above algorithm might not be able to detect a lane merge from an on-ramp. Also this hasn't 
-been tested on adverse weather/night conditions.
-
-
-A possible improvement would be to fit the lane detection better over less detectable lanes/break in lanes. Also testing on night time driving
-or under rain/snow would be interesting.
+I am not sure if this lane detection in x axis will always be guaranteed. Also there could be a possibility of having very weak or no lanes at all.
