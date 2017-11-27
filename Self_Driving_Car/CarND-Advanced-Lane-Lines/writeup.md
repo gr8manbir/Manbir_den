@@ -3,6 +3,7 @@
 ## Writeup on the technical challenges and approach
 
 **Advanced lane finding project using a polynomial fit**
+
 The goals / steps of this project were the following:
 * Compute the camera calibration matrix and distortion coefficients given a set of chessboard images.
 * Apply a distortion correction to raw images.
@@ -45,7 +46,7 @@ The goals / steps of this project were the following:
 
 ---
 
-This is the fourth project of the first tem of Udacity's self driving car nano-degree. In this I used computer vision to do the following:
+This is the fourth project of the first term of Udacity's self driving car nano-degree. In this I used computer vision to do the following:
 
 1) Use the provided camera chess board images for camera calibration.
 
