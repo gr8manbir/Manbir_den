@@ -40,24 +40,82 @@ The goals / steps of this project were the following:
 
 ---
 
-This is the fourth project of the first tem of Udacity's self driving car nano-degree. :
+This is the fourth project of the first tem of Udacity's self driving car nano-degree. In this I used computer vision to do the following:
 
-1) Setting up the environment for development: Thankfully with past experience in anaconda and jupyter notebooks, this was OK for me.
+1) Use the provided camera chess board images for camera calibration.
 
-2) Delivering the project including the challenge video. 
+2) Undistort the provided images using the camera calibration from step 1.
+
+3) Warp the undistorted images to make it easier to detect lane lines.
+
+4) Try and optimize the various sobel thresholds to detect lanes in an image as much as possible.
+
+5) Try and optimize the various color thresholds to detect lanes in an image as much as possible.
+
+6) Optimize the combination of sobel and color thresholds to best detect lanes in an image.
+
+7) Develop an approach to detect lane pixels and consequently fit them to a left and right lane curvature.
+
+8) From the lane curvature, calculate radius of curvature and distance from center.
+
+9) Create a pipeline to perform all above steps sequentially on an image.
+
+10) Run the pipeline on images streamed from a video file.
 
 
 ---
 
 
-The below section describes how I went about detecting lanes in a car driving video. I divided it into two sections:
+## Camera Calibration:
 
-1. First step is to build a pipeline that takes an image of a vehicle being driven on the road and detect lanes from that image.
-Following are two examples out of the five images. The first one is very simple
-![Simple car on road][image1]
+An image in a real-world is captured by a camera through a lens. This causes two issues:
 
-The second one is a bit more complex
-![Bit more complex][image2]
+1) The light rays tend to bend differently close to the edges of a lens. 
+
+2) The camera might not be in the same 2-D plane as the object beigng captured. 
+
+The above two issues cause a captured image to appear different from the real world. This can cause issues for us as it is very important to accurately detect car lanes. Else our self driving car might not be able to keep itself in lane accurately. To overcome this the approach followed is as follows:
+
+1) From the given chessboard images, detect chessboard corners. This is a 9 by 6 chessboard.
+
+2) A mesh grid of 9 by 6 is created which acts as the best case 9 by 6 grid.
+
+3) The detected chessboard corners are mapped to the mesh grid corners to obtain the "Camera Matrix" and "Distortion co-effecients" of the camera besides other parameters. 
+
+Two CV2 functions were used:
+
+1) cv2.findChessboardCorners(): Returns a list of corners( image points) from a grayscaled image of a 9 by 6 chessboard.
+
+2) cv2.calibrateCamera(): Returns camera matrix, distortion co-effecients etc. when passed a set of image points and object points( from mesh grid ). 
+
+Result: 20 images were provided in the project. Only 14 could accurately be used to detect chessboard corners. which in hindsight appeared sufficient as the project works now.
+
+Following are the 14 images that worked
+
+![Chessboard corners][image1]
+
+
+---
+
+## Undistorting a image
+
+A real world 3D image does not map very well to a captured 2D image. This is because there is no way to accurately represent a z-dimension on a 2D plane. As a result, some inaccuracies tend to develop in a captured image. For example:
+
+1) Objects further away i.e. larger z value tend to appear smaller.
+
+2) Objects close to edges tend to get distorted in shape.
+
+This is again a cause of concern as we want an accurate image of the road to be able to detect road lanes properly. Accuracy is not possible if image is distorted. 
+
+The opencv function cv2.undistort() was used to undistort images. This takes the image, camera matrix and distortion co-effecients as input and returns an undistorted images. 
+
+Following was the result of undistort operation applied on sample images. THe difference is not apparent at first. To observe the difference, consider the following examples:
+
+1) The size of the signboard on the bottom right of the first pair of images differs in size.
+
+2) The tree on the left of the road in the third set of images
+
+![Undistorted images][image2]
 
 My pipeline consists of the following steps using CV2.
 
