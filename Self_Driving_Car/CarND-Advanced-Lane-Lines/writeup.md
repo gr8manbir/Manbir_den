@@ -72,7 +72,7 @@ An image in a real-world is captured by a camera through a lens. This causes two
 
 1) The light rays tend to bend differently close to the edges of a lens. 
 
-2) The camera might not be in the same 2-D plane as the object beigng captured. 
+2) The camera might not be in the same 2-D plane as the object being captured. 
 
 The above two issues cause a captured image to appear different from the real world. This can cause issues for us as it is very important to accurately detect car lanes. Else our self driving car might not be able to keep itself in lane accurately. To overcome this the approach followed is as follows:
 
@@ -88,9 +88,9 @@ Two CV2 functions were used:
 
 2) cv2.calibrateCamera(): Returns camera matrix, distortion co-effecients etc. when passed a set of image points and object points( from mesh grid ). 
 
-Result: 20 images were provided in the project. Only 14 could accurately be used to detect chessboard corners. which in hindsight appeared sufficient as the project works now.
+Result: 20 images were provided in the project. Only 17 could accurately be used to detect chessboard corners. which in hindsight appeared sufficient as the project works now.
 
-Following are the 14 images that worked
+Following are the 17 images that worked
 
 ![Chessboard corners][image1]
 
@@ -117,6 +117,77 @@ Following was the result of undistort operation applied on sample images. THe di
 
 ![Undistorted images][image2]
 
+
+---
+
+## Warping an image
+
+An image as captured is not the best approach to detect road lanes. The reason being that the lane lines tend to converge to a single point in a distance. In real world the lane lines are actually parallel.
+
+The plane from which the road lane is viewed is known as it's perspective. In this section my goal was to view the image from a "Bird-eye" perspective i.e. from top-down so that the road lanes appear parallel. Since I do not have the image from bird-eye perspective, the only possible approach is to perspective-transform or warp the image to the desired perspective. TO do this I did the following:
+
+1) Identify four points on the road so that they form a polygon on the original image. These are marked as '+' in the left handside image.
+
+2) Map the four points as four corners of a desired shape on the desired image ( bird-eye view ). These are '+'in the right handside image.
+
+3) Use open CV function cv2.getPerspectiveTransform to get a perspective transformation matrix from the points described above.
+
+4) Use open CV function cv2.warpPerspective to warp the image from front view to bird's eye view using the transformation matrix.
+
+![Warped image][image3]
+
+
+---
+
+## Sobel Thresholds
+
+Sobel thresholds is used to detect edges in an image. This basically works by specifying a minimum and maximum threshold for gradients of each pixel in an image.
+
+
+The goal of this threshold identification step was to:
+
+1) Identify which of the following sobel thresholds is relevant for lane detection:
+	a. Gradient threshold in X axis: Detect lane lines( or portions thereof ) by measuring the rate of change of gradients for pixels along x axis
+	b. Gradient threshold in Y axis: Detect lane lines( or portions thereof ) by measuring the rate of change of gradients for pixeks along Y axis
+	c. Magnitude of gradient: Detect lane lines( or portions thereof ) by measuring the magnitude of gradient of pixels
+	d. Direction of gradient: Detect lane lines( or portions thereof ) by measuring the angle of gradient of pixels
+
+2) Identify best possible threshold values for each of the above 4 sobel parameters.
+
+3) Identify the combination of the abovethat can best detect lanes ( or portions thereof ).
+
+ 
+All the above are done by:
+1) Taking a wapred image
+2) Using opencv function cv2.sobel to identify x and y pixel gradients.
+3) Performing the mathematical operation necessary. For ex: for magnitude of gradient np.sqrt(sobelx**2 + sobely**2).
+4) Identifying pixels within threshold limits and discarding the rest.
+5) Hit and trial to find best possible thresholds for each of the four parameters.
+6) Hit and trial to find the best possible combination of threshold parameters.
+
+
+Result:
+
+1) Gradient in Y direction is useless for our project goal.
+2) For gradient in X and magnitude threshold limits (30,180) work best.
+3) For direction of gradient: thresholds( 0.3, 1.3) work best. Values below 0.3 add too much noise.
+4) The best possible combination is (grad_x == 1) | ((mag_binary == 1) & (dir_binary == 1))
+5) Even the best possible combination is useless in detecting curved lanes ( Note: we will use colour thresholds for this ).
+
+![Sobel thresholds][image4]
+
+
+The plane from which the road lane is viewed is known as it's perspective. In this section my goal was to view the image from a "Bird-eye" perspective i.e. from top-down so that the road lanes appear parallel. Since I do not have the image from bird-eye perspective, the only possible approach is to perspective-transform or warp the image to the desired perspective. TO do this I did the following:
+
+1) Identify four points on the road so that they form a polygon on the original image. These are marked as '+' in the left handside image.
+
+2) Map the four points as four corners of a desired shape on the desired image ( bird-eye view ). These are '+'in the right handside image.
+
+3) Use open CV function cv2.getPerspectiveTransform to get a perspective transformation matrix from the points described above.
+
+4) Use open CV function cv2.warpPerspective to warp the image from front view to bird's eye view using the transformation matrix.
+
+![UnWarped image][image3]
 My pipeline consists of the following steps using CV2.
 
 	a. Taking an image file and converting it from RGB to grayscale and HSV. 
