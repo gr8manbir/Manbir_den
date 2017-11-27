@@ -18,21 +18,29 @@ The goals / steps of this project were the following:
 
 [image1]: ./output_images/Camera_calibration_1.png "Camera Calibration Image"
 
-[image2]: ./test_images/whiteCarLaneSwitch.jpg "yellow and white lanes"
+[image2]: ./output_images/Image_undistortion.png "Undistorting an Image"
 
-[image3]: ./test_images_output/HSVLane "HSV Image"
+[image3]: ./output_images/Image_warping.png "Warped Image"
 
-[image4]: ./test_images_output/Masked "Masked(Region of Interest)"
+[image4]: ./output_images/Image_thresholding.png "Sobel Threshold Image"
 
-[image5]: ./test_images_output/img_houghLines "Hough Lines"
+[image5]: ./output_images/Image_HLS.png "Colour thresholds for Line detection"
 
-[image6]: ./test_images_output/solidWhiteCurve_WithLanes "Lane Detected"
+[image6]: ./output_images/Image_combinedThresholding.png "Combined thresholds"
 
-[image7]: ./test_images_output/whiteCarLaneSwitch_WithLanes "Mixed lane detected"
+[image7]: ./output_images/Image_LaneDetection.png "Lane detection"
+
+[image8]: ./output_images/Image_LaneDetection_slidingwindow.png "Lane detection with sliding window"
+
+[image9]: ./output_images/Image_LaneMapped_straight.png "Final Lane mapped straight lines"
+
+[image10]: ./output_images/Image_LaneMapped_curved_yellow1.png "Final Lane mapped yellow on bright road"
+
+[image11]: ./output_images/Image_LaneMapped_curved_yellow2.png "Final Lane mapped yellow on dark road"
 
 ---
 
-This is the first project of the udacity self driving car nano-degree. Hence there were two challenges involved in this project:
+This is the fourth project of the first tem of Udacity's self driving car nano-degree. :
 
 1) Setting up the environment for development: Thankfully with past experience in anaconda and jupyter notebooks, this was OK for me.
 
