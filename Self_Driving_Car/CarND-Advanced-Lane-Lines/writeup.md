@@ -345,10 +345,22 @@ Click on "View Raw" after that to download and play video.
 
 ![Video](./test_videos_output/project_video.mp4)
 
+## Final conclusions and future goals
+
 Due to shortage of time, I was unable to work on the challenge videos unfortunately. Some of the problems, I wish to further work on:
 
 1) Challenge videos
-2) I had a hard time detecting lanes from HSV and RGB images. Probably need to check with more threshold combinations
-3) What if the parallel lanes are intersected by another set of lanes( let's say a 4 way crossing/ stop line ) etc.
+2) I had a hard time detecting lanes from HSV and RGB images. Ultimately I was unable to use any of the RGB space colors for lane
+detection. However I could identify lanes in L and S image color space. Probably need to check with more threshold combinations
+3) I also missed undistorting the image in the image pipeline. This was pointed out by the reviewer and thanks to the reviewer
+I could figure out the difference between a distorted and an undistorted video stream.
 
-I am not sure if this lane detection in x axis will always be guaranteed. Also there could be a possibility of having very weak or no lanes at all.
+Things that I think my pipeline will not be able to distinguish:
+
+1) What if the parallel lanes are intersected by another set of lanes( let's say a 4 way crossing/ stop line ) etc.
+2) I am not sure if this lane detection in x axis will be guaranteed if the lines are very weak or no lanes exist at all.
+3) In night time, the lanes would not be so visible unless they are reflective. This might cause issues with lane detection though
+without testing I would not know.
+4) Also conditions like snow/rain would be interesting. Snow could partially cover the lanes which might reduce the lane detection. As 
+we see under rainy conditions that identifying lanes is not easy in real life. Cameras also might face the same issues as humans. If camera
+is unable to get a clear view of the lanes, this might reduce the effectiveness of lane detection as well.
