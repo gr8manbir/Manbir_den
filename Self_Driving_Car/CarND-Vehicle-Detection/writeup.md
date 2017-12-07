@@ -225,94 +225,53 @@ This will generate a heatmap i.e. pixels will be coloured for all detections and
 
 ![Heat map][image5]
 
-As can be seen in the above image, 3 cars were detected though only 2 cars were present. We notice that the left most heat region is a very lightly colored region. This is because it was detected only by 1 box.
+3) As can be seen in the above image, 3 cars were detected though only 2 cars were present. We notice that the left most heat region is a very lightly colored region. This is because it was detected only by 1 box. We can remove this by rejecting all pixels in a heat map whose count is below a threshold. We chose a threshold of 1 for this project as it worked optimally. The thresholded image can be seen below:
+
+![Heat map with thresholds][image6]
 
 
+4) Using a API from scipy.ndimage.measurements library, we convert the heatmap into a label image. This basically converts a sequence of neighboring elements in a 2D array into an image. For this all pixels adjacent row wise and column wise a single label is generated. This label is now the bounding region for our car and we store this. The result of a heatmap to a label conversion can be seen below:
 
-![Sliding window][image8]
+![Heat map to label][image7]
+
+5) By concatenating the original image with the bounding region identified by labels image, we get our final result i.e. an image where a car is bounded by a box. This can be seen as below:
+
+![Result image][image8]
 
 
-##calculating radius curvature and distance of car from center
+##Applying pipeline to a video stream
 
-This step in volved calculating the radius of the lane(s) if any. As a car turns left or right, the car lanes form a cicular curve. The goal of this step was to identify how
-much was the radius of the curve. 
+This step simply consists of applying the "Car detection using sliding window" and "Reducing false positives" steps over a stream of images. However there is a slight caveat. As the car moves in a video stream, the size of bounding box will change and thus make it wobbly. 
 
-An  article describing this mathematically can be found at:
+To overcome this we do the folowing:
 
-http://mathworld.wolfram.com/RadiusofCurvature.html
+1) Instead of using the heatmap over the bounding boxes in the latest image, we generate a heatmap over the last 10 bounding boxes ( even if it is over the previous images )
 
-The mathematical equation relevant for us is 
-R​curve = ​((1+(2Ay+B)^2)^​3/2)/ |2A|
+2) We then appropriately modify the threshold to use a value proportional to the bounding boxes list instead of 1.
 
-Here A and B are the co-effecients of curve fit. Previously we had fit a curve in Lane detection step and the pixel values were stored in
-left_fitx and right_fitx. In this step, we do the same fitting but not on pixel values but real distance values.
-
-The mapping of pixel values is as follows:
-
-ym_per_pix = 30/720 # meters per pixel in y dimension
-
-xm_per_pix = 3.7/700 # meters per pixel in x dimension
-
-Now we can simply multiply left_fitx and right_fitx with xm_per_pix to get actual x co-ordinate values in meters. 
-The y-value(s) are obtained by multiplying random y values with ym_per_pix.
-
-Then these newly calculated values are fit onto a curve by using np.polyfit() function as follows
-
-left_fit_cr = np.polyfit(ploty*ym_per_pix, left_fitx*xm_per_pix, 2)
-right_fit_cr = np.polyfit(ploty*ym_per_pix, right_fitx*xm_per_pix, 2)
-
-These left_fit_cr and right_fit_cr can now be used to calculate RCurve. This is "Radius of Curvature".
-
-Now calculating distance of car from center is easy. We know left_fitx and right_fitx contain pixel values for left and right lane. We simply subtract the last value(s) in this array
-and divide by two to get width of road. Since the camera is in center of car, we can divide image size in x direction by 2 to get position pixel of car in X axis.
-
-Sutracting lane width from car position gives how far is the car from center of the lane.
+The above has an effect of smoothening the image stream though it is not perfect as it will also do the smoothening for false positives ( if any ).
 ​​
 
-## Pipeline creation
-
-The image pipeline simply consists of calling the above steps in sequential order i.e.:
-
-1) Calibrate the camera( done only once )
-2) Undistort the image
-3) Process the image for thresholds( sobel and color ) to identify lane pixels
-4) Transform image perspective to bird-eye
-5) From the bird's eye perspective identify lane curvature using sliding window approach.
-6) Use open CV functions to colour the detected lanes
-7) Calculate radius of curvature and distance from center
-
-The result of this pipeline can be seen in below processed sample images:
-
-![Straight line][image9]
-
-![Yellow lane bright road][image10]
-
-![Yellow lane dark road][image11]
-
-
-Next step was to apply the above pipeline to a video stream. A video stream is nothing but a stream of images.
-
-Below is the result of the above exercise being applied to detect lanes in a video. Clicking on below will open a new window.
+Below is the result of the above exercise being applied to detect vehicles in a video. Clicking on below will open a new window.
 Click on "View Raw" after that to download and play video.
 
 ![Video](./test_videos_output/project_video.mp4)
 
-## Final conclusions and future goals
+## Issues faced/limitations of solution
 
-Due to shortage of time, I was unable to work on the challenge videos unfortunately. Some of the problems, I wish to further work on:
 
-1) Challenge videos
-2) I had a hard time detecting lanes from HSV and RGB images. Ultimately I was unable to use any of the RGB space colors for lane
-detection. However I could identify lanes in L and S image color space. Probably need to check with more threshold combinations
-3) I also missed undistorting the image in the image pipeline. This was pointed out by the reviewer and thanks to the reviewer
-I could figure out the difference between a distorted and an undistorted video stream.
+1) The above algorithm simply did not work on Linux. This was probably due to maximum RAM size set in the virtual machine. So I moved to windows.
 
-Things that I think my pipeline will not be able to distinguish:
+2) The colorspace had to be chosen carefully. All colorspaces had some or the other limitations. RGB was smoothest but had issues detecting the white car.
 
-1) What if the parallel lanes are intersected by another set of lanes( let's say a 4 way crossing/ stop line ) etc.
-2) I am not sure if this lane detection in x axis will be guaranteed if the lines are very weak or no lanes exist at all.
-3) In night time, the lanes would not be so visible unless they are reflective. This might cause issues with lane detection though
-without testing I would not know.
-4) Also conditions like snow/rain would be interesting. Snow could partially cover the lanes which might reduce the lane detection. As 
-we see under rainy conditions that identifying lanes is not easy in real life. Cameras also might face the same issues as humans. If camera
-is unable to get a clear view of the lanes, this might reduce the effectiveness of lane detection as well.
+3) Deciding the regions and scales to be used for each region for sliding window approach was a challenge. This was solved by printing all the bounding boxes.
+
+4) Also I chose to remove all pixel values with x less then 450 as my car was in the leftmost lane. So this algorithm might not work for all scenario's
+
+Possible further improvements:
+
+1) Augmenting the image set. As the image set was small and many images were from a serial stream, the training might not have been perfect and might actually be overfitting. 
+
+2) Need to better identify the color pixels and histogram. The color space chosen was HSV. We might be better off by choosing of a combination of channels like B from RGB, S from HLS etc.
+
+3) The current solution does not separate cars close to each other as seen in the video stream. They are displayed as one giant box. This might be possible room for improvement.
