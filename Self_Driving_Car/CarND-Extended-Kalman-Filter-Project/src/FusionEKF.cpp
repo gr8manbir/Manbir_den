@@ -37,7 +37,9 @@ FusionEKF::FusionEKF() {
     * Set the process and measurement noises
   */
 
-
+  //Keeping standard deviation low. Assuming sensors work well.
+  noise_ax = 1; 
+  noise_ay = 1;
 }
 
 /**
@@ -63,17 +65,62 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
     ekf_.x_ = VectorXd(4);
     ekf_.x_ << 1, 1, 1, 1;
 
-    if (measurement_pack.sensor_type_ == MeasurementPackage::RADAR) {
+    // Set prediction uncertainty very high as compared to R initially( S=HPHT +R )
+    MatrixXd P_ = MatrixXd(4, 4);
+    P_ << 1, 0, 0, 0,
+          0, 1, 0, 0,
+          0, 0, 1000, 0,
+          0, 0, 0, 1000;
+
+    // Consider 1 as delta t initially(never used) and 1 as noise to calculate covariance for prediction(p! = FPFT +Q )
+    MatrixXd Q_ = MatrixXd(4,4);
+    Q_ << 1, 0, 1, 0,
+          0, 1, 0, 1,
+          0, 0, 1, 0,
+          0, 0, 0, 1;
+   
+    // F function (p1 = p0 + ut) or x' = Fx. Never used but still init (for code clarity)
+    MatrixXd F_ = MatrixXd(4,4);
+    F_ << 1, 0, 1, 0,
+          0, 1, 0, 1,
+          0, 0, 1, 0,
+          0, 0, 0, 1;
+
+    H_laser_ << 1, 0, 0, 0,
+                0, 1, 0, 0;
+
+
+    //H for Radar i.e. Hj is jacobian. So not initialized
+
+
+    float px =0.0, py=0.0;
+    float vx =0.0, vy=0.0;
+
+    if (measurement_pack.sensor_type_ == MeasurementPackage::RADAR) 
+    {
+      float rho = measurement_pack.raw_measurements_[0];
+      float phi = measurement_pack.raw_measurements_[1];
+      float rhoDot = measurement_pack.raw_measurements_[2];
       /**
       Convert radar from polar to cartesian coordinates and initialize state.
       */
+      /* x is vertical axis, y is horizontal. Cos(angle) = adj/hyp. Therefore: */
+      px = rho *cos(phi);
+      py = rho *sin(phi);
+      //TODO: vx, vy should ideally be fetched from Radar data. How?
     }
     else if (measurement_pack.sensor_type_ == MeasurementPackage::LASER) {
       /**
       Initialize state.
       */
+      //Easier for LASER
+      px = measurement_pack.raw_measurements_[0];
+      py = measurement_pack.raw_measurements_[1];
     }
 
+    ekf_.x_ << px, py,vx,vy;
+    //Initialize all constants - will be re-calculated anyway 
+    ekf_.init(ekf_.x_, P_, F_, H_laser_, R_laser_, Q_); 
     // done initializing, no need to predict or update
     is_initialized_ = true;
     return;
