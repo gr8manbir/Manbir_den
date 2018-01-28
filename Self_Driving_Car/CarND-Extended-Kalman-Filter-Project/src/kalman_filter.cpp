@@ -78,11 +78,10 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
   //Normalize angle i.e. y(1)
   
   //Normalization: https://stackoverflow.com/questions/24234609/standard-way-to-normalize-an-angle-to-%CF%80-radians-in-java
-  /*double width = 2 * PI;   //
+  double width = 2 * PI; 
   double offsetValue = y(1) + PI;   // value relative to 0
-  y(1) = (offsetValue - (floor(offsetValue / width) * width)) - M_PI;
-  */
-  y(1) = y(1) - (floor((y(1)+PI)/2*PI)*2*PI);
+  y(1) = (offsetValue - (floor(offsetValue / width) * width)) - PI;
+  
   MatrixXd Ht = H_.transpose();
   MatrixXd S = H_ * P_ * Ht + R_;
   MatrixXd Si = S.inverse();
