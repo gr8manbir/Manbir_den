@@ -3,6 +3,7 @@
 using Eigen::MatrixXd;
 using Eigen::VectorXd;
 
+#define PI 3.141592
 // Please note that the Eigen library does not initialize 
 // VectorXd or MatrixXd objects with zeros upon creation.
 
@@ -66,7 +67,7 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
   float vy = x_[3];
 
   float rho = sqrt(px*px + py*py);
-  float phi = atan(py/px); // CHECK later: No need to normalize with atan but needed with atan2 ??
+  float phi = atan2(py/px); 
   float rho_dot = (px*vx+py*vy)/rho;
 
   VectorXd hx = VectorXd(3);
@@ -74,6 +75,10 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
 
   //Use equations from class
   VectorXd y = z - hx;
+  //Normalize angle i.e. y(1)
+  if( y(1) > PI ) y(1) = y(1)-2*PI;
+  if( y(1) < PI ) y(1) = y(1)+2*PI;
+  
   MatrixXd Ht = H_.transpose();
   MatrixXd S = H_ * P_ * Ht + R_;
   MatrixXd Si = S.inverse();
