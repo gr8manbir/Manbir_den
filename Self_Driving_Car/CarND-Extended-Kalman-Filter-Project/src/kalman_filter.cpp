@@ -56,7 +56,7 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
   TODO:
     * update the state by using Extended Kalman Filter equations
   */
-  // 1. algo - convert stored x to polar. Hint: we need to apply jacobian as data won't be gaussianin z
+  // 1. algo - convert stored x to polar. Hint: we need to apply jacobian as data won't be gaussian in z
   // 2. Apply kalman equations
 
   // Get px, py, vx, vy from x_
@@ -73,6 +73,7 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
   hx << rho, phi, rho_dot;
 
   //Use equations from class
+  VectorXd y = z - hx;
   MatrixXd Ht = H_.transpose();
   MatrixXd S = H_ * P_ * Ht + R_;
   MatrixXd Si = S.inverse();
