@@ -150,8 +150,8 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
   
   /* If dt is very small, we should not predict again as values won't change but it will mess
      up calculations */
-  if( dt > 0.001)
-  {
+  //if( dt > 0.001)
+  //{
 	
 	float dt_2 = dt * dt;
 	float dt_3 = dt_2 * dt;
@@ -166,7 +166,7 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
 			0, dt_3/2.0*noise_ay, 0, dt_2*noise_ay;
 
 	ekf_.Predict();
-  }
+  //}
 
   /*****************************************************************************
    *  Update
