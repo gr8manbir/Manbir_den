@@ -71,7 +71,7 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
   float rho_dot;
   if(fabs(rho) < 0.001)
   {
-  	rho_dot = 0;
+  	rho_dot = 0.0;
   }
   else
   {	  
@@ -85,7 +85,7 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
   //Normalize angle i.e. y(1)
   
   //Normalization: https://stackoverflow.com/questions/24234609/standard-way-to-normalize-an-angle-to-%CF%80-radians-in-java
-  double width = 2 * PI; 
+  double width = 2.0 * PI; 
   double offsetValue = y(1) + PI;   // value relative to 0
   y(1) = (offsetValue - (floor(offsetValue / width) * width)) - PI;
   

@@ -60,31 +60,31 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
     // first measurement
     cout << "EKF: " << endl;
     ekf_.x_ = VectorXd(4);
-    ekf_.x_ << 1, 1, 1, 1;
+    ekf_.x_ << 1.0, 1.0, 1.0, 1.0;
 
     // Set prediction uncertainty very high as compared to R initially( S=HPHT +R )
     MatrixXd P_ = MatrixXd(4, 4);
-    P_ << 1, 0, 0, 0,
-          0, 1, 0, 0,
-          0, 0, 1000, 0,
-          0, 0, 0, 1000;
+    P_ << 1.0, 0.0, 0.0, 0.0,
+          0.0, 1.0, 0.0, 0.0,
+          0.0, 0.0, 1000.0, 0.0,
+          0.0, 0.0, 0.0, 1000.0;
 
     // Consider 1 as delta t initially(never used) and 1 as noise to calculate covariance for prediction(p! = FPFT +Q )
     MatrixXd Q_ = MatrixXd(4,4);
-    Q_ << 1, 0, 1, 0,
-          0, 1, 0, 1,
-          0, 0, 1, 0,
-          0, 0, 0, 1;
+    Q_ << 1.0, 0.0, 1.0, 0.0,
+          0.0, 1.0, 0.0, 1.0,
+          0.0, 0.0, 1.0, 0.0,
+          0.0, 0.0, 0.0, 1.0;
    
     // F function (p1 = p0 + ut) or x' = Fx. Never used but still init (for code clarity)
     MatrixXd F_ = MatrixXd(4,4);
-    F_ << 1, 0, 1, 0,
-          0, 1, 0, 1,
-          0, 0, 1, 0,
-          0, 0, 0, 1;
+    F_ << 1.0, 0.0, 1.0, 0.0,
+          0.0, 1.0, 0.0, 1.0,
+          0.0, 0.0, 1.0, 0.0,
+          0.0, 0.0, 0.0, 1.0;
 
-    H_laser_ << 1, 0, 0, 0,
-                0, 1, 0, 0;
+    H_laser_ << 1.0, 0.0, 0.0, 0.0,
+                0.0, 1.0, 0.0, 0.0;
 
 
     //H for Radar i.e. Hj is jacobian. So not initialized
@@ -120,8 +120,8 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
 
     ekf_.x_ << px, py,vx,vy;
 	//We don't want px and py to be zero as it will cause issues with atan2() in UpdateEKF
-	if( ekf_.x_[0] < 0.01 ) ekf_.x_[0] = 0.01;
-	if( ekf_.x_[1] < 0.01 ) ekf_.x_[1] = 0.01;
+	if( fabs(ekf_.x_[0]) < 0.01 ) ekf_.x_[0] = 0.01;
+	if( fabs(ekf_.x_[1]) < 0.01 ) ekf_.x_[1] = 0.01;
 	
     //Initialize all constants - will be re-calculated anyway 
     ekf_.Init(ekf_.x_, P_, F_, H_laser_, R_laser_, Q_); 
@@ -160,10 +160,10 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
 	ekf_.F_(0,2) = dt;
 	ekf_.F_(1,3) = dt;
 
-	ekf_.Q_ <<  dt_4/4.0*noise_ax, 0, dt_3/2.0*noise_ax, 0,
-			0, dt_4/4.0*noise_ay, 0, dt_3/2.0*noise_ay,
-			dt_3/2.0*noise_ax, 0, dt_2*noise_ax, 0,
-			0, dt_3/2.0*noise_ay, 0, dt_2*noise_ay;
+	ekf_.Q_ <<  dt_4/4.0*noise_ax, 0.0, dt_3/2.0*noise_ax, 0.0,
+			0.0, dt_4/4.0*noise_ay, 0.0, dt_3/2.0*noise_ay,
+			dt_3/2.0*noise_ax, 0.0, dt_2*noise_ax, 0.0,
+			0.0, dt_3/2.0*noise_ay, 0.0, dt_2*noise_ay;
 
 	ekf_.Predict();
   }
