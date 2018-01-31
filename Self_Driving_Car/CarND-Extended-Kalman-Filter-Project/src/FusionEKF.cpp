@@ -104,7 +104,10 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
       /* x is vertical axis, y is horizontal. Cos(angle) = adj/hyp. Therefore: */
       px = rho *cos(phi);
       py = rho *sin(phi);
-      //TODO: vx, vy should ideally be fetched from Radar data. How?
+      //TODO: vx, vy should ideally be fetched from Radar data. below is rough estimation(try 1 later). 
+	  //Makes a difference in Jacobian calculation?
+	  vx = rhoDot*cos(phi);
+	  vy = rhoDot*sin(phi);
     }
     else if (measurement_pack.sensor_type_ == MeasurementPackage::LASER) {
       /**
@@ -139,8 +142,8 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
      * Use noise_ax = 9 and noise_ay = 9 for your Q matrix.
    */
   //Keeping standard deviation low. Assuming sensors work well.
-  float noise_ax = 9; 
-  float noise_ay = 9;
+  float noise_ax = 9.0; 
+  float noise_ay = 9.0;
 
   float dt = (measurement_pack.timestamp_ - previous_timestamp_) / 1000000.0;	//dt - expressed in seconds
   previous_timestamp_ = measurement_pack.timestamp_;
@@ -157,10 +160,10 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
 	ekf_.F_(0,2) = dt;
 	ekf_.F_(1,3) = dt;
 
-	ekf_.Q_ <<  dt_4/4*noise_ax, 0, dt_3/2*noise_ax, 0,
-			0, dt_4/4*noise_ay, 0, dt_3/2*noise_ay,
-			dt_3/2*noise_ax, 0, dt_2*noise_ax, 0,
-			0, dt_3/2*noise_ay, 0, dt_2*noise_ay;
+	ekf_.Q_ <<  dt_4/4.0*noise_ax, 0, dt_3/2.0*noise_ax, 0,
+			0, dt_4/4.0*noise_ay, 0, dt_3/2.0*noise_ay,
+			dt_3/2.0*noise_ax, 0, dt_2*noise_ax, 0,
+			0, dt_3/2.0*noise_ay, 0, dt_2*noise_ay;
 
 	ekf_.Predict();
   }
