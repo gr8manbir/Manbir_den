@@ -16,7 +16,7 @@ VectorXd Tools::CalculateRMSE(const vector<VectorXd> &estimations,
     * Calculate the RMSE here.
   */
   VectorXd rmse(4);
-  rmse << 0.0,0.0,0.0,0.0;
+  rmse << 0,0,0,0;
 
   // check the validity of the following inputs:
   //  * the estimation vector size should not be zero
@@ -62,22 +62,20 @@ MatrixXd Tools::CalculateJacobian(const VectorXd& x_state) {
   float vy = x_state(3);
 
   //Avoid zero in dr values
-  if( fabs(px) < 0.01 ) px = 0.01;
-  if( fabs(py) < 0.01 ) py = 0.01;
+  if( fabs(px) < 0.0001 ) px = 0.0001;
+  if( fabs(py) < 0.0001 ) py = 0.0001;
   
   //pre-compute a set of terms to avoid repeated calculation
   float c1 = px*px+py*py;
   
   //c1 should not be zero
-  if( c1 < 0.01 ) c1 = 0.01;
+  if( fabs(c1) < 0.000001 ) c1 = 0.000001;
   float c2 = sqrt(c1);
-  if(c2 < 0.01 ) c2 = 0.01;
   float c3 = (c1*c2);
-  if( c3 < 0.01 ) c3 = 0.01;
 
   //compute the Jacobian matrix
-  Hj << (px/c2), (py/c2), 0.0, 0.0,
-	  -(py/c1), (px/c1), 0.0, 0.0,
+  Hj << (px/c2), (py/c2), 0, 0,
+	  -(py/c1), (px/c1), 0, 0,
 	  py*(vx*py - vy*px)/c3, px*(px*vy - py*vx)/c3, px/c2, py/c2;
 
   return Hj;

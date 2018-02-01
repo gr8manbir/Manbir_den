@@ -42,12 +42,11 @@ void KalmanFilter::Update(const VectorXd &z) {
   MatrixXd Ht = H_.transpose();
   MatrixXd S = H_ * P_ * Ht + R_;
   MatrixXd Si = S.inverse();
-  MatrixXd PHt = P_ * Ht;
-  MatrixXd K = PHt * Si;
+  MatrixXd K = P_ * Ht * Si;
 
   //new estimate
   x_ = x_ + (K * y);
-  long x_size = x_.size();
+  int x_size = x_.size();
   MatrixXd I = MatrixXd::Identity(x_size, x_size);
   P_ = (I - K * H_) * P_;
 }
@@ -72,7 +71,6 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
   if(rho < 0.01)
   {
   	rho_dot = 0.0;
-	rho = 0.01;
   }
   else
   {	  
@@ -86,22 +84,19 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
   //Normalize angle i.e. y(1)
   
   //Normalization: https://stackoverflow.com/questions/24234609/standard-way-to-normalize-an-angle-to-%CF%80-radians-in-java
-  //float width = 2.0 * PI; 
-  //float offsetValue = y(1) + PI;   // value relative to 0
-  //y(1) = (offsetValue - (floor(offsetValue / width) * width)) - PI;
+  float width = 2.0 * PI; 
+  float offsetValue = y(1) + PI;   // value relative to 0
+  y(1) = (offsetValue - (floor(offsetValue / width) * width)) - PI;
   
-  while(y(1) > PI ) y(1) -= 2*PI;
-  while(y(1) < PI ) y(1) += 2*PI;
   
   MatrixXd Ht = H_.transpose();
   MatrixXd S = H_ * P_ * Ht + R_;
   MatrixXd Si = S.inverse();
-  MatrixXd PHt = P_ * Ht;
-  MatrixXd K = PHt * Si;
+  MatrixXd K = P_ * Ht * Si;
 
   //new estimate
   x_ = x_ + (K * y);
-  long x_size = x_.size();
+  int x_size = x_.size();
   MatrixXd I = MatrixXd::Identity(x_size, x_size);
   P_ = (I - K * H_) * P_;
 }
