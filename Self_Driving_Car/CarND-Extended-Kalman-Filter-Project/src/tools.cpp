@@ -69,9 +69,11 @@ MatrixXd Tools::CalculateJacobian(const VectorXd& x_state) {
   float c1 = px*px+py*py;
   
   //c1 should not be zero
-  if( fabs(c1) < 0.001 ) c1 = 0.001;
+  if( c1 < 0.001 ) c1 = 0.001;
   float c2 = sqrt(c1);
+  if(c2 < 0.001 ) c2 = 0.001;
   float c3 = (c1*c2);
+  if( c3 < 0.001 ) c3 = 0.001;
 
   //compute the Jacobian matrix
   Hj << (px/c2), (py/c2), 0.0, 0.0,
