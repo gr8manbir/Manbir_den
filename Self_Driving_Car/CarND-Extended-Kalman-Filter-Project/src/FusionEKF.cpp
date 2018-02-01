@@ -124,7 +124,7 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
 	if( ekf_.x_[1] < 0.001 ) ekf_.x_[1] = 0.001;
 	
     //Initialize all constants - will be re-calculated anyway 
-    //ekf_.Init(ekf_.x_, P_, F_, H_laser_, R_laser_, Q_); 
+    ekf_.Init(ekf_.x_, P_, F_, H_laser_, R_laser_, Q_); 
     // done initializing, no need to predict or update
     is_initialized_ = true;
     return;
