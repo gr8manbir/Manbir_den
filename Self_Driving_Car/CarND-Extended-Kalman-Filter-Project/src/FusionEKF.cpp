@@ -106,8 +106,8 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
       py = rho *sin(phi);
       //TODO: vx, vy should ideally be fetched from Radar data. below is rough estimation(try 1 later). 
 	  //Makes a difference in Jacobian calculation?
-	  vx = rhoDot*cos(phi);
-	  vy = rhoDot*sin(phi);
+	  //vx = rhoDot*cos(phi);
+	  //vy = rhoDot*sin(phi);
     }
     else if (measurement_pack.sensor_type_ == MeasurementPackage::LASER) {
       /**
@@ -120,8 +120,8 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
 
     ekf_.x_ << px, py,vx,vy;
 	//We don't want px and py to be zero as it will cause issues with atan2() in UpdateEKF
-	if( ekf_.x_[0] < 0.001 ) ekf_.x_[0] = 0.001;
-	if( ekf_.x_[1] < 0.001 ) ekf_.x_[1] = 0.001;
+	if( ekf_.x_[0] < 0.01 ) ekf_.x_[0] = 0.01;
+	if( ekf_.x_[1] < 0.01 ) ekf_.x_[1] = 0.01;
 	
     //Initialize all constants - will be re-calculated anyway 
     ekf_.Init(ekf_.x_, P_, F_, H_laser_, R_laser_, Q_); 
