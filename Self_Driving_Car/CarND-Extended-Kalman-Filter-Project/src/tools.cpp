@@ -62,8 +62,8 @@ MatrixXd Tools::CalculateJacobian(const VectorXd& x_state) {
   float vy = x_state(3);
 
   //Avoid zero in dr values
-  if( fabs(px) < 0.001 ) px = 0.001;
-  if( fabs(py) < 0.001 ) py = 0.001;
+  if( px < 0.001 ) px = 0.001;
+  if( py < 0.001 ) py = 0.001;
   
   //pre-compute a set of terms to avoid repeated calculation
   float c1 = px*px+py*py;
