@@ -90,14 +90,14 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
     //H for Radar i.e. Hj is jacobian. So not initialized
 
 
-    double px =0.0, py=0.0;
-    double vx =0.0, vy=0.0;
+    float px =0.0, py=0.0;
+    float vx =0.0, vy=0.0;
 
     if (measurement_pack.sensor_type_ == MeasurementPackage::RADAR) 
     {
-      double rho = measurement_pack.raw_measurements_[0];
-      double phi = measurement_pack.raw_measurements_[1];
-      double rhoDot = measurement_pack.raw_measurements_[2];
+      float rho = measurement_pack.raw_measurements_[0];
+      float phi = measurement_pack.raw_measurements_[1];
+      float rhoDot = measurement_pack.raw_measurements_[2];
       /**
       Convert radar from polar to cartesian coordinates and initialize state.
       */
@@ -142,10 +142,10 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
      * Use noise_ax = 9 and noise_ay = 9 for your Q matrix.
    */
   //Keeping standard deviation low. Assuming sensors work well.
-  double noise_ax = 9.0; 
-  double noise_ay = 9.0;
+  float noise_ax = 9.0; 
+  float noise_ay = 9.0;
 
-  double dt = (measurement_pack.timestamp_ - previous_timestamp_) / 1000000.0;	//dt - expressed in seconds
+  float dt = (measurement_pack.timestamp_ - previous_timestamp_) / 1000000.0;	//dt - expressed in seconds
   previous_timestamp_ = measurement_pack.timestamp_;
   
   /* If dt is very small, we should not predict again as values won't change but it will mess
@@ -153,9 +153,9 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
   if( dt > 0.001)
   {
 	
-	double dt_2 = dt * dt;
-	double dt_3 = dt_2 * dt;
-	double dt_4 = dt_3 * dt;
+	float dt_2 = dt * dt;
+	float dt_3 = dt_2 * dt;
+	float dt_4 = dt_3 * dt;
 	
 	ekf_.F_(0,2) = dt;
 	ekf_.F_(1,3) = dt;

@@ -61,14 +61,14 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
   // 2. Apply kalman equations
 
   // Get px, py, vx, vy from x_
-  double px = x_[0];
-  double py = x_[1];
-  double vx = x_[2];
-  double vy = x_[3];
+  float px = x_[0];
+  float py = x_[1];
+  float vx = x_[2];
+  float vy = x_[3];
 
-  double rho = sqrt(px*px + py*py);
-  double phi = atan2(py,px);
-  double rho_dot;
+  float rho = sqrt(px*px + py*py);
+  float phi = atan2(py,px);
+  float rho_dot;
   if(rho < 0.001)
   {
   	rho_dot = 0.0;
@@ -85,8 +85,8 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
   //Normalize angle i.e. y(1)
   
   //Normalization: https://stackoverflow.com/questions/24234609/standard-way-to-normalize-an-angle-to-%CF%80-radians-in-java
-  double width = 2.0 * PI; 
-  double offsetValue = y(1) + PI;   // value relative to 0
+  float width = 2.0 * PI; 
+  float offsetValue = y(1) + PI;   // value relative to 0
   y(1) = (offsetValue - (floor(offsetValue / width) * width)) - PI;
   
   MatrixXd Ht = H_.transpose();
