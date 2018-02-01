@@ -61,15 +61,15 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
   // 2. Apply kalman equations
 
   // Get px, py, vx, vy from x_
-  float px = x_[0];
-  float py = x_[1];
-  float vx = x_[2];
-  float vy = x_[3];
+  double px = x_[0];
+  double py = x_[1];
+  double vx = x_[2];
+  double vy = x_[3];
 
-  float rho = sqrt(px*px + py*py);
-  float phi = atan2(py,px);
-  float rho_dot;
-  if(fabs(rho) < 0.001)
+  double rho = sqrt(px*px + py*py);
+  double phi = atan2(py,px);
+  double rho_dot;
+  if(rho < 0.001)
   {
   	rho_dot = 0.0;
   }

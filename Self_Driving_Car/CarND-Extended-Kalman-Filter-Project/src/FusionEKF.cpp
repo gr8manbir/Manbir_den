@@ -90,14 +90,14 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
     //H for Radar i.e. Hj is jacobian. So not initialized
 
 
-    float px =0.0, py=0.0;
-    float vx =0.0, vy=0.0;
+    double px =0.0, py=0.0;
+    double vx =0.0, vy=0.0;
 
     if (measurement_pack.sensor_type_ == MeasurementPackage::RADAR) 
     {
-      float rho = measurement_pack.raw_measurements_[0];
-      float phi = measurement_pack.raw_measurements_[1];
-      float rhoDot = measurement_pack.raw_measurements_[2];
+      double rho = measurement_pack.raw_measurements_[0];
+      double phi = measurement_pack.raw_measurements_[1];
+      double rhoDot = measurement_pack.raw_measurements_[2];
       /**
       Convert radar from polar to cartesian coordinates and initialize state.
       */
@@ -120,8 +120,8 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
 
     ekf_.x_ << px, py,vx,vy;
 	//We don't want px and py to be zero as it will cause issues with atan2() in UpdateEKF
-	if( fabs(ekf_.x_[0]) < 0.01 ) ekf_.x_[0] = 0.01;
-	if( fabs(ekf_.x_[1]) < 0.01 ) ekf_.x_[1] = 0.01;
+	if( ekf_.x_[0] < 0.001 ) ekf_.x_[0] = 0.001;
+	if( ekf_.x_[1] < 0.001 ) ekf_.x_[1] = 0.001;
 	
     //Initialize all constants - will be re-calculated anyway 
     ekf_.Init(ekf_.x_, P_, F_, H_laser_, R_laser_, Q_); 
@@ -142,10 +142,10 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
      * Use noise_ax = 9 and noise_ay = 9 for your Q matrix.
    */
   //Keeping standard deviation low. Assuming sensors work well.
-  float noise_ax = 9.0; 
-  float noise_ay = 9.0;
+  double noise_ax = 9.0; 
+  double noise_ay = 9.0;
 
-  float dt = (measurement_pack.timestamp_ - previous_timestamp_) / 1000000.0;	//dt - expressed in seconds
+  double dt = (measurement_pack.timestamp_ - previous_timestamp_) / 1000000.0;	//dt - expressed in seconds
   previous_timestamp_ = measurement_pack.timestamp_;
   
   /* If dt is very small, we should not predict again as values won't change but it will mess
@@ -153,9 +153,9 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
   if( dt > 0.001)
   {
 	
-	float dt_2 = dt * dt;
-	float dt_3 = dt_2 * dt;
-	float dt_4 = dt_3 * dt;
+	double dt_2 = dt * dt;
+	double dt_3 = dt_2 * dt;
+	double dt_4 = dt_3 * dt;
 	
 	ekf_.F_(0,2) = dt;
 	ekf_.F_(1,3) = dt;
