@@ -106,8 +106,8 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
       py = rho *sin(phi);
       //TODO: vx, vy should ideally be fetched from Radar data. below is rough estimation(try 1 later). 
 	  //Makes a difference in Jacobian calculation?
-	  //vx = rhoDot*cos(phi);
-	  //vy = rhoDot*sin(phi);
+	  vx = rhoDot*cos(phi);
+	  vy = rhoDot*sin(phi);
     }
     else if (measurement_pack.sensor_type_ == MeasurementPackage::LASER) {
       /**

@@ -54,7 +54,12 @@ MatrixXd Tools::CalculateJacobian(const VectorXd& x_state) {
   */
   //From class
 
-  MatrixXd Hj(3,4);
+  MatrixXd Hj = MatrixXd(3,4);
+  
+  Hj << 0, 0, 0, 0,
+        0, 0, 0, 0,
+		0, 0, 0, 0;
+		
   //recover state parameters
   float px = x_state(0);
   float py = x_state(1);
@@ -62,14 +67,18 @@ MatrixXd Tools::CalculateJacobian(const VectorXd& x_state) {
   float vy = x_state(3);
 
   //Avoid zero in dr values
-  if( fabs(px) < 0.001 ) px = 0.001;
-  if( fabs(py) < 0.001 ) py = 0.001;
+  //if( fabs(px) < 0.01 ) px = 0.01;
+  //if( fabs(py) < 0.01 ) py = 0.01;
   
   //pre-compute a set of terms to avoid repeated calculation
   float c1 = px*px+py*py;
   
   //c1 should not be zero
-  if( fabs(c1) < 0.0001 ) c1 = 0.0001;
+  if( fabs(c1) < 0.0001 )
+  {
+	  std::cout<<"Could not calculate jacobian"<<std::endl;
+	  return Hj;
+  }
   float c2 = sqrt(c1);
   float c3 = (c1*c2);
 
