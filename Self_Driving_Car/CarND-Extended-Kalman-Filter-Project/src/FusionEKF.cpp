@@ -60,38 +60,38 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
     // first measurement
     cout << "EKF: " << endl;
     ekf_.x_ = VectorXd(4);
-    ekf_.x_ << 1,1,1,1;
+    ekf_.x_ << 1.0,1.0,1.0,1.0;
 
     // Set prediction uncertainty very high as compared to R initially( S=HPHT +R )
     MatrixXd P_ = MatrixXd(4, 4);
-    P_ << 1, 0, 0,     0,
-          0, 1, 0,     0,
-          0, 0, 1000,  0,
-          0, 0, 0,     1000;
+    P_ << 1.0, 0.0, 0.0,    0.0,
+          0.0, 1.0, 0.0,    0.0,
+          0.0, 0.0, 1000.0, 0.0,
+          0.0, 0.0, 0.0,    1000.0;
 
     // Consider 1 as delta t initially(never used) and 1 as noise to calculate covariance for prediction(p! = FPFT +Q )
     MatrixXd Q_ = MatrixXd(4,4);
-    Q_ << 1, 0, 1, 0,
-          0, 1, 0, 1,
-          0, 0, 1, 0,
-          0, 0, 0, 1;
+    Q_ << 1.0, 0.0, 1.0, 0.0 ,
+          0.0, 1.0, 0.0, 1.0,
+          0.0, 0.0, 1.0, 0.0,
+          0.0, 0.0, 0.0, 1.0;
    
     // F function (p1 = p0 + ut) or x' = Fx. Never used but still init (for code clarity)
     MatrixXd F_ = MatrixXd(4,4);
-    F_ << 1, 0, 1, 0,
-          0, 1, 0, 1,
-          0, 0, 1, 0,
-          0, 0, 0, 1;
+    F_ << 1.0, 0.0, 1.0, 0.0,
+          0.0, 1.0, 0.0, 1.0,
+          0.0, 0.0, 1.0, 0.0,
+          0.0, 0.0, 0.0, 1.0;
 
-    H_laser_ << 1, 0, 0, 0,
-                0, 1, 0, 0;
+    H_laser_ << 1.0, 0.0, 0.0, 0.0,
+                0.0, 1.0, 0.0, 0.0;
 
 
     //H for Radar i.e. Hj is jacobian. So not initialized
 
 
-    float px =0, py=0;
-    float vx =0, vy=0;
+    float px =0.0, py=0.0;
+    float vx =0.0, vy=0.0;
 
     if (measurement_pack.sensor_type_ == MeasurementPackage::RADAR) 
     {
@@ -142,8 +142,8 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
      * Use noise_ax = 9 and noise_ay = 9 for your Q matrix.
    */
   //Keeping standard deviation low. Assuming sensors work well.
-  float noise_ax = 9; 
-  float noise_ay = 9;
+  float noise_ax = 9.0; 
+  float noise_ay = 9.0;
 
   float dt = (measurement_pack.timestamp_ - previous_timestamp_) / 1000000.0;	//dt - expressed in seconds
   previous_timestamp_ = measurement_pack.timestamp_;
@@ -159,16 +159,16 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
 	
 	
 	ekf_.F_ = MatrixXd(4, 4);
-	ekf_.F_ << 1, 0, dt, 0,
-	           0, 1, 0,  dt,
-			   0, 0, 1,  0,
-			   0, 0, 0,  1;
+	ekf_.F_ << 1.0, 0.0, dt,   0.0,
+	           0.0, 1.0, 0.0,  dt,
+			   0.0, 0.0, 1.0,  0.0,
+			   0.0, 0.0, 0.0,  1.0;
 
     ekf_.Q_ = MatrixXd(4, 4);
-	ekf_.Q_ <<  (dt_4*noise_ax)/4, 0,                 (dt_3*noise_ax)/2, 0,
-			    0,                 (dt_4*noise_ay)/4, 0,                 (dt_3*noise_ay)/2,
-			    (dt_3*noise_ax)/2, 0,                 dt_2*noise_ax,     0,
-			    0,                 (dt_3*noise_ay)/2, 0,                 dt_2*noise_ay;
+	ekf_.Q_ <<  (dt_4*noise_ax)/4.0, 0.0,                 (dt_3*noise_ax)/2.0,  0.0,
+			    0.0,                 (dt_4*noise_ay)/4.0, 0.0,                  (dt_3*noise_ay)/2,
+			    (dt_3*noise_ax)/2.0, 0.0,                 dt_2*noise_ax,        0.0,
+			    0.0,                 (dt_3*noise_ay)/2.0, 0.0,                  dt_2*noise_ay;
 
 	ekf_.Predict();
   //}
