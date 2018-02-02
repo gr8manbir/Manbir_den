@@ -73,7 +73,7 @@ MatrixXd Tools::CalculateJacobian(const VectorXd& x_state) {
   float c1 = px*px+py*py;
   
   //c1 should not be zero
-  if( fabs(c1) < 0.001 ) 
+  if( fabs(c1) < 0.01 ) 
   {
 	  std::cout <<"Could not calculate jacobian"<<std::endl;
 	  return Hj;
