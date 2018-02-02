@@ -60,7 +60,7 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
     // first measurement
     cout << "EKF: " << endl;
     ekf_.x_ = VectorXd(4);
-    ekf_.x_ << 1.0,1.0,1.0,1.0;
+    //ekf_.x_ << 1.0,1.0,1.0,1.0;
 
     // Set prediction uncertainty very high as compared to R initially( S=HPHT +R )
     MatrixXd P_ = MatrixXd(4, 4);
@@ -127,6 +127,7 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
     ekf_.Init(ekf_.x_, P_, F_, H_laser_, R_laser_, Q_); 
     // done initializing, no need to predict or update
     is_initialized_ = true;
+	previous_timestamp_ = measurement_pack.timestamp_;
     return;
   }
 
@@ -158,11 +159,8 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
 	float dt_4 = dt_3 * dt;
 	
 	
-	ekf_.F_ = MatrixXd(4, 4);
-	ekf_.F_ << 1.0, 0.0, dt,   0.0,
-	           0.0, 1.0, 0.0,  dt,
-			   0.0, 0.0, 1.0,  0.0,
-			   0.0, 0.0, 0.0,  1.0;
+	ekf_.F_(0,2) = dt;
+	ekf_.F_(1,3) = dt;
 
     ekf_.Q_ = MatrixXd(4, 4);
 	ekf_.Q_ <<  (dt_4*noise_ax)/4.0, 0.0,                 (dt_3*noise_ax)/2.0,  0.0,
