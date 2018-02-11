@@ -54,6 +54,12 @@ UKF::UKF() {
 
   Hint: one or more values initialized above might be wildly off...
   */
+
+  n_x_ = 5;
+  n_aug_ = 7;
+  lambda_ = 3 - n_aug_;
+  weights_ = VectorXd( 2*n_aug_ + 1);
+  is_initialized_ = false;
 }
 
 UKF::~UKF() {}
@@ -69,6 +75,56 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
   Complete this function! Make sure you switch between lidar and radar
   measurements.
   */
+  if(!is_initialized_)
+  {
+	  P_ << 1, 0, 0, 0, 0,
+            0, 1, 0, 0, 0,
+            0, 0, 1, 0, 0,
+            0, 0, 0, 1, 0,
+            0, 0, 0, 0, 1;		  
+      if (meas_package.sensor_type_ == MeasurementPackage::RADAR) 
+      {
+          float rho = meas_package.raw_measurements_[0];
+          float phi = meas_package.raw_measurements_[1];
+          float rhoDot = meas_package.raw_measurements_[2];
+	      float v = 0.0;
+          /**
+           Convert radar from polar to cartesian coordinates and initialize state.
+           */
+          /* x is vertical axis, y is horizontal. Cos(angle) = adj/hyp. Therefore: */
+          px = rho *cos(phi);
+          py = rho *sin(phi);
+	      vx = rhoDot*cos(phi);
+	      vy = rhoDot*sin(phi);
+	      v = sqrt(vx*vx+vy*vy);
+	      x_<<px,py,v,0.0,0.0
+      } 
+      else if (meas_package.sensor_type_ == MeasurementPackage::LASER) 
+      {
+          // LiDAR has no velocity component
+          x_ << meas_package.raw_measurements_(0), meas_package.raw_measurements_(1), 0.0, 0.0, 0.0;
+      }
+	  
+	  is_initialized_ = true;
+	  time_us_ = meas_package.timestamp_;
+	  return;
+  }
+  
+  /* Prediction step */
+  double dt = meas_package.timestamp_ - time_us_;
+  Prediction(dt);
+  
+  /* Measurement update step */
+  if(meas_package.sensor_type_ == MeasurementPackage::RADAR)
+  {
+	  /* Radar update */
+	  UpdateRadar(meas_package);
+  }
+  else
+  {
+	  /* LiDar update */
+	  UpdateLidar(meas_package);
+  }
 }
 
 /**
