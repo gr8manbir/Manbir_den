@@ -241,7 +241,7 @@ void UKF::Prediction(double delta_t) {
 	for (int i = 0; i < 2 * n_aug_ + 1; i++) 
 	{  
         //iterate over sigma points
-        x_ = x_ + weights_(i) * Xsig_pred.col(i);
+        x_ = x_ + weights_(i) * Xsig_pred_.col(i);
     }
 	
 	//Calculate co-variance
