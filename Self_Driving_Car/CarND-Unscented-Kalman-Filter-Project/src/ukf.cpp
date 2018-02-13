@@ -98,7 +98,7 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
 	      float vx = rhoDot*cos(phi);
 	      float vy = rhoDot*sin(phi);
 	      v = sqrt(vx*vx+vy*vy);
-	      x_<<px,py,v,0.0,0.0;
+	      x_<<px,py,0.0,0.0,0.0;
       } 
       else if (meas_package.sensor_type_ == MeasurementPackage::LASER) 
       {
@@ -198,7 +198,7 @@ void UKF::Prediction(double delta_t) {
        double nu_yawdd = Xsig_aug(6,i);
 
        //predicted state values
-       double px_p, py_p;
+       double px_p=0.0, py_p=0.0;
 
        //avoid division by zero
        if (fabs(yawd) > 0.001) {
