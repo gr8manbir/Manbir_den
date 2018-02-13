@@ -55,6 +55,8 @@ UKF::UKF() {
   Hint: one or more values initialized above might be wildly off...
   */
 
+  x_ = VectorXd(5);
+  P_ = MatrixXd(5,5);
   n_x_ = 5;
   n_aug_ = 7;
   lambda_ = 3 - n_aug_;
@@ -78,11 +80,11 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
   */
   if(!is_initialized_)
   {
-	  P_ << 1, 0, 0, 0, 0,
-            0, 1, 0, 0, 0,
-            0, 0, 1, 0, 0,
-            0, 0, 0, 1, 0,
-            0, 0, 0, 0, 1;		  
+	  P_ << 1.0, 0.0, 0.0, 0.0, 0.0,
+            0.0, 1.0, 0.0, 0.0, 0.0,
+            0.0, 0.0, 1.0, 0.0, 0.0,
+            0.0, 0.0, 0.0, 1.0, 0.0,
+            0.0, 0.0, 0.0, 0.0, 1.0;		  
       if (meas_package.sensor_type_ == MeasurementPackage::RADAR) 
       {
           float rho = meas_package.raw_measurements_[0];
@@ -95,9 +97,6 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
           /* x is vertical axis, y is horizontal. Cos(angle) = adj/hyp. Therefore: */
           float px = rho *cos(phi);
           float py = rho *sin(phi);
-	      float vx = rhoDot*cos(phi);
-	      float vy = rhoDot*sin(phi);
-	      v = sqrt(vx*vx+vy*vy);
 	      x_<<px,py,0.0,0.0,0.0;
       } 
       else if (meas_package.sensor_type_ == MeasurementPackage::LASER) 
@@ -202,8 +201,8 @@ void UKF::Prediction(double delta_t) {
 
        //avoid division by zero
        if (fabs(yawd) > 0.001) {
-          px_p = p_x + v/yawd * ( sin (yaw + yawd*delta_t) - sin(yaw));
-          py_p = p_y + v/yawd * ( cos(yaw) - cos(yaw+yawd*delta_t) );
+          px_p = p_x + (v/yawd) * ( sin (yaw + yawd*delta_t) - sin(yaw));
+          py_p = p_y + (v/yawd) * ( cos(yaw) - cos(yaw+yawd*delta_t) );
        }
        else {
           px_p = p_x + v*delta_t*cos(yaw);
@@ -253,8 +252,9 @@ void UKF::Prediction(double delta_t) {
     for ( int i = 0; i < 2 * n_aug_ + 1; i++) {  //iterate over sigma points
 
         // state difference
-        VectorXd x_diff = Xsig_pred_.col(i) - x_;
-		std::cout<<Xsig_pred_.col(i) << " "<< x_ <<endl;
+        VectorXd x_diff = VectorXd( n_aug_ );
+		x_diff = Xsig_pred_.col(i) - x_;
+		std::cout<<Xsig_pred_.col(i) << endl << x_ <<endl;
         //angle normalization
         while (x_diff(3)> M_PI) x_diff(3)-=2.*M_PI;
         while (x_diff(3)<-M_PI) x_diff(3)+=2.*M_PI;
