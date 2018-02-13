@@ -92,10 +92,10 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
            Convert radar from polar to cartesian coordinates and initialize state.
            */
           /* x is vertical axis, y is horizontal. Cos(angle) = adj/hyp. Therefore: */
-          px = rho *cos(phi);
-          py = rho *sin(phi);
-	      vx = rhoDot*cos(phi);
-	      vy = rhoDot*sin(phi);
+          float px = rho *cos(phi);
+          float py = rho *sin(phi);
+	      float vx = rhoDot*cos(phi);
+	      float vy = rhoDot*sin(phi);
 	      v = sqrt(vx*vx+vy*vy);
 	      x_<<px,py,v,0.0,0.0
       } 
