@@ -60,6 +60,7 @@ UKF::UKF() {
   lambda_ = 3 - n_aug_;
   weights_ = VectorXd( 2*n_aug_ + 1);
   is_initialized_ = false;
+  Xsig_pred_ = MatrixXd(n_x_, 2*n_aug_+1);
 }
 
 UKF::~UKF() {}
