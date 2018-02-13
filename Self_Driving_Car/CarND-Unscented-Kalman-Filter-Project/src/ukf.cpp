@@ -171,8 +171,10 @@ void UKF::Prediction(double delta_t) {
    P_aug(5,5) = std_a_*std_a_;
    P_aug(6,6) = std_yawdd_*std_yawdd_;
    
+   std::cout<<"Debug point 1"<< endl;
    /* Square root matrix */
    MatrixXd L = P_aug.llt().matrixL();
+   std::cout<<"Debug point 2"<< endl;
    
    /* Create augmented sigma points */
    Xsig_aug.col(0) = x_aug_;
@@ -181,7 +183,7 @@ void UKF::Prediction(double delta_t) {
        Xsig_aug.col(i+1)       = x_aug_ + sqrt(lambda_+n_aug_) * L.col(i);
        Xsig_aug.col(i+1+n_aug_) = x_aug_ - sqrt(lambda_+n_aug_) * L.col(i);
    }
-   
+   std::cout<<"Debug point 3"<< endl;
    /* 2. Predict sigma points */
    for (int i = 0; i< 2*n_aug_+1; i++)
    {
@@ -226,7 +228,7 @@ void UKF::Prediction(double delta_t) {
        Xsig_pred_(3,i) = yaw_p;
        Xsig_pred_(4,i) = yawd_p;
    }
-  
+     std::cout<<"Debug point 4"<< endl;
     /* 3. From sigma point predictions at time t+dt, calculate new mean and co-variance */
     // set weights
     weights_ = VectorXd(2*n_aug_+1);
@@ -236,6 +238,7 @@ void UKF::Prediction(double delta_t) {
     double weight = 0.5/(n_aug_+lambda_);
        weights_(i) = weight;
     }
+	std::cout<<"Debug point 5"<< endl;
 	// Calculate mean
 	x_.fill(0.0);
 	for (int i = 0; i < 2 * n_aug_ + 1; i++) 
@@ -243,7 +246,7 @@ void UKF::Prediction(double delta_t) {
         //iterate over sigma points
         x_ = x_ + weights_(i) * Xsig_pred_.col(i);
     }
-	
+	std::cout<<"Debug point 6"<< endl;
 	//Calculate co-variance
 	P_.fill(0.0);
     for ( int i = 0; i < 2 * n_aug_ + 1; i++) {  //iterate over sigma points
@@ -256,6 +259,7 @@ void UKF::Prediction(double delta_t) {
 
         P_ = P_ + weights_(i) * x_diff * x_diff.transpose() ;
     }
+	std::cout<<"Debug point 7"<< endl;
 }
 
 /**
