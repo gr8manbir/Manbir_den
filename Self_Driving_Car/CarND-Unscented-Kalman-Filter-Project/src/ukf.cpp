@@ -180,7 +180,9 @@ void UKF::Prediction(double delta_t) {
    
    std::cout<<"Debug point 1"<< endl;
    /* Square root matrix */
-   MatrixXd L = P_aug.llt().matrixL();
+   MatrixXd L = MatrixXd( n_aug_, n_aug_ );
+   L.fill(0.0);
+   L = P_aug.llt().matrixL();
    std::cout<<"Debug point 2"<< endl;
    
    /* Create augmented sigma points */
@@ -316,11 +318,15 @@ void UKF::UpdateLidar(MeasurementPackage meas_package) {
   Tc.fill(0.0);
   for (int i = 0; i < 2 * n_aug_ + 1; i++) {  //2n+1 sigma points
     //residual
-    VectorXd z_diff = Zsig.col(i) - z_pred;
+    VectorXd z_diff = VectorXd( n_z );
+	z_diff.fill(0.0);
+	z_diff = Zsig.col(i) - z_pred;
     S = S + weights_(i) * z_diff * z_diff.transpose();
 	
 	// state difference
-    VectorXd x_diff = Xsig_pred_.col(i) - x_;
+    VectorXd x_diff = VectorXd( n_aug_ );
+	x_diff.fill(0.0);
+	x_diff = Xsig_pred_.col(i) - x_;
 	Tc = Tc + weights_(i) * x_diff * z_diff.transpose();
   }
 
@@ -335,7 +341,9 @@ void UKF::UpdateLidar(MeasurementPackage meas_package) {
   //We have mean and co-variance for predicted r0, phi and rho-dot. 
   //Now from actual measurement update mean and co-variance i.e x_ and P_
   //Kalman gain
-  MatrixXd K = Tc * S.inverse();
+  MatrixXd K = MatrixXd( n_x_, n_z );
+  K.fill(0.0);
+  K = Tc * S.inverse();
   
   //LiDAR actual measurement
   VectorXd z = VectorXd(n_z);
@@ -344,7 +352,9 @@ void UKF::UpdateLidar(MeasurementPackage meas_package) {
        meas_package.raw_measurements_(1);
 	   
   //Difference from z_pred
-  VectorXd z_diff = z - z_pred;
+  VectorXd z_diff = VectorXd( n_z );
+  z_diff.fill(0.0);
+  z_diff = z - z_pred;
 
   //update state mean and covariance matrix
   x_ = x_ + K * z_diff;
@@ -405,7 +415,9 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
   Tc.fill(0.0);
   for (int i = 0; i < 2 * n_aug_ + 1; i++) {  //2n+1 sigma points
     //residual
-    VectorXd z_diff = Zsig.col(i) - z_pred;
+    VectorXd z_diff = VectorXd( n_z );
+	z_diff.fill(0.0);
+	z_diff = Zsig.col(i) - z_pred;
 
     //angle normalization
     while (z_diff(1)> M_PI) z_diff(1)-=2.*M_PI;
@@ -414,7 +426,9 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
     S = S + weights_(i) * z_diff * z_diff.transpose();
 	
 	// state difference
-    VectorXd x_diff = Xsig_pred_.col(i) - x_;
+    VectorXd x_diff = VectorXd( n_aug_ );
+	x_diff.fill(0.0);
+	x_diff = Xsig_pred_.col(i) - x_;
     //angle normalization
     while (x_diff(3)> M_PI) x_diff(3)-=2.*M_PI;
     while (x_diff(3)<-M_PI) x_diff(3)+=2.*M_PI;
@@ -443,7 +457,9 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
 	   meas_package.raw_measurements_(2);
 	   
   //Difference from z_pred
-  VectorXd z_diff = z - z_pred;
+  VectorXd z_diff = = VectorXd( n_z );
+  z_diff.fill(0.0);
+  z - z_pred;
   
   //angle normalization
   while (z_diff(1)> M_PI) z_diff(1)-=2.*M_PI;
