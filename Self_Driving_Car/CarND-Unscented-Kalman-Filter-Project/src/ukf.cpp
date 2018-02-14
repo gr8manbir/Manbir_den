@@ -80,6 +80,10 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
   */
   if(!is_initialized_)
   {
+	  P_.fill(0.0);
+	  x_.fill(0.0);
+	  weights_.fill(0.0);
+	  Xsig_pred_.fill(0.0);
 	  P_ << 1.0, 0.0, 0.0, 0.0, 0.0,
             0.0, 1.0, 0.0, 0.0, 0.0,
             0.0, 0.0, 1.0, 0.0, 0.0,
@@ -157,10 +161,13 @@ void UKF::Prediction(double delta_t) {
  #endif
    /* 1. Calculate augmentation vector and co-variance for vector 2 i.e. noise */
    MatrixXd Xsig_aug = MatrixXd(n_aug_, 2*n_aug_+1);
+   Xsig_aug.fill(0.0);
    MatrixXd P_aug = MatrixXd(n_aug_, n_aug_);
+   P_aug.fill(0.0);
    
    /* Similar to x_ create x_aug_ with last two values zero */
    VectorXd x_aug_ = VectorXd(n_aug_);
+   x_aug_.fill(0.0);
    x_aug_.head(5) = x_;
    x_aug_(5) = 0;
    x_aug_(6) = 0;
@@ -232,6 +239,7 @@ void UKF::Prediction(double delta_t) {
     /* 3. From sigma point predictions at time t+dt, calculate new mean and co-variance */
     // set weights
     weights_ = VectorXd(2*n_aug_+1);
+	weights_.fill(0.0);
     double weight_0 = lambda_/(lambda_+n_aug_);
     weights_(0) = weight_0;
     for (int i=1; i<2*n_aug_+1; i++) {  //2n+1 weights
@@ -253,6 +261,7 @@ void UKF::Prediction(double delta_t) {
 
         // state difference
         VectorXd x_diff = VectorXd( n_aug_ );
+		x_diff.fill(0.0);
 		x_diff = Xsig_pred_.col(i) - x_;
 		std::cout<<Xsig_pred_.col(i) << endl << x_ <<endl;
         //angle normalization
@@ -281,6 +290,7 @@ void UKF::UpdateLidar(MeasurementPackage meas_package) {
   int n_z = 2;
   
   MatrixXd Zsig = MatrixXd(n_z, 2 * n_aug_ + 1);
+  Zsig.fill(0.0);
   //transform sigma points into measurement space
   for (int i = 0; i < 2 * n_aug_ + 1; i++) 
   {  
@@ -316,6 +326,7 @@ void UKF::UpdateLidar(MeasurementPackage meas_package) {
 
   //add measurement noise covariance matrix
   MatrixXd R = MatrixXd(n_z,n_z);
+  R.fill(0.0);
   R <<    std_laspx_*std_laspx_, 0,
           0, std_laspy_*std_laspy_;
 		  
@@ -328,6 +339,7 @@ void UKF::UpdateLidar(MeasurementPackage meas_package) {
   
   //LiDAR actual measurement
   VectorXd z = VectorXd(n_z);
+  z.fill(0.0);
   z << meas_package.raw_measurements_(0),
        meas_package.raw_measurements_(1);
 	   
@@ -357,6 +369,7 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
   int n_z = 3;
   
   MatrixXd Zsig = MatrixXd(n_z, 2 * n_aug_ + 1);
+  Zsig.fill(0.0);
   //transform sigma points into measurement space
   for (int i = 0; i < 2 * n_aug_ + 1; i++) 
   {  
@@ -411,6 +424,7 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
 
   //add measurement noise covariance matrix
   MatrixXd R = MatrixXd(n_z,n_z);
+  R.fill(0.0);
   R <<    std_radr_*std_radr_, 0, 0,
           0, std_radphi_*std_radphi_, 0,
           0, 0,std_radrd_*std_radrd_;
@@ -423,6 +437,7 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
   
   //RADAR actual measurement
   VectorXd z = VectorXd(n_z);
+  z.fill(0.0);
   z << meas_package.raw_measurements_(0),
        meas_package.raw_measurements_(1),
 	   meas_package.raw_measurements_(2);
