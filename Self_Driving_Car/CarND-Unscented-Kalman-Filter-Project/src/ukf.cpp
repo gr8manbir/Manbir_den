@@ -93,7 +93,6 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
   {
 	  P_.fill(0.0);
 	  x_.fill(0.0);
-	  weights_.fill(0.0);
 	  Xsig_pred_.fill(0.0);
 	  P_ << 1.0, 0.0, 0.0, 0.0, 0.0,
             0.0, 1.0, 0.0, 0.0, 0.0,
