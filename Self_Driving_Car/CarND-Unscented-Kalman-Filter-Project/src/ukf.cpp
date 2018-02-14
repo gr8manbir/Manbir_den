@@ -258,6 +258,7 @@ void UKF::Prediction(double delta_t) {
         //iterate over sigma points
     //    x_ = x_ + weights_(i) * Xsig_pred_.col(i);
     //}
+	x_.fill(0.0);
 	x_ = Xsig_pred_*weights_;
 	std::cout<<"Debug point 6"<< endl;
 	//Calculate co-variance
@@ -266,7 +267,7 @@ void UKF::Prediction(double delta_t) {
 
         // state difference
         VectorXd x_diff = Xsig_pred_.col(i) - x_;
-		std::cout<<Xsig_pred_.col(i) << endl << x_ <<endl;
+		std::cout<<"Point"<<Xsig_pred_.col(i) << endl << x_ <<endl;
         //angle normalization
         while (x_diff(3)> M_PI) x_diff(3)-=2.*M_PI;
         while (x_diff(3)<-M_PI) x_diff(3)+=2.*M_PI;
