@@ -240,7 +240,6 @@ void UKF::Prediction(double delta_t) {
      std::cout<<"Debug point 4"<< endl;
     /* 3. From sigma point predictions at time t+dt, calculate new mean and co-variance */
     // set weights
-    weights_ = VectorXd(2*n_aug_+1);
 	weights_.fill(0.0);
     double weight_0 = lambda_/(lambda_+n_aug_);
     weights_(0) = weight_0;
@@ -457,7 +456,7 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
 	   meas_package.raw_measurements_(2);
 	   
   //Difference from z_pred
-  VectorXd z_diff = = VectorXd( n_z );
+  VectorXd z_diff = VectorXd( n_z );
   z_diff.fill(0.0);
   z - z_pred;
   
