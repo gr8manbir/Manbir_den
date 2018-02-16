@@ -188,10 +188,13 @@ void UKF::Prediction(double delta_t) {
    
    /* Create augmented sigma points */
    Xsig_aug.col(0) = x_aug_;
+   std::cout<<"Sigma point aug: 0"<< " "<<Xsig_aug.col(0)<<endl;
    for( int i = 0; i < n_aug_; i++ )
    {
        Xsig_aug.col(i+1)       = x_aug_ + sqrt(lambda_+n_aug_) * L.col(i);
        Xsig_aug.col(i+1+n_aug_) = x_aug_ - sqrt(lambda_+n_aug_) * L.col(i);
+       std::cout<<"Sigma point aug: "<<i+1<<" "<<Xsig_aug.col(i+1)<<endl;
+	   std::cout<<"Sigma point aug: "<<i+1+n_aug_<<" "<<Xsig_aug.col(i+1+n_aug_)<<endl;
    }
      
    /* 2. Predict sigma points */
@@ -238,7 +241,7 @@ void UKF::Prediction(double delta_t) {
        Xsig_pred_(2,i) = v_p;
        Xsig_pred_(3,i) = yaw_p;
        Xsig_pred_(4,i) = yawd_p;
-	   std::cout<<"Sigma point: "<<i<< " "<<Xsig_pred_.col(i)<<endl; 
+	   std::cout<<"Sigma point prediction: "<<i<< " "<<Xsig_pred_.col(i)<<endl; 
    }
     /* 3. From sigma point predictions at time t+dt, calculate new mean and co-variance */
 
