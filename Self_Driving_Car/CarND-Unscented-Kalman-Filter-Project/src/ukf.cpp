@@ -16,7 +16,7 @@ UKF::UKF() {
   use_laser_ = true;
 
   // if this is false, radar measurements will be ignored (except during init)
-  use_radar_ = false;
+  use_radar_ = true;
 
   // initial state vector
   x_ = VectorXd(5);
@@ -172,7 +172,6 @@ void UKF::Prediction(double delta_t) {
    
    /* Similar to x_ create x_aug_ with last two values zero */
    VectorXd x_aug_ = VectorXd(n_aug_);
-   x_aug_.fill(0.0);
    x_aug_.head(5) = x_;
    x_aug_(5) = 0;
    x_aug_(6) = 0;
@@ -239,6 +238,7 @@ void UKF::Prediction(double delta_t) {
        Xsig_pred_(2,i) = v_p;
        Xsig_pred_(3,i) = yaw_p;
        Xsig_pred_(4,i) = yawd_p;
+	   std::cout<<"Sigma point: "<<i<< " "<<Xsig_pred_.col(i)<<endl; 
    }
     /* 3. From sigma point predictions at time t+dt, calculate new mean and co-variance */
 
