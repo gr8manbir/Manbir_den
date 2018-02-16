@@ -131,7 +131,7 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
   }
   
   /* Prediction step */
-  double dt = meas_package.timestamp_ - time_us_;
+  double dt = (meas_package.timestamp_ - time_us_)/ 1000000.0;;
   Prediction(dt);
   
   /* Measurement update step */
