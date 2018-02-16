@@ -91,7 +91,6 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
   */
   if(!is_initialized_)
   {
-	  P_.fill(0.0);
 	  x_.fill(0.0);
 	  Xsig_pred_.fill(0.0);
 	  P_ << 1.0, 0.0, 0.0, 0.0, 0.0,
@@ -119,6 +118,11 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
       {
           // LiDAR has no velocity component
           x_ << meas_package.raw_measurements_(0), meas_package.raw_measurements_(1), 0.0, 0.0, 0.0;
+		  if (fabs(x_(0)) < 0.001 && fabs(x_(1)) < 0.001) 
+		  {
+              x_(0) = 0.001;
+              x_(1) = 0.001;
+          }
       }
 	  
 	  is_initialized_ = true;
@@ -339,9 +343,7 @@ void UKF::UpdateLidar(MeasurementPackage meas_package) {
   //We have mean and co-variance for predicted r0, phi and rho-dot. 
   //Now from actual measurement update mean and co-variance i.e x_ and P_
   //Kalman gain
-  MatrixXd K = MatrixXd( n_x_, n_z );
-  K.fill(0.0);
-  K = Tc * S.inverse();
+  MatrixXd K = Tc * S.inverse();
   
   //LiDAR actual measurement
   VectorXd z = VectorXd(n_z);
