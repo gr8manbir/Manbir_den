@@ -257,7 +257,6 @@ void UKF::Prediction(double delta_t) {
 
         // state difference
         VectorXd x_diff = Xsig_pred_.col(i) - x_;
-		std::cout<<"Point"<<Xsig_pred_.col(i) << endl << x_ <<endl;
         //angle normalization
         while (x_diff(3)> M_PI) x_diff(3)-=2.*M_PI;
         while (x_diff(3)<-M_PI) x_diff(3)+=2.*M_PI;
