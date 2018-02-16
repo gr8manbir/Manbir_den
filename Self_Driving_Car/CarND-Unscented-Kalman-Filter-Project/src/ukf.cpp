@@ -182,7 +182,7 @@ void UKF::Prediction(double delta_t) {
    P_aug.topLeftCorner(5,5) = P_;
    P_aug(5,5) = std_a_*std_a_;
    P_aug(6,6) = std_yawdd_*std_yawdd_;
-   std::cout<<"Initial P_aug_=" <<P_aug_<<endl;
+   std::cout<<"Initial P_aug_=" <<P_aug<<endl;
 	  
    /* Square root matrix */
    MatrixXd L = P_aug.llt().matrixL();
