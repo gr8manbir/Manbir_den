@@ -110,7 +110,7 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
 		  double vx = rhoDot*cos(phi);
 		  double vy = rhoDot*sin(phi);
 		  v = sqrt(vx*vx+vy*vy);
-	      x_<<px,py,v,0.0,0.0;
+	      x_<<px,py,0.0,0.0,0.0;
       } 
       else if (meas_package.sensor_type_ == MeasurementPackage::LASER) 
       {
