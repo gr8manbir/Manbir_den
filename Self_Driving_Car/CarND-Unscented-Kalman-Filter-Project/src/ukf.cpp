@@ -339,7 +339,8 @@ void UKF::UpdateLidar(MeasurementPackage meas_package) {
   //LiDAR actual measurement
   VectorXd z = VectorXd(n_z);
   z.fill(0.0);
-  z  = meas_package.raw_measurements_;
+  z << meas_package.raw_measurements_[0],
+       meas_package.raw_measurements_[1];
 
   std::cout<<"Calculating z_diff"<<endl;
   //Difference from z_pred
