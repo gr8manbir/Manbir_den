@@ -401,9 +401,7 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
   //innovation covariance matrix S
   MatrixXd S = MatrixXd(n_z,n_z);
   S.fill(0.0);
-  //cross corelation matrix
-  MatrixXd Tc = MatrixXd(n_x_, n_z);
-  Tc.fill(0.0);
+
   for (int i = 0; i < 2 * n_aug_ + 1; i++) {  //2n+1 sigma points
     //residual
     VectorXd z_diff = Zsig.col(i) - z_pred;
@@ -424,6 +422,9 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
           0, 0,std_radrd_*std_radrd_;
   S = S + R;
   
+  //cross corelation matrix
+  MatrixXd Tc = MatrixXd(n_x_, n_z);
+  Tc.fill(0.0);
   for (int i = 0; i < 2 * n_aug_ + 1; i++) {  //2n+1 sigma points
     //residual
     VectorXd z_diff = Zsig.col(i) - z_pred;
@@ -433,9 +434,7 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
     while (z_diff(1)<-M_PI) z_diff(1)+=2.*M_PI;
 	
 	// state difference
-    VectorXd x_diff = VectorXd( n_aug_ );
-	x_diff.fill(0.0);
-	x_diff = Xsig_pred_.col(i) - x_;
+    VectorXd x_diff = Xsig_pred_.col(i) - x_;
 	
     //angle normalization
     while (x_diff(3)> M_PI) x_diff(3)-=2.*M_PI;
