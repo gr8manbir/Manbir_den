@@ -133,9 +133,9 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
   time_us_ = meas_package.timestamp_;
   Prediction(dt);
   
-  static int ctr =0;
-  ctr++;
-  if(ctr == 150) exit(0);
+  //static int ctr =0;
+  //ctr++;
+  //if(ctr == 150) exit(0);
   /* Measurement update step */
   if(meas_package.sensor_type_ == MeasurementPackage::RADAR && use_radar_ == true )
   {
