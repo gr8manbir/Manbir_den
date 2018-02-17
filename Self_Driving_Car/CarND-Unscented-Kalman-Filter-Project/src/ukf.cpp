@@ -25,7 +25,7 @@ UKF::UKF() {
   P_ = MatrixXd(5, 5);
 
   // Process noise standard deviation longitudinal acceleration in m/s^2
-  std_a_ = 1.0;
+  std_a_ = 0.5;
 
   // Process noise standard deviation yaw acceleration in rad/s^2
   std_yawdd_ = 0.5;
@@ -90,12 +90,12 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
   if(!is_initialized_)
   {
 	  x_.fill(0.0);
-	  Xsig_pred_.fill(0.0);
-	  P_ << 1.0, 0.0, 0.0, 0.0, 0.0,
-            0.0, 1.0, 0.0, 0.0, 0.0,
-            0.0, 0.0, 1.0, 0.0, 0.0,
-            0.0, 0.0, 0.0, 1.0, 0.0,
-            0.0, 0.0, 0.0, 0.0, 1.0;		  
+	  Xsig_pred_.fill(0);
+	  P_ << 1, 0, 0, 0, 0,
+            0, 1, 0, 0, 0,
+            0, 0, 1, 0, 0,
+            0, 0, 0, 1, 0,
+            0, 0, 0, 0, 1;		  
       if (meas_package.sensor_type_ == MeasurementPackage::RADAR) 
       {
           double rho = meas_package.raw_measurements_[0];
@@ -110,17 +110,17 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
 		  double vx = rhoDot*cos(phi);
 		  double vy = rhoDot*sin(phi);
 		  v = sqrt(vx*vx+vy*vy);
-	      x_<<px,py,0.0,0.0,0.0;
+	      x_<<px,py,v,0,0;
       } 
       else if (meas_package.sensor_type_ == MeasurementPackage::LASER) 
       {
           // LiDAR has no velocity component
           x_ << meas_package.raw_measurements_(0), meas_package.raw_measurements_(1), 0.0, 0.0, 0.0;
-		  if (fabs(x_(0)) < 0.001 && fabs(x_(1)) < 0.001) 
+		  /*if (fabs(x_(0)) < 0.001 && fabs(x_(1)) < 0.001) 
 		  {
               x_(0) = 0.001;
               x_(1) = 0.001;
-          }
+          }*/
       }
 	  
 	  is_initialized_ = true;
@@ -129,7 +129,8 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
   }
   
   /* Prediction step */
-  double dt = (meas_package.timestamp_ - time_us_)/ 1000000.0;;
+  double dt = (meas_package.timestamp_ - time_us_)/ 1000000.0;
+  time_us_ = meas_package.timestamp_;
   Prediction(dt);
   
   static int ctr =0;
