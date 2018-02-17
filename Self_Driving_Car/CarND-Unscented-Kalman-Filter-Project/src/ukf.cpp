@@ -312,6 +312,7 @@ void UKF::UpdateLidar(MeasurementPackage meas_package) {
   //cross corelation matrix
   MatrixXd Tc = MatrixXd(n_x_, n_z);
   Tc.fill(0.0);
+  std::cout<<"Calculating sigma points"<<endl;
   for (int i = 0; i < 2 * n_aug_ + 1; i++) {  //2n+1 sigma points
     //residual
     VectorXd z_diff = Zsig.col(i) - z_pred;
@@ -339,10 +340,12 @@ void UKF::UpdateLidar(MeasurementPackage meas_package) {
   VectorXd z = VectorXd(n_z);
   z.fill(0.0);
   z  = meas_package.raw_measurements_;
-	   
+
+  std::cout<<"Calculating z_diff"<<endl;
   //Difference from z_pred
   VectorXd z_diff = z - z_pred;
 
+  std::cout<<"Updating mean and P"<<endl;
   //update state mean and covariance matrix
   x_ = x_ + K * z_diff;
   P_ = P_ - K*S*K.transpose();
