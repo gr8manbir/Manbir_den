@@ -167,7 +167,7 @@ void UKF::Prediction(double delta_t) {
    */
 
    /* 1. Calculate augmentation vector and co-variance for vector 2 i.e. noise */
-   std::cout << "Prediction++" << endl;
+   //std::cout << "Prediction++" << endl;
    MatrixXd Xsig_aug = MatrixXd(n_aug_, 2*n_aug_+1);
    Xsig_aug.fill(0.0);
    MatrixXd P_aug = MatrixXd(n_aug_, n_aug_);
@@ -271,7 +271,7 @@ void UKF::Prediction(double delta_t) {
         P_ = P_ + weights_(i) * x_diff * x_diff.transpose() ;
     }
 	//std::cout<<"Predicted P_"<<P_<<endl;
-	std::cout << "Prediction--" << endl;
+	//std::cout << "Prediction--" << endl;
 }
 
 /**
@@ -288,7 +288,7 @@ void UKF::UpdateLidar(MeasurementPackage meas_package) {
   You'll also need to calculate the lidar NIS.
   */
     /*Measurement space depends on predicted sigma points and weights. No need to recalculate */
-  std::cout << "LiDAR++" << endl;
+  //std::cout << "LiDAR++" << endl;
   int n_z = 2;
   
   MatrixXd Zsig = MatrixXd(n_z, 2 * n_aug_ + 1);
@@ -310,7 +310,7 @@ void UKF::UpdateLidar(MeasurementPackage meas_package) {
       z_pred = z_pred + weights_(i) * Zsig.col(i);
   }
 
-  std::cout<<"Z_pred(LiDAR)= "<<z_pred<<endl;
+  //std::cout<<"Z_pred(LiDAR)= "<<z_pred<<endl;
   //innovation covariance matrix S
   MatrixXd S = MatrixXd(n_z,n_z);
   S.fill(0.0);
@@ -355,7 +355,7 @@ void UKF::UpdateLidar(MeasurementPackage meas_package) {
   z << meas_package.raw_measurements_[0],
        meas_package.raw_measurements_[1];
 	   
-  std::cout<<"Z(LiDAR)= "<<z<<endl;
+  //std::cout<<"Z(LiDAR)= "<<z<<endl;
 
   //Difference from z_pred
   VectorXd z_diff = z - z_pred;
@@ -363,7 +363,7 @@ void UKF::UpdateLidar(MeasurementPackage meas_package) {
   //update state mean and covariance matrix
   x_ = x_ + K * z_diff;
   P_ = P_ - K*S*K.transpose();
-  std::cout << "LiDAR--" << endl;
+  //std::cout << "LiDAR--" << endl;
 }
 
 /**
@@ -380,7 +380,7 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
   You'll also need to calculate the radar NIS.
   */
   
-  std::cout << "RADAR++" << endl;
+  //std::cout << "RADAR++" << endl;
   /*Measurement space depends on predicted sigma points and weights. No need to recalculate */
   int n_z = 3;
   
@@ -413,7 +413,7 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
       z_pred = z_pred + weights_(i) * Zsig.col(i);
   }
 
-  std::cout<<"Z_pred(RADAR)= "<<z_pred<<endl;
+  //std::cout<<"Z_pred(RADAR)= "<<z_pred<<endl;
   
   //innovation covariance matrix S
   MatrixXd S = MatrixXd(n_z,n_z);
@@ -472,7 +472,7 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
        meas_package.raw_measurements_[1],
 	   meas_package.raw_measurements_[2];
 
-  std::cout<<"z(RADAR)= "<<z <<endl;
+  //std::cout<<"z(RADAR)= "<<z <<endl;
   //Difference from z_pred
   VectorXd z_diff = z - z_pred;
   
@@ -483,5 +483,5 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
   //update state mean and covariance matrix
   x_ = x_ + K * z_diff;
   P_ = P_ - K*S*K.transpose();
-  std::cout << "RADAR--" << endl;
+  //std::cout << "RADAR--" << endl;
 }
