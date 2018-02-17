@@ -55,8 +55,6 @@ UKF::UKF() {
   Hint: one or more values initialized above might be wildly off...
   */
 
-  x_ = VectorXd(5);
-  P_ = MatrixXd(5,5);
   n_x_ = 5;
   n_aug_ = 7;
   lambda_ = 3 - n_aug_;
@@ -100,17 +98,17 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
             0.0, 0.0, 0.0, 0.0, 1.0;		  
       if (meas_package.sensor_type_ == MeasurementPackage::RADAR) 
       {
-          float rho = meas_package.raw_measurements_[0];
-          float phi = meas_package.raw_measurements_[1];
-          float rhoDot = meas_package.raw_measurements_[2];
-	      float v = 0.0;
+          double rho = meas_package.raw_measurements_[0];
+          double phi = meas_package.raw_measurements_[1];
+          double rhoDot = meas_package.raw_measurements_[2];
+	      double v = 0.0;
           /**
            Convert radar from polar to cartesian coordinates and initialize state.
            */
-          float px = rho *cos(phi);
-          float py = rho *sin(phi);
-		  float vx = rhoDot*cos(phi);
-		  float vy = rhoDot*sin(phi);
+          double px = rho *cos(phi);
+          double py = rho *sin(phi);
+		  double vx = rhoDot*cos(phi);
+		  double vy = rhoDot*sin(phi);
 		  v = sqrt(vx*vx+vy*vy);
 	      x_<<px,py,v,0.0,0.0;
       } 
@@ -134,8 +132,9 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
   double dt = (meas_package.timestamp_ - time_us_)/ 1000000.0;;
   Prediction(dt);
   
-  static int ctr =0;
-  if(ctr == 5) exit(0);
+  //static int ctr =0;
+  //ctr++;
+  //if(ctr == 5) exit(0);
   /* Measurement update step */
   if(meas_package.sensor_type_ == MeasurementPackage::RADAR && use_radar_ == true )
   {
@@ -337,15 +336,10 @@ void UKF::UpdateLidar(MeasurementPackage meas_package) {
   MatrixXd K = Tc * S.inverse();
   
   //LiDAR actual measurement
-  VectorXd z = VectorXd(n_z);
-  z.fill(0.0);
-  z << meas_package.raw_measurements_(0),
-       meas_package.raw_measurements_(1);
+  VectorXd z = meas_package.raw_measurements_;
 	   
   //Difference from z_pred
-  VectorXd z_diff = VectorXd( n_z );
-  z_diff.fill(0.0);
-  z_diff = z - z_pred;
+  VectorXd z_diff = z - z_pred;
 
   //update state mean and covariance matrix
   x_ = x_ + K * z_diff;
@@ -439,16 +433,10 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
   MatrixXd K = Tc * S.inverse();
   
   //RADAR actual measurement
-  VectorXd z = VectorXd(n_z);
-  z.fill(0.0);
-  z << meas_package.raw_measurements_(0),
-       meas_package.raw_measurements_(1),
-	   meas_package.raw_measurements_(2);
+  VectorXd z = meas_package.raw_measurements_;
 	   
   //Difference from z_pred
-  VectorXd z_diff = VectorXd( n_z );
-  z_diff.fill(0.0);
-  z_diff = z - z_pred;
+  VectorXd z_diff = z - z_pred;
   
   //angle normalization
   while (z_diff(1)> M_PI) z_diff(1)-=2.*M_PI;
