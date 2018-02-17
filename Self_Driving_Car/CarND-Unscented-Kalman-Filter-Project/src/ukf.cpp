@@ -306,21 +306,18 @@ void UKF::UpdateLidar(MeasurementPackage meas_package) {
       z_pred = z_pred + weights_(i) * Zsig.col(i);
   }
 
+  std::cout<<"Z_pred(LiDAR)= "<<z_pred<<endl;
   //innovation covariance matrix S
   MatrixXd S = MatrixXd(n_z,n_z);
   S.fill(0.0);
-  //cross corelation matrix
-  MatrixXd Tc = MatrixXd(n_x_, n_z);
-  Tc.fill(0.0);
-  std::cout<<"Calculating sigma points"<<endl;
+
+
+  
   for (int i = 0; i < 2 * n_aug_ + 1; i++) {  //2n+1 sigma points
     //residual
     VectorXd z_diff = Zsig.col(i) - z_pred;
     S = S + weights_(i) * z_diff * z_diff.transpose();
 	
-	// state difference
-    VectorXd x_diff = Xsig_pred_.col(i) - x_;
-	Tc = Tc + weights_(i) * x_diff * z_diff.transpose();
   }
 
   //add measurement noise covariance matrix
@@ -330,7 +327,19 @@ void UKF::UpdateLidar(MeasurementPackage meas_package) {
           0, std_laspy_*std_laspy_;
 		  
   S = S + R;
+
+  //cross corelation matrix
+  MatrixXd Tc = MatrixXd(n_x_, n_z);
+  Tc.fill(0.0);  
   
+  for (int i = 0; i < 2 * n_aug_ + 1; i++) {  //2n+1 sigma points
+    //residual
+    VectorXd z_diff = Zsig.col(i) - z_pred;
+	
+	// state difference
+    VectorXd x_diff = Xsig_pred_.col(i) - x_;
+	Tc = Tc + weights_(i) * x_diff * z_diff.transpose();
+  }
   //We have mean and co-variance for predicted r0, phi and rho-dot. 
   //Now from actual measurement update mean and co-variance i.e x_ and P_
   //Kalman gain
@@ -341,12 +350,12 @@ void UKF::UpdateLidar(MeasurementPackage meas_package) {
   z.fill(0.0);
   z << meas_package.raw_measurements_[0],
        meas_package.raw_measurements_[1];
+	   
+  std::cout<<"Z(LiDAR)= "<<z<<endl;
 
-  std::cout<<"Calculating z_diff"<<endl;
   //Difference from z_pred
   VectorXd z_diff = z - z_pred;
 
-  std::cout<<"Updating mean and P"<<endl;
   //update state mean and covariance matrix
   x_ = x_ + K * z_diff;
   P_ = P_ - K*S*K.transpose();
@@ -398,7 +407,7 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
       z_pred = z_pred + weights_(i) * Zsig.col(i);
   }
 
-  std::cout<<"Z_pred= "<<z_pred<<endl;
+  std::cout<<"Z_pred(RADAR)= "<<z_pred<<endl;
   
   //innovation covariance matrix S
   MatrixXd S = MatrixXd(n_z,n_z);
@@ -457,7 +466,7 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
        meas_package.raw_measurements_[1],
 	   meas_package.raw_measurements_[2];
 
-  std::cout<<"z= "<<z <<endl;
+  std::cout<<"z(RADAR)= "<<z <<endl;
   //Difference from z_pred
   VectorXd z_diff = z - z_pred;
   
