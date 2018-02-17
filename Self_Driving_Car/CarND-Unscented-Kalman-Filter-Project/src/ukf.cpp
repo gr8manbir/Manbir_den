@@ -134,6 +134,8 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
   double dt = (meas_package.timestamp_ - time_us_)/ 1000000.0;;
   Prediction(dt);
   
+  static ctr =0;
+  if(ctr == 5) exit(0);
   /* Measurement update step */
   if(meas_package.sensor_type_ == MeasurementPackage::RADAR && use_radar_ == true )
   {
@@ -182,7 +184,7 @@ void UKF::Prediction(double delta_t) {
    P_aug.topLeftCorner(5,5) = P_;
    P_aug(5,5) = std_a_*std_a_;
    P_aug(6,6) = std_yawdd_*std_yawdd_;
-   std::cout<<"Initial P_aug_=" <<P_aug<<endl;
+   //std::cout<<"Initial P_aug_=" <<P_aug<<endl;
 	  
    /* Square root matrix */
    MatrixXd L = P_aug.llt().matrixL();
