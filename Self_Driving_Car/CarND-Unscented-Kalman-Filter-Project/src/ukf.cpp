@@ -336,7 +336,9 @@ void UKF::UpdateLidar(MeasurementPackage meas_package) {
   MatrixXd K = Tc * S.inverse();
   
   //LiDAR actual measurement
-  VectorXd z = meas_package.raw_measurements_;
+  VectorXd z = VectorXd(n_z);
+  z.fill(0.0);
+  z  = meas_package.raw_measurements_;
 	   
   //Difference from z_pred
   VectorXd z_diff = z - z_pred;
@@ -433,7 +435,9 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
   MatrixXd K = Tc * S.inverse();
   
   //RADAR actual measurement
-  VectorXd z = meas_package.raw_measurements_;
+  VectorXd z = VectorXd(n_z);
+  z.fill(0.0);
+  z = meas_package.raw_measurements_;
 	   
   //Difference from z_pred
   VectorXd z_diff = z - z_pred;
