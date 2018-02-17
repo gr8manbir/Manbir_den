@@ -13,7 +13,7 @@ using std::vector;
  */
 UKF::UKF() {
   // if this is false, laser measurements will be ignored (except during init)
-  use_laser_ = false;
+  use_laser_ = true;
 
   // if this is false, radar measurements will be ignored (except during init)
   use_radar_ = true;
@@ -141,7 +141,7 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
 	  /* Radar update */
 	  UpdateRadar(meas_package);
   }
-  else if (use_laser_ == true)
+  else if (meas_package.sensor_type_ == MeasurementPackage::LASER && use_laser_ == true)
   {
 	  /* LiDar update */
 	  UpdateLidar(meas_package);
