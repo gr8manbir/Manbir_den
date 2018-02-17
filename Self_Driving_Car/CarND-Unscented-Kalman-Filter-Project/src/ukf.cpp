@@ -132,9 +132,9 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
   double dt = (meas_package.timestamp_ - time_us_)/ 1000000.0;;
   Prediction(dt);
   
-  //static int ctr =0;
-  //ctr++;
-  //if(ctr == 5) exit(0);
+  static int ctr =0;
+  ctr++;
+  if(ctr == 5) exit(0);
   /* Measurement update step */
   if(meas_package.sensor_type_ == MeasurementPackage::RADAR && use_radar_ == true )
   {
@@ -398,6 +398,8 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
       z_pred = z_pred + weights_(i) * Zsig.col(i);
   }
 
+  std::cout<<"Z_pred= "<<z_pred<<endl;
+  
   //innovation covariance matrix S
   MatrixXd S = MatrixXd(n_z,n_z);
   S.fill(0.0);
@@ -451,8 +453,11 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
   //RADAR actual measurement
   VectorXd z = VectorXd(n_z);
   z.fill(0.0);
-  z = meas_package.raw_measurements_;
-	   
+  z << meas_package.raw_measurements_[0],
+       meas_package.raw_measurements_[1],
+	   meas_package.raw_measurements_[2];
+
+  std::cout<<"z= "<<z <<endl;
   //Difference from z_pred
   VectorXd z_diff = z - z_pred;
   
