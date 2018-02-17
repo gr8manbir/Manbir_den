@@ -166,6 +166,7 @@ void UKF::Prediction(double delta_t) {
    */
 
    /* 1. Calculate augmentation vector and co-variance for vector 2 i.e. noise */
+   std::cout << "Prediction++" << endl;
    MatrixXd Xsig_aug = MatrixXd(n_aug_, 2*n_aug_+1);
    Xsig_aug.fill(0.0);
    MatrixXd P_aug = MatrixXd(n_aug_, n_aug_);
@@ -269,6 +270,7 @@ void UKF::Prediction(double delta_t) {
         P_ = P_ + weights_(i) * x_diff * x_diff.transpose() ;
     }
 	//std::cout<<"Predicted P_"<<P_<<endl;
+	std::cout << "Prediction--" << endl;
 }
 
 /**
@@ -285,6 +287,7 @@ void UKF::UpdateLidar(MeasurementPackage meas_package) {
   You'll also need to calculate the lidar NIS.
   */
     /*Measurement space depends on predicted sigma points and weights. No need to recalculate */
+  std::cout << "LiDAR++" << endl;
   int n_z = 2;
   
   MatrixXd Zsig = MatrixXd(n_z, 2 * n_aug_ + 1);
@@ -359,6 +362,7 @@ void UKF::UpdateLidar(MeasurementPackage meas_package) {
   //update state mean and covariance matrix
   x_ = x_ + K * z_diff;
   P_ = P_ - K*S*K.transpose();
+  std::cout << "LiDAR--" << endl;
 }
 
 /**
@@ -375,6 +379,7 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
   You'll also need to calculate the radar NIS.
   */
   
+  std::cout << "RADAR++" << endl;
   /*Measurement space depends on predicted sigma points and weights. No need to recalculate */
   int n_z = 3;
   
@@ -477,4 +482,5 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
   //update state mean and covariance matrix
   x_ = x_ + K * z_diff;
   P_ = P_ - K*S*K.transpose();
+  std::cout << "RADAR--" << endl;
 }
