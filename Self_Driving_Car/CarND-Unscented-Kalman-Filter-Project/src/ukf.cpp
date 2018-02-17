@@ -134,7 +134,7 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
   
   static int ctr =0;
   ctr++;
-  if(ctr == 5) exit(0);
+  if(ctr == 25) exit(0);
   /* Measurement update step */
   if(meas_package.sensor_type_ == MeasurementPackage::RADAR && use_radar_ == true )
   {
