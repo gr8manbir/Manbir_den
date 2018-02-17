@@ -255,7 +255,7 @@ void UKF::Prediction(double delta_t) {
         //iterate over sigma points
         x_ = x_ + weights_(i) * Xsig_pred_.col(i);
     }
-	std::cout<<"Predicted x_"<<x_<<endl;
+	//std::cout<<"Predicted x_"<<x_<<endl;
 	//Calculate co-variance
 	P_.fill(0.0);
     for ( int i = 0; i < 2 * n_aug_ + 1; i++) {  //iterate over sigma points
@@ -414,15 +414,6 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
 
     S = S + weights_(i) * z_diff * z_diff.transpose();
 	
-	// state difference
-    VectorXd x_diff = VectorXd( n_aug_ );
-	x_diff.fill(0.0);
-	x_diff = Xsig_pred_.col(i) - x_;
-    //angle normalization
-    while (x_diff(3)> M_PI) x_diff(3)-=2.*M_PI;
-    while (x_diff(3)<-M_PI) x_diff(3)+=2.*M_PI;
-	
-	Tc = Tc + weights_(i) * x_diff * z_diff.transpose();
   }
 
   //add measurement noise covariance matrix
@@ -432,6 +423,26 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
           0, std_radphi_*std_radphi_, 0,
           0, 0,std_radrd_*std_radrd_;
   S = S + R;
+  
+  for (int i = 0; i < 2 * n_aug_ + 1; i++) {  //2n+1 sigma points
+    //residual
+    VectorXd z_diff = Zsig.col(i) - z_pred;
+
+    //angle normalization
+    while (z_diff(1)> M_PI) z_diff(1)-=2.*M_PI;
+    while (z_diff(1)<-M_PI) z_diff(1)+=2.*M_PI;
+	
+	// state difference
+    VectorXd x_diff = VectorXd( n_aug_ );
+	x_diff.fill(0.0);
+	x_diff = Xsig_pred_.col(i) - x_;
+	
+    //angle normalization
+    while (x_diff(3)> M_PI) x_diff(3)-=2.*M_PI;
+    while (x_diff(3)<-M_PI) x_diff(3)+=2.*M_PI;
+	
+	Tc = Tc + weights_(i) * x_diff * z_diff.transpose();
+  }
   
   //We have mean and co-variance for predicted r0, phi and rho-dot. 
   //Now from actual measurement update mean and co-variance i.e x_ and P_
