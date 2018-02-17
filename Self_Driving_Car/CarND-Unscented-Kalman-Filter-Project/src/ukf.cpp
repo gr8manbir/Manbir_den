@@ -134,7 +134,7 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
   double dt = (meas_package.timestamp_ - time_us_)/ 1000000.0;;
   Prediction(dt);
   
-  static ctr =0;
+  static int ctr =0;
   if(ctr == 5) exit(0);
   /* Measurement update step */
   if(meas_package.sensor_type_ == MeasurementPackage::RADAR && use_radar_ == true )
