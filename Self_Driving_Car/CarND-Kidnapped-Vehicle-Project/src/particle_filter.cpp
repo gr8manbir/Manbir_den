@@ -18,6 +18,7 @@
 #include "particle_filter.h"
 
 using namespace std;
+default_random_engine gen;
 
 void ParticleFilter::init(double x, double y, double theta, double std[]) {
 	// TODO: Set the number of particles. Initialize all particles to first position (based on estimates of 
@@ -27,10 +28,7 @@ void ParticleFilter::init(double x, double y, double theta, double std[]) {
 	
 	//1. Init number of particles
 	num_particles = 100;
-	
-	//2. default random engine and gaussian init
-	default_random_engine gen;
-	 
+		 
 	// This line creates a normal (Gaussian) distribution for x,y and theta
 	normal_distribution<double> dist_x(x, std[0]);
 	normal_distribution<double> dist_y(y, std[1]);
@@ -61,7 +59,32 @@ void ParticleFilter::prediction(double delta_t, double std_pos[], double velocit
 	// NOTE: When adding noise you may find std::normal_distribution and std::default_random_engine useful.
 	//  http://en.cppreference.com/w/cpp/numeric/random/normal_distribution
 	//  http://www.cplusplus.com/reference/random/default_random_engine/
+	
+	//Init normal distribution for sensor - around 0 mean
+	normal_distribution<double> dist_x(0, std_pos[0]);
+	normal_distribution<double> dist_y(0, std_pos[1]);
+	normal_distribution<double> dist_theta(0, std_pos[2]);
 
+	//Update particles
+	for(int i = 0; i < num_particles; i++)
+	{
+		//yaw_rate in dr will cause div by zero.
+		if(fabs(yaw_rate) < 0.001)
+		{
+			particles[i].x += velocity * delta_t * cos(particles[i].theta);
+			particles[i].y += velocity * delta_t * sin(particles[i].theta);
+		}
+		else
+		{
+			particles[i].x += velocity/yaw_rate * (sin(particles[i].theta + yaw_rate*delta_t) - sin(particles[i].theta));
+			particles[i].y += velocity/yaw_rate * (cos(particles[i].theta) - cos(particles[i].theta + yaw_rate*delta_t));
+			particles[i].theta += yaw_rate*delta_t;
+		}
+		
+		//Add gaussian noise
+		particles[i].x += 
+		particles.
+	}
 }
 
 void ParticleFilter::dataAssociation(std::vector<LandmarkObs> predicted, std::vector<LandmarkObs>& observations) {
