@@ -35,7 +35,7 @@ void ParticleFilter::init(double x, double y, double theta, double std[]) {
 	normal_distribution<double> dist_theta(theta, std[2]);
 	
 	//3. Init all particles
-	for( int i = 0; i < num_particles; i++ )
+	for( unsigned int i = 0; i < num_particles; i++ )
 	{
 		//Create a temporary particle
 		Particle temp;
@@ -66,7 +66,7 @@ void ParticleFilter::prediction(double delta_t, double std_pos[], double velocit
 	normal_distribution<double> dist_theta(0, std_pos[2]);
 
 	//Update particles
-	for(int i = 0; i < num_particles; i++)
+	for(unsigned int i = 0; i < num_particles; i++)
 	{
 		//yaw_rate in dr will cause div by zero.
 		if(fabs(yaw_rate) < 0.001)
@@ -82,8 +82,9 @@ void ParticleFilter::prediction(double delta_t, double std_pos[], double velocit
 		}
 		
 		//Add gaussian noise
-		particles[i].x += 
-		particles.
+		particles[i].x += dist_x(gen);
+		particles[i].y += dist_y(gen);
+		particles[i].theta += dist_theta(gen);
 	}
 }
 
@@ -93,6 +94,33 @@ void ParticleFilter::dataAssociation(std::vector<LandmarkObs> predicted, std::ve
 	// NOTE: this method will NOT be called by the grading code. But you will probably find it useful to 
 	//   implement this method and use it as a helper during the updateWeights phase.
 
+	for(unsigned int i = 0; i < observations.size(); i++ )
+	{
+		//We have to map each observation to a prediction.
+	    //Assume dist is very large from any prediction
+		// Initialize min distance as a really big number.
+        double minDist = numeric_limits<double>::max();
+		int iLandmark = -1; //The final prediction ID which is considered as a map to the observation
+		
+		//Run the current observation against all predictions
+		for(unsigned int j = 0;  j < predicted.size(); j++ )
+		{
+			double xdiff = observations[i].x - predicted[i].x;
+			double ydiff = observations[i].y - predicted[i].y
+			
+			//Euclidean distance - Use helper function later
+			double dist = xdiff*xdiff + ydiff*ydiff;
+			
+			//If current dist < previous minimum distance, this must be landmark
+			if( dist < minDist )
+			{
+				minDist = dist;
+				iLandmark = predicted[j].id;
+			}
+		}
+		//Map current observation to landmark with least distance
+		observations[i].id = iLandmark;
+	}
 }
 
 void ParticleFilter::updateWeights(double sensor_range, double std_landmark[], 
@@ -107,6 +135,45 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 	//   and the following is a good resource for the actual equation to implement (look at equation 
 	//   3.33
 	//   http://planning.cs.uiuc.edu/node99.html
+	
+	double dRange = std_landmark[0];
+	double dBearing = std_landmark[1];
+	
+	for(unsigned int i = 0; i < num_particles; i++)
+	{
+		/*Using distance between particles and landmark build a list of landmarks that are
+		 * within sensor range of any particle.
+		 */
+		double currPartX = particles[i].x;
+		double currPartY = particles[i].y;
+		double currPartTheta = particles[i].theta;
+		
+		vector<LandmarkObs> LandMarks;
+		for(unsigned int j = 0; j < map_landmarks.landmark_list.size(); j++)
+		{
+			double lm_x = map_landmarks.landmark_list[j].x_f;
+			double lm_y = map_landmarks.landmark_list[j].y_f;
+			double lm_id = map_landmarks.landmark_list[j].id_i;
+			
+			if((fabs(lm_x-currPartX) <= sensor_range) && (fabs(lm_y-currPartY) <= sensor_range) )
+			{
+				LandMarks.push_back(LandmarkObs{lm_id,lm_x,lm_y});
+			}
+		}
+		
+		//Transform observations made from vehicle to map co-ordinates
+		vector<LandmarkObs>TransformObs;
+		for(unsigned j = 0; j < observations.size; j++)
+		{
+			//Matrix multiplication from class
+			double x = cos(currPartTheta)*observations[j].x - sin(currPartTheta)*observations[j].y + currPartX;
+            double y = sin(currPartTheta)*observations[j].x + cos(currPartTheta)*observations[j].y + currPartY;
+            TransformObs.push_back(LandmarkObs{ observations[j].id, x, y });
+		}
+		
+		//Map landmarks to transformed observations
+		dataAssociation(LandMarks,TransformObs);
+	}
 }
 
 void ParticleFilter::resample() {
