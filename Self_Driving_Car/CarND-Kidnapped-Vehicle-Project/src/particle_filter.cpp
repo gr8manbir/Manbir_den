@@ -136,8 +136,8 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 	//   3.33
 	//   http://planning.cs.uiuc.edu/node99.html
 	
-	double dRange = std_landmark[0];
-	double dBearing = std_landmark[1];
+	double sig_x = std_landmark[0];
+	double sig_y = std_landmark[1];
 	
 	for(unsigned int i = 0; i < num_particles; i++)
 	{
@@ -163,7 +163,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 		
 		//Transform observations made from vehicle to map co-ordinates
 		vector<LandmarkObs>TransformObs;
-		for(unsigned j = 0; j < observations.size; j++)
+		for(unsigned int j = 0; j < observations.size(); j++)
 		{
 			//Matrix multiplication from class
 			double x = cos(currPartTheta)*observations[j].x - sin(currPartTheta)*observations[j].y + currPartX;
@@ -173,6 +173,38 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 		
 		//Map landmarks to transformed observations
 		dataAssociation(LandMarks,TransformObs);
+		
+		//Update weight step. First reset it
+		particles[i].weight = 1.0;
+		
+		//Calculate weight for particle associated with an transformed observation
+		for( unsigned int j = 0; j < TransformObs.size(); j++ )
+		{
+			double obsX = TransformObs[j].x;
+			double obsY = TransformObs[j].y;
+			
+			int id = TransformObs[j].id;
+			
+			double LandMarkX, LandMarkY;
+			unsigned int k = 0;
+			
+			bool bFound = false; //Not all landmarks might have been observed
+			while ( k < LandMarks.size() )
+			{
+				if ( true == bFound ) break;
+				LandMarkX = LandMarks[k].x;
+				LandMarkY = LandMarks[k].y;
+				k++;
+			}
+		}
+		
+		double dx = obsX - LandMarkX;
+		double dy = obsY - LandMarkY;
+		double gauss_norm = (1/(2*M_PI*sig_x*sig_y));
+		double exponent = (dx*dx)/(2*sig_x*sig_x) + (dy*dy)/(2*sig_y*sig_y);
+		double weight = gauss_norm *exp(-1.0*exponent);
+		if(weight <0.001 ) weight = 0.001;
+		particles[i].weight *= weight;
 	}
 }
 
