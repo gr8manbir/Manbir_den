@@ -219,10 +219,10 @@ void ParticleFilter::resample() {
 	
 	for( unsigned int i =0; i < num_particles; i++ )
 	{
-		weights::push_back(particles[i].weight);
+		weights.push_back(particles[i].weight);
 		if( particles[i].weight > maxwt )
 		{
-			maxwt = particles[i].weight();
+			maxwt = particles[i].weight;
 		}
 	}
 	
