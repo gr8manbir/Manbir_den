@@ -106,7 +106,7 @@ void ParticleFilter::dataAssociation(std::vector<LandmarkObs> predicted, std::ve
 		for(unsigned int j = 0;  j < predicted.size(); j++ )
 		{
 			double xdiff = observations[i].x - predicted[i].x;
-			double ydiff = observations[i].y - predicted[i].y
+			double ydiff = observations[i].y - predicted[i].y;
 			
 			//Euclidean distance - Use helper function later
 			double dist = xdiff*xdiff + ydiff*ydiff;
@@ -205,14 +205,52 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 		double weight = gauss_norm *exp(-1.0*exponent);
 		if(weight <0.001 ) weight = 0.001;
 		particles[i].weight *= weight;
-	}
+	} 
 }
 
 void ParticleFilter::resample() {
 	// TODO: Resample particles with replacement with probability proportional to their weight. 
 	// NOTE: You may find std::discrete_distribution helpful here.
 	//   http://en.cppreference.com/w/cpp/numeric/random/discrete_distribution
+	
+	// 1. we have to find beta from 0 to 2*weightmax
+	vector<double> weights;
+	double maxwt = numeric_limits<double>::min();
+	
+	for( unsigned int i =0; i < num_particles; i++ )
+	{
+		weights::push_back(particles[i].weight);
+		if( particles[i].weight > maxwt )
+		{
+			maxwt = particles[i].weight();
+		}
+	}
+	
+	//We found max weight. Now find beta from 0 to 2*maxwt from a distribution
+	uniform_real_distribution<double> WtDist(0.0, maxwt);
+	uniform_int_distribution<int> partDist(0, num_particles - 1);
 
+	//Get a random starting point
+	int index = partDist(gen);
+	
+	double beta = 0.0;
+	
+	vector<Particle> SampledParticles;
+	for( unsigned int j =0; j < num_particles; j++ )
+	{
+		beta += WtDist(gen)*2.0;
+		//Wheel logic
+		while(beta > weights[index])
+		{
+			beta -= weights[index];
+			index = (index+1)%num_particles;
+		}
+		//We got enough particles. 
+		SampledParticles.push_back(particles[index]);
+	}
+	
+	//Now use the new set as particles set
+	particles = SampledParticles;
 }
 
 Particle ParticleFilter::SetAssociations(Particle& particle, const std::vector<int>& associations, 
