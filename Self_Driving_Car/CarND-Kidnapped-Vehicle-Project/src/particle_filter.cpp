@@ -27,7 +27,7 @@ void ParticleFilter::init(double x, double y, double theta, double std[]) {
 	// NOTE: Consult particle_filter.h for more information about this method (and others in this file).
 	
 	//1. Init number of particles
-	num_particles = 200;
+	num_particles = 100;
 		 
 	// This line creates a normal (Gaussian) distribution for x,y and theta
 	normal_distribution<double> dist_x(x, std[0]);
@@ -188,18 +188,21 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 			double LandMarkX, LandMarkY;
 			unsigned int k = 0;
 			
-			bool bFound = false; //Not all landmarks might have been observed
+			//find mapping
 			while ( k < LandMarks.size() )
 			{
-				if ( true == bFound ) break;
-				LandMarkX = LandMarks[k].x;
-				LandMarkY = LandMarks[k].y;
+				if(LandMarks[k].id == id )
+				{
+				    LandMarkX = LandMarks[k].x;
+				    LandMarkY = LandMarks[k].y;
+					break;
+				}
 				k++;
 			}
 		
 		    double dx = obsX - LandMarkX;
 		    double dy = obsY - LandMarkY;
-		    double gauss_norm = (1/(2*M_PI*sig_x*sig_y));
+		    double gauss_norm = (1.0/(2.0*M_PI*sig_x*sig_y));
 		    double exponent = (dx*dx)/(2*sig_x*sig_x) + (dy*dy)/(2*sig_y*sig_y);
 		    double weight = gauss_norm *exp(-1.0*exponent);
 		    if(weight <0.00001 ) weight = 0.00001;
