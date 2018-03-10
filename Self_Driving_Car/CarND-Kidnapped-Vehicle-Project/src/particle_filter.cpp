@@ -35,7 +35,7 @@ void ParticleFilter::init(double x, double y, double theta, double std[]) {
 	normal_distribution<double> dist_theta(theta, std[2]);
 	
 	//3. Init all particles
-	for( unsigned int i = 0; i < num_particles; i++ )
+	for( int i = 0; i < num_particles; i++ )
 	{
 		//Create a temporary particle
 		Particle temp;
@@ -66,10 +66,10 @@ void ParticleFilter::prediction(double delta_t, double std_pos[], double velocit
 	normal_distribution<double> dist_theta(0, std_pos[2]);
 
 	//Update particles
-	for(unsigned int i = 0; i < num_particles; i++)
+	for( int i = 0; i < num_particles; i++)
 	{
 		//yaw_rate in dr will cause div by zero.
-		if(fabs(yaw_rate) < 0.001)
+		if(fabs(yaw_rate) < 0.0001)
 		{
 			particles[i].x += velocity * delta_t * cos(particles[i].theta);
 			particles[i].y += velocity * delta_t * sin(particles[i].theta);
@@ -105,8 +105,8 @@ void ParticleFilter::dataAssociation(std::vector<LandmarkObs> predicted, std::ve
 		//Run the current observation against all predictions
 		for(unsigned int j = 0;  j < predicted.size(); j++ )
 		{
-			double xdiff = observations[i].x - predicted[i].x;
-			double ydiff = observations[i].y - predicted[i].y;
+			double xdiff = observations[i].x - predicted[j].x;
+			double ydiff = observations[i].y - predicted[j].y;
 			
 			//Euclidean distance - Use helper function later
 			double dist = xdiff*xdiff + ydiff*ydiff;
@@ -139,7 +139,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 	double sig_x = std_landmark[0];
 	double sig_y = std_landmark[1];
 	
-	for(unsigned int i = 0; i < num_particles; i++)
+	for(int i = 0; i < num_particles; i++)
 	{
 		/*Using distance between particles and landmark build a list of landmarks that are
 		 * within sensor range of any particle.
@@ -202,7 +202,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 		    double gauss_norm = (1/(2*M_PI*sig_x*sig_y));
 		    double exponent = (dx*dx)/(2*sig_x*sig_x) + (dy*dy)/(2*sig_y*sig_y);
 		    double weight = gauss_norm *exp(-1.0*exponent);
-		    if(weight <0.001 ) weight = 0.001;
+		    if(weight <0.0001 ) weight = 0.0001;
 		        particles[i].weight *= weight;
 		}
 	} 
@@ -217,7 +217,7 @@ void ParticleFilter::resample() {
 	vector<double> weights;
 	double maxwt = numeric_limits<double>::min();
 	
-	for( unsigned int i =0; i < num_particles; i++ )
+	for( int i =0; i < num_particles; i++ )
 	{
 		weights.push_back(particles[i].weight);
 		if( particles[i].weight > maxwt )
@@ -236,7 +236,7 @@ void ParticleFilter::resample() {
 	double beta = 0.0;
 	
 	vector<Particle> SampledParticles;
-	for( unsigned int j =0; j < num_particles; j++ )
+	for( int j =0; j < num_particles; j++ )
 	{
 		beta += WtDist(gen)*2.0;
 		//Wheel logic
