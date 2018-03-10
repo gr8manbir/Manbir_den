@@ -153,7 +153,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 		{
 			double lm_x = map_landmarks.landmark_list[j].x_f;
 			double lm_y = map_landmarks.landmark_list[j].y_f;
-			double lm_id = map_landmarks.landmark_list[j].id_i;
+			int    lm_id = map_landmarks.landmark_list[j].id_i;
 			
 			if((fabs(lm_x-currPartX) <= sensor_range) && (fabs(lm_y-currPartY) <= sensor_range) )
 			{
@@ -196,15 +196,15 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 				LandMarkY = LandMarks[k].y;
 				k++;
 			}
-		}
 		
-		double dx = obsX - LandMarkX;
-		double dy = obsY - LandMarkY;
-		double gauss_norm = (1/(2*M_PI*sig_x*sig_y));
-		double exponent = (dx*dx)/(2*sig_x*sig_x) + (dy*dy)/(2*sig_y*sig_y);
-		double weight = gauss_norm *exp(-1.0*exponent);
-		if(weight <0.001 ) weight = 0.001;
-		particles[i].weight *= weight;
+		    double dx = obsX - LandMarkX;
+		    double dy = obsY - LandMarkY;
+		    double gauss_norm = (1/(2*M_PI*sig_x*sig_y));
+		    double exponent = (dx*dx)/(2*sig_x*sig_x) + (dy*dy)/(2*sig_y*sig_y);
+		    double weight = gauss_norm *exp(-1.0*exponent);
+		    if(weight <0.001 ) weight = 0.001;
+		        particles[i].weight *= weight;
+		}
 	} 
 }
 
