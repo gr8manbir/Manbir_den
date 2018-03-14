@@ -34,6 +34,19 @@ int main()
 
   PID pid;
   // TODO: Initialize the pid variable.
+  
+  /* The below are chosen as follows(manual tuning): 
+   * Kp: 
+   * 1. This is the proportional part which actually controls car trajectory towards center line.
+   * 2. I observed that it is best to keep it low because the curves on the road are gradual race track like.
+   * Ki: 
+   * 1. Keeping this zero seemed sufficient. In a real car there might be a bias but in the video car tires seemed aligned fully.
+   * 2. Since solution worked at zero, it was never changed.
+   * Kd:
+   * 1. Again done through hit and trial.
+   * 2. Probably curves changes suddenly and as we don't want the car to go over the red and white areas of the car curve,
+   *    keeping this high seemed necessary to reduce the impact of Kp.
+   */
   double init_Kp = 0.15;
   double init_Ki = 0.0;
   double init_Kd = 2.5;
@@ -61,7 +74,9 @@ int main()
           * NOTE: Feel free to play around with the throttle and speed. Maybe use
           * another PID controller to control the speed!
           */
+		  //Use cte as the error which needs to be reduced but in a systematic way.
 		  pid.UpdateError(cte);
+		  //Get new steer value. Will incorporate previous steering values via d_error
           steer_value = pid.TotalError();
           // DEBUG
           std::cout << "CTE: " << cte << " Steering Value: " << steer_value << std::endl;
