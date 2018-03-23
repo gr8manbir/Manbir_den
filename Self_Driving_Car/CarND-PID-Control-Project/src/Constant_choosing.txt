@@ -1,0 +1,10 @@
+Kp: 
+1. This is the proportional part which actually controls car trajectory towards center line.
+2. I observed that it is best to keep it low because the curves on the road are gradual and we don't want to have a sudden sharp turn.
+Ki: 
+1. Keeping this zero seemed sufficient. In a real car there might be a bias but in the video car tires seemed aligned fully.
+2. Since solution worked at zero, it was never changed.
+Kd:
+1. Again done through hit and trial.
+2. Probably curves changes suddenly and as we don't want the car to go over the red and white areas of the car curve,
+   keeping this high seemed necessary to reduce the impact of Kp.
