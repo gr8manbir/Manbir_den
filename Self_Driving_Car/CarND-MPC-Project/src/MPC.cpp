@@ -118,9 +118,9 @@ class FG_eval {
 		AD<double> psi_des0 = 0.0;
 		for(int i = 1; i < coeffs.size(); i++ )
 		{
-			psides0 += i*coeffs[i]*CppAD::pow(x0,i-1);
+			psi_des0 += i*coeffs[i]*CppAD::pow(x0,i-1);
 		}
-		psides0 = CppAD::atan(psides0);
+		psi_des0 = CppAD::atan(psi_des0);
 		
 		//The motion model equations
 		fg[2 + x_start + i] = x1 - (x0 + v0 * CppAD::cos(psi0) * dt);
