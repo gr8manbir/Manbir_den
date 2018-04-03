@@ -122,6 +122,8 @@ int main() {
           double throttle_value = j[1]["throttle"];
 		  
 		  /* Predict state after dt */
+		  double Lf = 2.67;
+		  double dt = 0.1;
 		  double pred_x = v *dt;
 		  double pred_y = 0.0;
 		  double pred_psi = -v * steer_value * dt/Lf;
@@ -138,7 +140,6 @@ int main() {
           *
           */
 		  auto vars = mpc.Solve(state, coeffs);
-		  double Lf = 2.67;
           json msgJson;
           // NOTE: Remember to divide by deg2rad(25) before you send the steering value back.
           // Otherwise the values will be in between [-deg2rad(25), deg2rad(25] instead of [-1, 1].
