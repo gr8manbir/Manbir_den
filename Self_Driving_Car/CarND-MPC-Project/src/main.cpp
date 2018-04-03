@@ -121,8 +121,15 @@ int main() {
           double steer_value = j[1]["steering_angle"];
           double throttle_value = j[1]["throttle"];
 		  
+		  /* Predict state after dt */
+		  double pred_x = v *dt;
+		  double pred_y = 0.0;
+		  double pred_psi = -v * steer_value * dt/Lf;
+		  double pred_v = v + throttle_value * dt;
+		  double pred_cte = cte + v * sin(epsi) * dt;
+		  double pred_epsi = epsi + pred_psi;
 		  Eigen::VectorXd state(6);
-		  state << 0, 0, 0, v, cte, epsi;
+		  state << pred_x, pred_y, pred_psi, pred_v, pred_cte, pred_epsi;
 
 		            /*
           * TODO: Calculate steering angle and throttle using MPC.
