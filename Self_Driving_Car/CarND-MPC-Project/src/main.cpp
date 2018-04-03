@@ -107,7 +107,7 @@ int main() {
 		  Eigen::Map<Eigen::VectorXd> ptsx_transform(ptrx, 6);
 		  
 		  double *ptry = &ptsy[0];
-		  Eigen::Map<Eigen::VectorXd> ptsx_transform(ptry, 6);
+		  Eigen::Map<Eigen::VectorXd> ptsy_transform(ptry, 6);
 		  
 		  //Fit a polynomial over the transformed waypoints
 		  //A 3rd order polynomial will give a0, a1, a2 & a3(constant)
@@ -130,12 +130,13 @@ int main() {
           * Both are in between [-1, 1].
           *
           */
-		  auto vars = mpc.solve(state, coeffs);
+		  auto vars = mpc.Solve(state, coeffs);
+		  double Lf = 2.67;
           json msgJson;
           // NOTE: Remember to divide by deg2rad(25) before you send the steering value back.
           // Otherwise the values will be in between [-deg2rad(25), deg2rad(25] instead of [-1, 1].
-          msgJson["steering_angle"] = steer_value;
-          msgJson["throttle"] = throttle_value;
+          msgJson["steering_angle"] = vars[0]/(deg2rad(25)*Lf);
+          msgJson["throttle"] = vars[1];
 
           //Display the MPC predicted trajectory 
           vector<double> mpc_x_vals;
@@ -143,9 +144,16 @@ int main() {
 
           //.. add (x,y) points to list here, points are in reference to the vehicle's coordinate system
           // the points in the simulator are connected by a Green line
-		  for(int i = 2; i < vars.size();i+=2)
+		  for(int i = 2; i < vars.size();i++)
 		  {
-			  
+			  if(i%2 == 0)
+			  {
+				  mpc_x_vals.push_back(vars[i]);
+			  }
+			  else
+			  {
+				  mpc_y_vals.push_back(vars[i]);
+			  }
 		  }
 		  
           msgJson["mpc_x"] = mpc_x_vals;
