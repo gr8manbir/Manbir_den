@@ -3,6 +3,36 @@ Self-Driving Car Engineer Nanodegree Program
 
 ---
 
+## Intro to PID controller 
+
+A PID controller is a control theory that is used to keep a system performing close to a set of desired parameters. In Self driving car this can be used to keep a car in the center of the lane.
+
+It does this by reducing an error called "CTE" i.e. Cross track error.
+
+cte = desired lane - current lane
+
+The PID controller consists of three controls that need to be tuned:
+
+1. Proportional control: This controls in which direction the car must be steered and at what angle. Since the car is steered at a constant angle, it causes the car to oscillate around the center line rather than come close. Mathematically this is directly proportional to cte.
+
+2. Derivative control: This parameter controls how much the steering angle should be reduced as the car comes closer to the center line. So the steering angle now reduces as the car comes closer to the center lane( due to derivative control ) and increases when it is further away. Hence this reduces current cte by the previous cross track error.
+
+3. Integral gain: In a perfect world the P and D controls should be enough to steer a car towards the center lane. But there might be scenario's wherein this is not possible. For ex: A car whose wheels are not perfectly aligned. In this case the car will steer towards an arbitrary straight lane but not the center lane. To overcome this offset an Integral control is also used. This is directly proportional to sum of all historic cross track errors. 
+
+## Tuning control gains
+
+Each control in a PID control has a constant multiplying factor, also called a gain. These need to be tuned. For this project a manual method based on Zeigler-Nichols method was used. This is described in below link: 
+
+https://en.wikipedia.org/wiki/Ziegler%E2%80%93Nichols_method
+
+Intially all control constants were set to zero. Then I first increased Kp i.e proportional constant till the car seemed to swerve uniformly around center lane. This was found to be 0.15.
+
+Next I increased Kd till the swerving reduced. This was found to be 2.5. My understanding is that this will agressively reduce steering angles and not allow car to go across center lane.
+
+Also to note in my project speed is constant so the constants work well.
+
+
+
 ## Dependencies
 
 * cmake >= 3.5
