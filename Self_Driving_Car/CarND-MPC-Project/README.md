@@ -3,6 +3,28 @@ Self-Driving Car Engineer Nanodegree Program
 
 ---
 
+## Model Predictive Controller
+
+The goal of this project is to drive a car around a simulated race track in a Udacity simulator.
+An MPC model is an improvement over the PID model wherein it allows actuator controls values to be calculated from 
+a state in the future. So the goal of this project is:
+
+1) Calculate the path i.e. fit a polynomial for the given way points.
+
+2) Predict the future state of the vehicle using a vehicle motion model.
+
+3) From the future state get the actuator controls using a model predictive controller. 
+
+
+## Path calculation
+
+This involves the following steps:
+
+1) The simulator provides a set of way points (x,y). These have to be transformed from global co-ordinates to vehicle co-ordinates.
+This means that (x,y) = (0,0) is the position of the car.
+
+2) From the transformed way points, fit a 3rd order polynomial function. This will give a set of co-efficients.
+
 ## Dependencies
 
 * cmake >= 3.5
