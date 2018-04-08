@@ -16,7 +16,7 @@ a state in the future. So the goal of this project is:
 3) From the future state get the actuator controls using a model predictive controller. 
 
 
-## Path calculation
+## implementation
 
 This involves the following steps:
 
@@ -24,6 +24,72 @@ This involves the following steps:
 This means that (x,y) = (0,0) is the position of the car.
 
 2) From the transformed way points, fit a 3rd order polynomial function. This will give a set of co-efficients.
+
+3) The initial cross track error and error in orientation ( not steering angle ) can be got as below:
+	a. cte = initial 0 value of coeffs
+	b. epsi = tan inverse of coeffs[1]
+	
+4) Next step is to predict the vehicle state after latency ( actual advantage of MPC ). In this step
+we calculate the entire 6 vector values of the motion model after 0.1 sec( 100 ms ). This 100ms comes from
+the thread sleep value which introduces the latency. The six values after 0.1 sec are calculated as follows:
+	a. X after 100ms  = velocity(v) * latency time(dt)
+	b. Y after 100ms = 0.0
+	c. psi ( i.e. vehicle orientation ) = -v * steer *dt/Lf
+	d. vel = vel + throttle*dt
+	e. cte = cte + v*sin(epsi) *dt
+	f. epsi = epsi + psi ( from c. )
+	
+5) Now we have next vehicle state and coeffs of the polynomial on which the car must remain. So using an Model predictive
+controller on (next vehicle state, coeffs) we can get the following:
+	a. Next steering angle
+	b. Next speed
+	c. (x,y) co-rordinates for the vehicle movement. This is the green line shown in final video.
+	
+6) We also display a yellow line just to see that the polynomial fit is being generated properly. For this we 
+do the following:
+	a. Use 25 point in 2.5 step increments for x co-ords
+	b. Evaluate the y value for the above 25 x values from the coeffs.
+	c. Plot a line with the x and y values. This is the yellow line.
+	
+##Model and MPC
+
+This describes how the vehicle motion model is considered and how the model predictive controller works
+1. The vehicle motion model considers 4 parameters:
+	a. x state
+	b. y state
+	c. v(elocity) state
+	d. psi( vehicle orientation )
+	
+2. There are two possible actuator inputs
+	a. steering angle (delta) constrained to [-25, 25] degrees
+	b. acceleration( a ) constrained to [-1, 1] 
+
+3. The two errors to be reduced are cte and epsi( error in vehicle orientation )
+
+The model works as follows:
+
+1. Define a cost for cte, epsi, vel, steering angle, acceleration, change in steering angle and change in acceleration.
+   This is done as follows:
+    cost = pow( curr_state - refer_state, 2)
+    Examples of reference state are speed=100, cte=0.
+
+2. Define the weightage of each cost. For example cte=0 is more important than velocity=100.
+
+3. Next we extrapolate these constraints for entire 10 ( i.e. N ) steps using motion model equations.
+
+4. The MPC.solve() does the following:
+
+	a. Set the lower and upper bound constraints for all state parameters and actuator controls.
+	b. From the polynomial coefficients create the costs and constraints.
+	c. Solve bounds, costs and constraints to obtain next steering angle, acceleration and (x,y) of 
+	   the path to be followed.
+	   
+##Choosing N( number of steps)  and dt ( time between steps )
+
+The values chosen for this solution are N=10 and dt=0.1. This gives the magic figure of predicting the 
+vehicle's parameters for exactly next 1 second. I tried dt>0.1 and this make the vehicle slower to react.
+Increasing N>10 made the processing slower and it seems my PC couldn't keep up. So N=10 and dt=0.1 seems
+like a good solution.
 
 ## Dependencies
 
