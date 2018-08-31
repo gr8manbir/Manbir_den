@@ -270,10 +270,22 @@ int main() {
 					//check_s values greater than mine and s_gap < 30m
 					if((check_car_s > car_s) && ((check_car_s-car_s) < 30) )
 					{
-						ref_vel = 29.5; //mph
+						//ref_vel = 29.5; //mph
+						too_close = true;
 					}
 				}
 			}
+			
+			/* Check if we need to accelerate or deccelerate */
+			if(too_close)
+			{
+				ref_vel -= .224;
+			}
+			else if(ref_vel < 49.5)
+			{
+				ref_vel += .224;
+			}
+			
 			// Create a list of widely spaced (x,y) waypoints, evenly spaced at 30m
 			// Interpolate these waypoints with a spline and fill it with more points
 			vector<double> ptsx;
