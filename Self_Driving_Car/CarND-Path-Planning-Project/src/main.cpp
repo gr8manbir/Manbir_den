@@ -205,7 +205,7 @@ int main() {
   int lane = 1;
   
   //Reference velocity
-  double ref_vel = 49.5;
+  double ref_vel = 0.0; //start at 0
   h.onMessage([&ref_vel,&map_waypoints_x,&map_waypoints_y,&map_waypoints_s,&map_waypoints_dx,&map_waypoints_dy,&lane](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length,
                      uWS::OpCode opCode) {
     // "42" at the start of the message means there's a websocket message event.
@@ -253,37 +253,154 @@ int main() {
 			}
 			
 			bool too_close = false;
+			bool too_close_left = false;
+			bool too_close_right = false;
 			
 			//find ref_v to use i.e. slow down to prevent collision
 			for(int i = 0; i <sensor_fusion.size(); i++)
 			{
 				//Is car in my lane?
 				float d = sensor_fusion[i][6];
-				if(d < (2+4*lane+2) && d > (2+4*lane-2) )
+				int check_car_lane  = 0;
+				
+				if( d >=0 && d < 4)
 				{
-					double vx = sensor_fusion[i][3];
-					double vy = sensor_fusion[i][4];
-					double check_speed = sqrt(vx*vx+vy*vy);
-					double check_car_s = sensor_fusion[i][5];
-					
-					check_car_s+=((double)prev_size*.02*check_speed);//predict s over time
+					/* Between 0 m and 4 m is lane 0 */
+					//cout << "car lane zero" << d << endl;
+					check_car_lane = 0;
+				}
+				else if ( d>=4 && d < 8 )
+				{
+					/* Between 4 and 8 m, lane 1 */
+					check_car_lane = 1;
+					//cout << "car lane one" << d << endl;
+				}
+				else if ( d >= 8 && d <=12 )
+				{
+					/* Between 8 and 12m is lane 2*/
+					check_car_lane = 2;
+					//cout << "car lane two" << d << endl;
+				}
+				else
+				{
+					/* Don't care about this check_car */
+					//cout << "car lane don't care" << endl;
+					continue;
+				}
+				
+				double vx = sensor_fusion[i][3];
+				double vy = sensor_fusion[i][4];
+				double check_speed = sqrt(vx*vx+vy*vy);
+				double check_car_s = sensor_fusion[i][5];
+
+				/* Project check_car in future time */
+				check_car_s+=((double)prev_size*.02*check_speed);//predict s over time
+				/* If check car is in same lane as us */
+				if( 0 == check_car_lane-lane)
+				{
+					//cout << "check car in same lane " << endl;
 					//check_s values greater than mine and s_gap < 30m
 					if((check_car_s > car_s) && ((check_car_s-car_s) < 30) )
 					{
 						//ref_vel = 29.5; //mph
 						too_close = true;
+						//cout << "check car in same lane too close" << endl;
+					}
+				}
+				else if ( 1 ==  check_car_lane - lane )
+				{
+					//cout << "check car in right lane "<< car_s << ","<< check_car_s << endl;
+					/* check if any car is to right of us that will prevent lane change */
+					if ( car_s > check_car_s )
+					{
+						if( (car_s - 30) <= check_car_s)
+						{
+							/* A car is within 30m back right of us */
+							//cout << "check car in right lane too close back" << endl;
+							too_close_right = true;
+						}
+						
+					}
+					else
+					{
+						if( (check_car_s - 30) <= car_s  )
+						{
+							/* A car is within 30m front right of us */
+							//cout << "check car in right lane too close front " << endl;
+							too_close_right = true;
+						}
+					}
+				}
+				else if ( 1 == lane - check_car_lane )
+				{
+					//cout << "check car in left  lane " << car_s << ","<< check_car_s << endl;
+					/* Check if car is to left of us that will prevent lane change */
+					if ( car_s > check_car_s )
+					{
+						if( (car_s - 30) <= check_car_s)
+						{
+							/* A car is within 30m back left of us */
+							//cout << "check car in left lane too close back" << endl;
+							too_close_left = true;
+						}
+						
+					}
+					else
+					{
+						if( (check_car_s - 30) <= car_s  )
+						{
+							/* A car is within 30m front left of us */
+							//cout << "check car in left lane too close front " << endl;
+							too_close_left = true;
+						}
 					}
 				}
 			}
 			
-			/* Check if we need to accelerate or deccelerate */
+			
+			/* Decision time :) */
+			
+			/* Check if we need to lane change, accelerate/decelerate  */
 			if(too_close)
 			{
-				ref_vel -= .224;
+				//cout << "too close detected" << endl;
+				// Check if we can move right 
+				if ( false == too_close_right && lane < 2 )
+				{
+					//cout << "lane change right" << endl;
+					lane++;
+				}
+				else if( false == too_close_left && lane > 0)
+				{
+					//Check if we can move left
+					//cout << "lane change left" << endl;
+					lane--;
+				}
+				else
+				{
+					/* If we were not able to change lane's decelerate */
+					ref_vel -= .224; //5m/s2
+				}
 			}
-			else if(ref_vel < 49.5)
-			{
-				ref_vel += .224;
+			else
+			{	
+				/* Try staying in center lane */
+				if( 1 != lane )
+				{
+					//cout << "Not center laned" << endl;
+					if( ( (false == too_close_left) && lane == 2 ) ||
+					    ( (false == too_close_right) && lane == 0 ) )
+					{
+						//cout << "Now shifting to center lane" << endl;
+						lane = 1;
+					}
+				}
+				
+				/* Try accelerating */
+				if(ref_vel < 49.5)
+				{
+					ref_vel += .224;
+				}
 			}
 			
 			// Create a list of widely spaced (x,y) waypoints, evenly spaced at 30m
