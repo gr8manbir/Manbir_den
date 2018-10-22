@@ -1,0 +1,883 @@
+rocess[tl_detector-8]: started with pid [3812]
+(3657) accepted ('127.0.0.1', 33607)
+Traceback (most recent call last):
+  File "/home/workspace/CarND-Capstone/ros/src/waypoint_updater/waypoint_updater.py", line 151, in <module>
+    WaypointUpdater()
+  File "/home/workspace/CarND-Capstone/ros/src/waypoint_updater/waypoint_updater.py", line 47, in __init__
+    self.loop()
+  File "/home/workspace/CarND-Capstone/ros/src/waypoint_updater/waypoint_updater.py", line 53, in loop
+    if self.pose and self.base_lane:
+AttributeError: 'WaypointUpdater' object has no attribute 'base_lane'
+[waypoint_updater-7] process has died [pid 3774, exit code 1, cmd /home/workspace/CarND-Capstone/ros/src/waypoint_updater/waypoint_updater.py __name:=waypoint_updater __log:=/root/.ros/log/116d8f54-d59c-11e8-80a0-0242ac110002/waypoint_updater-7.log].
+log file: /root/.ros/log/116d8f54-d59c-11e8-80a0-0242ac110002/waypoint_updater-7*.log
+[ERROR] [1540172764.810086]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172764.904401]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172765.015250]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172765.099362]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172765.180180]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172765.266675]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172765.387188]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172765.461722]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172765.537057]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172765.656506]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172765.760237]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172765.842555]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172765.970749]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172766.048517]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172766.170554]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172766.244542]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172766.367524]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172766.446698]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172766.584069]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172766.664329]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172766.786502]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172807.494658]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172807.565928]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172807.691321]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172807.769250]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172807.891035]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172808.016216]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172808.100411]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172808.238491]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172808.325493]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172808.404995]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172808.490903]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172808.626680]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172808.708004]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172808.786604]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172808.900603]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172808.977726]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172809.113548]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172809.203584]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172809.288694]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172809.372444]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172809.485616]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172809.574563]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172809.690768]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172809.767060]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172809.884206]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172809.973757]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172810.098403]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172810.174029]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172810.316416]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172810.393402]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172810.469540]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172810.593628]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172810.675820]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172810.804850]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172810.880827]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172810.965347]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172811.090676]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172811.169412]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172811.290240]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172811.374642]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172811.506626]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172811.587976]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172811.701124]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172811.782888]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172811.865151]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172811.986303]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172812.063720]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172812.201262]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172812.273274]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172812.401093]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172812.491698]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172812.608379]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172812.686221]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172812.807155]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172812.889337]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172812.998918]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172813.085356]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172813.216584]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172813.301268]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172813.380028]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172813.468740]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172813.588856]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172813.674171]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172813.785496]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172813.863350]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+[ERROR] [1540172814.006665]: bad callback: <bound method TLDetector.image_cb of <__main__.TLDetector object at 0x7f404d9bf6d0>>
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/lib/python2.7/dist-packages/rospy/topics.py", line 750, in _invoke_callback
+    cb(msg)
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 73, in image_cb
+    light_wp, state = self.process_traffic_lights()
+  File "/home/workspace/CarND-Capstone/ros/src/tl_detector/tl_detector.py", line 142, in process_traffic_lights
+    car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
+TypeError: get_closest_waypoint() takes exactly 2 arguments (3 given)
+
+127.0.0.1 - - [22/Oct/2018 01:46:58] "GET /socket.io/?EIO=4&transport=websocket HTTP/1.1" 200 0 74.857495
