@@ -3,26 +3,31 @@
 
 #include <queue_mgmt.h>
 
-/* Function to create a node and fill it with packet data */
-node* CreateNode( int szPack, void *data){
+/* Using a linear queue for this assignment */
+node *head = NULL;
+node *tail = NULL;
+
+/* Function to enqueue a node */
+int enqueue( int szPack, void *data){
 	node *temp = NULL;
 	
 	/* First allocate memory for node */
 	temp = (node*) malloc(sizeof(node));
+	if( NULL == temp ) {
+		/* OOPS, out of memory */
+		return E_MEM_ERR;
+	}
 	temp->szPack = szPack;
 	
 	temp->data = (void*)malloc(szPack); /* Allocate memory for packet */
+	if( NULL == temp->data ) {
+		/* OOPS, out of memory */
+		free(temp);
+		return E_MEM_ERR;
+	}
 	memcpy(temp->data, (const void *)data, szPack); /* Fill data from hardware */
 	temp->next = NULL;
 
-    return temp;
-}
-
-/* Function to enqueue a node */
-void enqueue( node *temp ){
-	/* Mutex lock here */
-	
-	/* If HEAD is NULL, we are the only node */
 	if ( NULL == head ) {
 		head = temp;
 		tail = temp;
@@ -32,16 +37,16 @@ void enqueue( node *temp ){
 		tail->next = temp;
 		tail = temp;
 	}
-	/* Mutex unlock here */
+	
+	return E_SUCCESS;
 }
 
 int dequeue( void * bufp) {
 	node *temp = NULL;
-	/* Mutex lock here */
 	
 	/* Check for empty queue*/
 	if ( NULL == head ) {
-		return 0;
+		return E_EMPTY_QUEUE;
 	}
 	else {
 		temp = head;
@@ -52,5 +57,6 @@ int dequeue( void * bufp) {
 		free(temp->data);
 		free(temp);
 	}
-	/* Mutex unlock here */
+	
+	return E_SUCCESS;
 }

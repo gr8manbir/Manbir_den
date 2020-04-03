@@ -6,6 +6,8 @@
 
 #include <pthread.h>
 #include <errno.h>
+#include <unistd.h>
+#include <stdlib.h>
 
 /*======Data types======*/
 typedef struct {
@@ -14,9 +16,11 @@ typedef struct {
 	node *next;
 }node;
 
-/* Using a linear queue for this task */
-node *head = NULL;
-node *tail = NULL;
+typedef enum {
+	E_SUCCESS,
+	E_MEM_ERR,
+	E_EMPTY_QUEUE,
+}E_RET_CODE;
 
 /*======Function prototypes======*/
 node* CreateNode( int szPack, void *data );
