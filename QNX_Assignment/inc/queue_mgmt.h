@@ -6,7 +6,7 @@
 
 /*======Data types======*/
 typedef struct {
-	int  iPackSz;
+	int  szPack;
 	void *data;
 	node *next;
 }node;
@@ -16,7 +16,7 @@ node *head = NULL;
 node *tail = NULL;
 
 /*======Function prototypes======*/
-node* CreateNode( int szPack, void *data);
-void enqueue( node *temp);
+node* CreateNode( int szPack, void *data );
+void enqueue( node *temp );
 void* dequeue();
 #endif /* __QUEUE_MGMT_H__ */
