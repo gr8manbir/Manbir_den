@@ -4,6 +4,9 @@
 #ifndef __QUEUE_MGMT_H__
 #define __QUEUE_MGMT_H__
 
+#include <pthread.h>
+#include <errno.h>
+
 /*======Data types======*/
 typedef struct {
 	int  szPack;
@@ -17,6 +20,6 @@ node *tail = NULL;
 
 /*======Function prototypes======*/
 node* CreateNode( int szPack, void *data );
-void enqueue( node *temp );
-void* dequeue();
+void  enqueue( node *temp );
+int dequeue( void *bufp );
 #endif /* __QUEUE_MGMT_H__ */

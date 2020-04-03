@@ -41,7 +41,6 @@ int dequeue( void * bufp) {
 	
 	/* Check for empty queue*/
 	if ( NULL == head ) {
-		bufp = NULL;
 		return 0;
 	}
 	else {
