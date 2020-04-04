@@ -26,4 +26,5 @@ typedef enum {
 node* CreateNode( int szPack, void *data );
 void  enqueue( node *temp );
 int dequeue( void *bufp );
+int queue_peek( void );
 #endif /* __QUEUE_MGMT_H__ */

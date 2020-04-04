@@ -41,12 +41,22 @@ int enqueue( int szPack, void *data){
 	return E_SUCCESS;
 }
 
+/* Function to get size of packet to be processed next */
+int queue_peek( ) {
+	
+	/* Check for empty queue */
+	if( NULL == head ) {
+		return 0; /* No packet to process */
+	}
+	
+	return head->szPack;
+}
 int dequeue( void * bufp) {
 	node *temp = NULL;
 	
 	/* Check for empty queue*/
 	if ( NULL == head ) {
-		return E_EMPTY_QUEUE;
+		return (int)E_EMPTY_QUEUE;
 	}
 	else {
 		temp = head;
@@ -58,5 +68,5 @@ int dequeue( void * bufp) {
 		free(temp);
 	}
 	
-	return E_SUCCESS;
+	return (int)E_SUCCESS;
 }

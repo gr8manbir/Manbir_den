@@ -4,7 +4,7 @@
 #define PACKETSIZE 4096
 
 //TODO Define global data structures to be used
-pthread_mutex_t pth_mutex;          /* pthread mutex */
+pthread_mutex_t pth_mutex;         /* pthread mutex */
 pthread_cond_t  pth_waitcond;      /* pthread condition variable */
 
 /**
@@ -13,9 +13,73 @@ pthread_cond_t  pth_waitcond;      /* pthread condition variable */
  */
 void *reader_thread(void *arg) {
 	//TODO: Define set-up required
+	char *bufp = NULL; /* Will be malloc'ed once we are signalled to conserve memory */
+	int  szPack = 0; /* For size of packet at head of queue*/
+	int  iRet = 0;
 	
+	/* We have to own the mutex before wait on condition */
+	if ( pthread_mutex_lock(&pth_mutex) < 0 ) {
+		/* We failed to lock the mutex. Can not proceed with this thread. */
+		errnum = errno;
+		printf("Failed thread attribute initialization: %d\n", errnum);
+		return NULL;
+	}
 	while(1) {
 		//TODO: Define data extraction (queue) and processing 
+		/* Wait on condition */
+		if ( pthread_cond_wait(&pth_waitcond, &pth_mutex ) < 0 ) {
+			/* conditional wait failed. */
+			errnum = errno;
+			printf("Failed conditional wait: %d\n", errnum);
+			/* Assumption: Recovery is wait some time and try again */
+			usleep( 50 * 1000UL ); /* 50 msec */
+			continue;
+		}
+		
+		/* We now own the mutex. Dequeue data and send it for processing. */
+		
+		/* 1. Get size of packet on queue */
+		szPack = queue_peek( );
+		if( 0 == szPack ) {
+			/* No packet on queue - can not be zero sized packet 
+			 * due to logic used in writer thread. */
+			/* Assumption: Best action, sleep for a while and continue */
+			pthread_mutex_unlock(&pth_mutex);
+			usleep( 50 * 1000UL ); /* 50 msec */
+			continue;
+		}
+		
+		/* 2. Dynamically allocate memory for packet - slight performance penalty
+		 * over static allocation. Saves memory though. */
+		bufp = (char*)malloc((size_t)szPack); /* Allocate memory for packet */
+		if( NULL == bufp ) {
+			/* OOPS, out of memory. We have not dequeued - no packet lost.
+			 * So best action to just continue - Change cond_signal to cond_broadcast */
+			pthread_mutex_unlock(&pth_mutex);
+			usleep( 50 * 1000UL ); /* 50 msec */
+			continue; 
+		}
+		
+		/* 3. Dequeue packet */
+		iRet = dequeue((void*)bufp);
+		if( (int)E_SUCCESS != iRet ) {
+			/* Should never happen as this has been taken care of in peek() */
+			pthread_mutex_unlock(&pth_mutex);
+			free(bufp);
+			usleep( 50 * 1000UL ); /* 50 msec */
+			continue; 
+		}
+		
+		/* 4. Unlock mutex */
+		if ( pthread_mutex_unlock(&pth_mutex) < 0 ) {
+            /* TODO: What to do here? */
+		}
+		
+		/* Send the packet away for processing */
+		process_data(bufp, szPack);
+		
+		/* Free memory */
+		free(bufp);
 	}
 	
 	return NULL;
@@ -64,7 +128,7 @@ void *writer_thread(void *arg) {
 		}
 		
 		/* We got data, first lock the mutex */
-		if ( 0 > pthread_mutex_lock(&pth_mutex) ) {
+		if ( pthread_mutex_lock(&pth_mutex) < 0 ) {
 			/* TODO: Do something to preserve data */
 			continue; /* Can not add to queue without mutex lock */
 		}
@@ -76,13 +140,13 @@ void *writer_thread(void *arg) {
 		}
 		
 		/* Data successfully added to queue, now signal Reader threads
-		 * and unlock mutex
+		 * and unlock mutex. Use broadcast instead of signal.
 		 */
-		if ( 0 > pthread_cond_signal(&pth_waitcond) ) {
+		if ( pthread_cond_broadcast(&pth_waitcond) < 0 ) {
 			/* TODO: What to do here? */
 		}
 		
-		if ( 0 > pthread_mutex_unlock(&pth_mutex) ) {
+		if ( pthread_mutex_unlock(&pth_mutex) < 0 ) {
             /* TODO: What to do here? */
 		}
 	}
@@ -134,7 +198,7 @@ int main(int argc, char **argv) {
 	
 	while(1) {
 		/* We do not want main to exit as it will kill the detached threads.
-		 * Also we do not want this thread to be scheduled any time soon as it
+		 * Also we do not want the main thread to be scheduled any time soon as it
 		 * does nothing.
 		 * TODO: Think of some "main" process exit criteria.
 		 */
