@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <string.h>
+#include <signal.h>
 
 /*======Data types======*/
 typedef struct node{
@@ -22,6 +23,7 @@ typedef enum {
 	E_SUCCESS,
 	E_MEM_ERR,
 	E_EMPTY_QUEUE,
+	E_SYS_LOCKUP,
 }E_RET_CODE;
 
 /*======Function prototypes======*/
