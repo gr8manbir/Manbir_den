@@ -1,5 +1,5 @@
-EXE = qnx_assign
-CC = gcc
+EXE := qnx_assign
+CC := gcc
 
 SRCDIR = src
 OBJDIR := obj
@@ -8,16 +8,15 @@ BINDIR := bin
 SRCS := $(wildcard $(SRCDIR)/*.c)
 INC := $(wildcard $(SRCDIR)/*.h)
 OBJS := $(SRCS:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
- 
-CFLAGS := -std=c99 -Wall -Iinc/
-LDFLAGS := -lm -lpthread -l
 
-$(EXE): $(OBJS)
-	@echo $(SRCS)
-	$(CC) $(OBJS) $(LDFLAGS) -o $@
+CFLAGS := -std=c99 -Wall -D _DEFAULT_SOURCE -Iinc/
+LDFLAGS := -lm -lpthread -pthread
+
+$(BINDIR)/$(EXE): $(OBJS)
+	$(CC) $(LDFLAGS) -o $@ $(OBJS)
 	
 $(OBJS): $(OBJDIR)/%.o: $(SRCDIR)/%.c
-	$(CC) $(CFLAGS) -c $< -o $@ 
+	$(CC) $(CFLAGS) -c $< -o $@
 
 $(OBJDIR):
 	mkdir $@
@@ -25,4 +24,4 @@ $(OBJDIR):
 .PHONY: clean
 	
 clean:
-	$(RM) $(OBJS) 
+	$(RM) $(OBJDIR)/* $(BINDIR)/*

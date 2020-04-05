@@ -212,3 +212,16 @@ int main(int argc, char **argv) {
 	}
 	return 0;	
 }
+
+/* Placeholder functions to compile source code */
+int get_external_data(char *buffer, int bufferSizeInBytes) {
+	(void)(buffer);
+	(void)(bufferSizeInBytes);
+	/* Do nothing */
+	return 0;
+}
+void process_data(char *buffer, int bufferSizeInBytes) {
+	(void)(buffer);
+	(void)(bufferSizeInBytes);
+	/* Do nothing */
+}

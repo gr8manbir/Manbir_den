@@ -29,4 +29,8 @@ node* CreateNode( int szPack, void *data );
 int enqueue( int szPack, void *data );
 int dequeue( void *bufp );
 int queue_peek( void );
+
+/* Below are required to compile source code */
+int get_external_data(char *buffer, int bufferSizeInBytes);
+void process_data(char *buffer, int bufferSizeInBytes);
 #endif /* __QUEUE_MGMT_H__ */
