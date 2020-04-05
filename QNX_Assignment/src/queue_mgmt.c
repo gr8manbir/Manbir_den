@@ -8,7 +8,7 @@ node *head = NULL;
 node *tail = NULL;
 
 /* Function to enqueue a node */
-int enqueue( int szPack, void *data){
+int enqueue( int szPack, void *data ){
 	node *temp = NULL;
 	
 	/* First allocate memory for node */

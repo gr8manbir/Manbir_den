@@ -6,14 +6,16 @@
 
 #include <pthread.h>
 #include <errno.h>
-#include <unistd.h>
 #include <stdlib.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <string.h>
 
 /*======Data types======*/
-typedef struct {
+typedef struct node{
 	int  szPack;
 	void *data;
-	node *next;
+	struct node *next;
 }node;
 
 typedef enum {
@@ -24,7 +26,7 @@ typedef enum {
 
 /*======Function prototypes======*/
 node* CreateNode( int szPack, void *data );
-void  enqueue( node *temp );
+int enqueue( int szPack, void *data );
 int dequeue( void *bufp );
 int queue_peek( void );
 #endif /* __QUEUE_MGMT_H__ */

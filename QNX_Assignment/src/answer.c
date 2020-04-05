@@ -16,6 +16,7 @@ void *reader_thread(void *arg) {
 	char *bufp = NULL; /* Will be malloc'ed once we are signalled to conserve memory */
 	int  szPack = 0; /* For size of packet at head of queue*/
 	int  iRet = 0;
+	int  errnum = 0;
 	
 	/* We have to own the mutex before wait on condition */
 	if ( pthread_mutex_lock(&pth_mutex) < 0 ) {
@@ -133,7 +134,7 @@ void *writer_thread(void *arg) {
 			continue; /* Can not add to queue without mutex lock */
 		}
 		/* Add to packet queue */
-		if( E_SUCCESS != enqueue(buf, iRet) ) {
+		if( E_SUCCESS != enqueue(iRet, buf) ) {
 			/* TODO: Do something to preserve data */
 			pthread_mutex_unlock(&pth_mutex);
 			continue; /* Can not signal reader threads to wakeup and process data */
@@ -162,6 +163,11 @@ int main(int argc, char **argv) {
 	int errnum = 0;
 	pthread_attr_t attr; /* For setting detached state */
 	
+	/* Below two not required for QNX but this assignment was tested on
+	 * linux which requires this to be NOT NULL */
+	pthread_t thread_id_M[M];
+	pthread_t thread_id_N[N];
+	
 	/* Init the pthread attributes */
 	if( pthread_attr_init(&attr) < 0 ) {
 		errnum = errno;
@@ -189,11 +195,11 @@ int main(int argc, char **argv) {
 	}
 	
 	for(i = 0; i < N; i++) { 
-		pthread_create(NULL, &attr, &reader_thread, NULL);
+		pthread_create(&(thread_id_N[i]), &attr, &reader_thread, NULL);
 	}
 
 	for(i = 0; i < M; i++) { 
-		pthread_create(NULL, &attr, &writer_thread, NULL);
+		pthread_create(&(thread_id_M[i]), &attr, &writer_thread, NULL);
 	}
 	
 	while(1) {
